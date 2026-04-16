@@ -2,11 +2,11 @@
 
 namespace Webfloo\Filament\Resources\NewsletterSubscriberResource\Pages;
 
-use Webfloo\Filament\Exports\NewsletterSubscriberExporter;
-use Webfloo\Filament\Resources\NewsletterSubscriberResource;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ExportAction;
 use Filament\Resources\Pages\ListRecords;
+use Webfloo\Filament\Exports\NewsletterSubscriberExporter;
+use Webfloo\Filament\Resources\NewsletterSubscriberResource;
 
 class ListNewsletterSubscribers extends ListRecords
 {

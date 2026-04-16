@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Webfloo\Console\Commands;
 
-use Webfloo\Models\LeadReminder;
 use Filament\Notifications\Notification;
 use Illuminate\Console\Command;
+use Webfloo\Models\LeadReminder;
 
 class SendLeadReminders extends Command
 {

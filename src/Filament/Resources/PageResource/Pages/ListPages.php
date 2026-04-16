@@ -2,9 +2,9 @@
 
 namespace Webfloo\Filament\Resources\PageResource\Pages;
 
-use Webfloo\Filament\Resources\PageResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Webfloo\Filament\Resources\PageResource;
 
 class ListPages extends ListRecords
 {

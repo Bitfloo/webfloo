@@ -2,10 +2,10 @@
 
 namespace Webfloo;
 
-use Webfloo\Services\PluginTranslationRegistry;
-use Webfloo\Services\ThemeService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Webfloo\Services\PluginTranslationRegistry;
+use Webfloo\Services\ThemeService;
 
 class WebflooServiceProvider extends ServiceProvider
 {

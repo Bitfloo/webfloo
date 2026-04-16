@@ -3,7 +3,6 @@
 namespace Webfloo\Filament\Pages;
 
 use BackedEnum;
-use Webfloo\Filament\Pages\PageSettings\AbstractPageSettings;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -13,6 +12,7 @@ use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use UnitEnum;
+use Webfloo\Filament\Pages\PageSettings\AbstractPageSettings;
 
 /**
  * Site-wide settings (general, contact, social, integrations).

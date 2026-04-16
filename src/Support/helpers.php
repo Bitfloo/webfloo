@@ -1,7 +1,7 @@
 <?php
 
-use Webfloo\Models\Setting;
 use Illuminate\Foundation\Auth\User as AuthUser;
+use Webfloo\Models\Setting;
 
 if (! function_exists('setting')) {
     function setting(string $key, mixed $default = null): mixed

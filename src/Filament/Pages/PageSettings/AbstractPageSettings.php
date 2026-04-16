@@ -2,13 +2,13 @@
 
 namespace Webfloo\Filament\Pages\PageSettings;
 
-use Webfloo\Models\Setting;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use UnitEnum;
+use Webfloo\Models\Setting;
 
 /**
  * Base class for all settings pages (page-specific and site-wide).

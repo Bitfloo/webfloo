@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Webfloo\Filament\Widgets;
 
-use Webfloo\Models\Lead;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Webfloo\Models\Lead;
 
 class LeadConversionChart extends ChartWidget
 {

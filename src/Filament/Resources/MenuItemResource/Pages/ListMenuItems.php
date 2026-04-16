@@ -2,9 +2,9 @@
 
 namespace Webfloo\Filament\Resources\MenuItemResource\Pages;
 
-use Webfloo\Filament\Resources\MenuItemResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Webfloo\Filament\Resources\MenuItemResource;
 
 class ListMenuItems extends ListRecords
 {

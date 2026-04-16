@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\ProjectResource\Pages;
 
-use Webfloo\Filament\Resources\ProjectResource;
 use Filament\Resources\Pages\EditRecord;
+use Webfloo\Filament\Resources\ProjectResource;
 
 class EditProject extends EditRecord
 {

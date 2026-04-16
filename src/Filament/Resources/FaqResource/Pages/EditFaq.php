@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\FaqResource\Pages;
 
-use Webfloo\Filament\Resources\FaqResource;
 use Filament\Resources\Pages\EditRecord;
+use Webfloo\Filament\Resources\FaqResource;
 
 class EditFaq extends EditRecord
 {

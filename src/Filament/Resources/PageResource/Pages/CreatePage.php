@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\PageResource\Pages;
 
-use Webfloo\Filament\Resources\PageResource;
 use Filament\Resources\Pages\CreateRecord;
+use Webfloo\Filament\Resources\PageResource;
 
 class CreatePage extends CreateRecord
 {

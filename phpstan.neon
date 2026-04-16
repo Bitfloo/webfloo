@@ -11,6 +11,18 @@ parameters:
     level: 10
 
     ignoreErrors:
+        # Namespaced package views (webfloo::*) are not discovered by larastan's
+        # view-string inference — pakiet referuje własne views bez helper resolve.
+        -
+            message: '#Parameter \#1 \$view of function view expects view-string\|null, string given#'
+            reportUnmatched: false
+        -
+            message: '#Parameter \#1 \$view of static method Illuminate\\Support\\Facades\\View::make.*expects view-string\|null, string given#'
+            reportUnmatched: false
+        -
+            message: '#Parameter \#1 \$view of static method Filament\\Schemas\\Components\\View::make.*expects view-string, string given#'
+            reportUnmatched: false
+
         # Filament v5 internal form handling (may not always occur)
         -
             message: '#Call to method (fill|getState)\(\) on an unknown class#'
@@ -18,7 +30,25 @@ parameters:
         -
             message: '#PHPDoc tag @property.* contains unknown class Filament\\Forms\\Form#'
             reportUnmatched: false
+
         # Bulk action Collection type inference
         -
             message: '#Parameter \#1 \$callback of method Illuminate\\Support\\Collection.*::each\(\) expects callable.*Closure\(Webfloo\\Models\\Page\)#'
+            reportUnmatched: false
+
+        # Host User model accessors — pakiet oczekuje Illuminate\Foundation\Auth\User
+        # base class, ale host User zazwyczaj dodaje $name, hasRole(), can() przez
+        # HasRoles trait albo subklasę. PHPStan nie wie o host-specific extensions,
+        # więc ignoruje te konkretne property access patterny.
+        -
+            message: '#Access to an undefined property Illuminate\\Foundation\\Auth\\User::\$name#'
+            reportUnmatched: false
+        -
+            message: '#Call to an undefined method Illuminate\\Foundation\\Auth\\User::hasRole\(\)#'
+            reportUnmatched: false
+        -
+            message: '#Method Webfloo\\Filament\\Pages\\ThemeSettings::canAccess\(\) should#'
+            reportUnmatched: false
+        -
+            message: '#Method Webfloo\\Models\\Post::toDetailArray\(\) should return#'
             reportUnmatched: false

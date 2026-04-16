@@ -17,6 +17,12 @@
         "spatie/laravel-permission": "^7.0",
         "spatie/laravel-translatable": "^6.0"
     },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^9.0|^10.0",
+        "phpunit/phpunit": "^11.0|^12.0"
+    },
     "autoload": {
         "psr-4": {
             "Webfloo\\": "src/",
@@ -25,6 +31,11 @@
         "files": [
             "src/Support/helpers.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webfloo\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "laravel": {

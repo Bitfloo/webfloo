@@ -3,10 +3,6 @@
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\ServiceResource\Pages\CreateService;
-use Webfloo\Filament\Resources\ServiceResource\Pages\EditService;
-use Webfloo\Filament\Resources\ServiceResource\Pages\ListServices;
-use Webfloo\Models\Service;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -23,6 +19,10 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Webfloo\Filament\Resources\ServiceResource\Pages\CreateService;
+use Webfloo\Filament\Resources\ServiceResource\Pages\EditService;
+use Webfloo\Filament\Resources\ServiceResource\Pages\ListServices;
+use Webfloo\Models\Service;
 
 class ServiceResource extends Resource
 {

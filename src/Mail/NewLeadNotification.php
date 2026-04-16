@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Webfloo\Mail;
 
-use Webfloo\Models\Lead;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Webfloo\Models\Lead;
 
 class NewLeadNotification extends Mailable
 {

@@ -2,9 +2,9 @@
 
 namespace Webfloo\Filament\Resources\PostCategoryResource\Pages;
 
-use Webfloo\Filament\Resources\PostCategoryResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Webfloo\Filament\Resources\PostCategoryResource;
 
 class ListPostCategories extends ListRecords
 {

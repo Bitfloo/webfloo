@@ -5,13 +5,6 @@ declare(strict_types=1);
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Exports\LeadExporter;
-use Webfloo\Filament\Resources\LeadResource\Pages;
-use Webfloo\Filament\Resources\LeadResource\RelationManagers;
-use Webfloo\Mail\LeadEmail;
-use Webfloo\Models\Lead;
-use Webfloo\Models\LeadReminder;
-use Webfloo\Models\LeadTag;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -36,6 +29,13 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Mail;
+use Webfloo\Filament\Exports\LeadExporter;
+use Webfloo\Filament\Resources\LeadResource\Pages;
+use Webfloo\Filament\Resources\LeadResource\RelationManagers;
+use Webfloo\Mail\LeadEmail;
+use Webfloo\Models\Lead;
+use Webfloo\Models\LeadReminder;
+use Webfloo\Models\LeadTag;
 
 class LeadResource extends Resource
 {

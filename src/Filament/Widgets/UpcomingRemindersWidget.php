@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Webfloo\Filament\Widgets;
 
-use Webfloo\Models\LeadReminder;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Webfloo\Models\LeadReminder;
 
 class UpcomingRemindersWidget extends BaseWidget
 {

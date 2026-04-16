@@ -3,10 +3,6 @@
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\TestimonialResource\Pages\CreateTestimonial;
-use Webfloo\Filament\Resources\TestimonialResource\Pages\EditTestimonial;
-use Webfloo\Filament\Resources\TestimonialResource\Pages\ListTestimonials;
-use Webfloo\Models\Testimonial;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -25,6 +21,10 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Webfloo\Filament\Resources\TestimonialResource\Pages\CreateTestimonial;
+use Webfloo\Filament\Resources\TestimonialResource\Pages\EditTestimonial;
+use Webfloo\Filament\Resources\TestimonialResource\Pages\ListTestimonials;
+use Webfloo\Models\Testimonial;
 
 class TestimonialResource extends Resource
 {

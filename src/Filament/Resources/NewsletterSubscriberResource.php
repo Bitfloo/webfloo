@@ -3,10 +3,6 @@
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\NewsletterSubscriberResource\Pages\CreateNewsletterSubscriber;
-use Webfloo\Filament\Resources\NewsletterSubscriberResource\Pages\EditNewsletterSubscriber;
-use Webfloo\Filament\Resources\NewsletterSubscriberResource\Pages\ListNewsletterSubscribers;
-use Webfloo\Models\NewsletterSubscriber;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -23,6 +19,10 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Webfloo\Filament\Resources\NewsletterSubscriberResource\Pages\CreateNewsletterSubscriber;
+use Webfloo\Filament\Resources\NewsletterSubscriberResource\Pages\EditNewsletterSubscriber;
+use Webfloo\Filament\Resources\NewsletterSubscriberResource\Pages\ListNewsletterSubscribers;
+use Webfloo\Models\NewsletterSubscriber;
 
 class NewsletterSubscriberResource extends Resource
 {

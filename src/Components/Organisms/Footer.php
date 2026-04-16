@@ -2,9 +2,9 @@
 
 namespace Webfloo\Components\Organisms;
 
-use Webfloo\Models\MenuItem;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Webfloo\Models\MenuItem;
 
 class Footer extends Component
 {

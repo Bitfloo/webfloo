@@ -2,9 +2,9 @@
 
 namespace Webfloo\Filament\Resources\PostCategoryResource\Pages;
 
-use Webfloo\Filament\Resources\PostCategoryResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Webfloo\Filament\Resources\PostCategoryResource;
 
 class EditPostCategory extends EditRecord
 {

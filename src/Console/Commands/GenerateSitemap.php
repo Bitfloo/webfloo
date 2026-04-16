@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Webfloo\Console\Commands;
 
+use Illuminate\Console\Command;
 use Webfloo\Models\Page;
 use Webfloo\Models\Post;
 use Webfloo\Models\Project;
-use Illuminate\Console\Command;
 
 class GenerateSitemap extends Command
 {

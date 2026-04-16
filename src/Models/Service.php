@@ -2,12 +2,12 @@
 
 namespace Webfloo\Models;
 
-use Webfloo\Traits\HasActive;
-use Webfloo\Traits\HasFeatured;
-use Webfloo\Traits\Sortable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Traits\HasActive;
+use Webfloo\Traits\HasFeatured;
+use Webfloo\Traits\Sortable;
 
 /**
  * @property int $id

@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\MenuItemResource\Pages;
 
-use Webfloo\Filament\Resources\MenuItemResource;
 use Filament\Resources\Pages\EditRecord;
+use Webfloo\Filament\Resources\MenuItemResource;
 
 class EditMenuItem extends EditRecord
 {

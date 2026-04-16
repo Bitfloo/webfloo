@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-04-16T22:42:30.000Z",
+  "scores": { "kiss": 8, "ssot": 7, "slop": 9 },
+  "total": 24,
+  "verdict": "PASS",
+  "commit": "f05056afac74675dbc68d73f56a801f5c0a2241c"
+}

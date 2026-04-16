@@ -2,15 +2,15 @@
 
 namespace Webfloo\Models;
 
-use Webfloo\Traits\HasActive;
-use Webfloo\Traits\HasFeatured;
-use Webfloo\Traits\HasSlug;
-use Webfloo\Traits\Sortable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Traits\HasActive;
+use Webfloo\Traits\HasFeatured;
+use Webfloo\Traits\HasSlug;
+use Webfloo\Traits\Sortable;
 
 /**
  * @property int $id

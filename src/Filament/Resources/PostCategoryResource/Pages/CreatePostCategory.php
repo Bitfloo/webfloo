@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\PostCategoryResource\Pages;
 
-use Webfloo\Filament\Resources\PostCategoryResource;
 use Filament\Resources\Pages\CreateRecord;
+use Webfloo\Filament\Resources\PostCategoryResource;
 
 class CreatePostCategory extends CreateRecord
 {

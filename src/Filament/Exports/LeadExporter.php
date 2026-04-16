@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Webfloo\Filament\Exports;
 
-use Webfloo\Models\Lead;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
+use Webfloo\Models\Lead;
 
 class LeadExporter extends Exporter
 {

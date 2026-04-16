@@ -2,9 +2,9 @@
 
 namespace Webfloo\Filament\Resources\PageResource\Pages;
 
-use Webfloo\Filament\Resources\PageResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Webfloo\Filament\Resources\PageResource;
 
 class EditPage extends EditRecord
 {

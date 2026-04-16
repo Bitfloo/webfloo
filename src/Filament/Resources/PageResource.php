@@ -3,10 +3,6 @@
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\PageResource\Pages\CreatePage;
-use Webfloo\Filament\Resources\PageResource\Pages\EditPage;
-use Webfloo\Filament\Resources\PageResource\Pages\ListPages;
-use Webfloo\Models\Page;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -31,6 +27,10 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use Webfloo\Filament\Resources\PageResource\Pages\CreatePage;
+use Webfloo\Filament\Resources\PageResource\Pages\EditPage;
+use Webfloo\Filament\Resources\PageResource\Pages\ListPages;
+use Webfloo\Models\Page;
 
 class PageResource extends Resource
 {

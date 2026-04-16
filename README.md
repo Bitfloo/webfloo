@@ -64,7 +64,27 @@ composer require bezhansalleh/filament-shield
 php artisan shield:install admin
 ```
 
-### 4. Migrate + seed
+### 4. Register WebflooPanel plugin w host PanelProvider
+
+```php
+// app/Providers/Filament/AdminPanelProvider.php
+use Webfloo\Filament\WebflooPanel;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->id('admin')
+        ->path('admin')
+        // ... host-specific config (auth, colors, brand) ...
+        ->plugins([
+            WebflooPanel::make(),
+        ]);
+}
+```
+
+WebflooPanel auto-discovers wszystkie 11 Resources (`Post`, `Page`, `Lead`, itd.), 5 Pages (`SiteSettings`, `ThemeSettings`, `CrmDashboard`, `HomePageSettings`, `ContactPageSettings`) oraz 5 Widgets. Każdy surface ma własne `canAccess()` gate oparte na Shield permissions + `webfloo.features.*` flag.
+
+### 5. Migrate + seed
 
 ```bash
 php artisan migrate
@@ -72,16 +92,21 @@ php artisan shield:generate --all --panel=admin
 php artisan db:seed --class=Webfloo\\Database\\Seeders\\ShieldRolesSeeder
 ```
 
-Seeder tworzy `super_admin` + `editor` roles. Editor **nie ma** dostępu do Newsletter subscribers (GDPR PII — admin-only).
+Seeder tworzy 3 role:
+- **super_admin** — wszystkie permissions (ops / compliance)
+- **editor** — CRUD content (Post, Page, Project, itd.), **nie widzi** newsletter PII
+- **viewer** — read-only dla content surfaces, bez PII
 
-### 5. Optional publish
+Editor + viewer traktują Newsletter Subscribers jako admin-only (GDPR).
+
+### 6. Optional publish
 
 ```bash
 php artisan vendor:publish --tag=webfloo-views   # custom Blade overrides
 php artisan vendor:publish --tag=webfloo-lang    # translation overrides
 ```
 
-### 6. Storage link
+### 7. Storage link
 
 ```bash
 php artisan storage:link

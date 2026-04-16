@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Webfloo\Http\Controllers\Api\LeadWebhookController;
 use Illuminate\Support\Facades\Route;
+use Webfloo\Http\Controllers\Api\LeadWebhookController;
 
 Route::prefix('leads')->middleware('throttle:30,1')->group(function () {
     Route::post('/webhook', [LeadWebhookController::class, 'store'])

@@ -2,9 +2,9 @@
 
 namespace Webfloo\Filament\Resources\TestimonialResource\Pages;
 
-use Webfloo\Filament\Resources\TestimonialResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Webfloo\Filament\Resources\TestimonialResource;
 
 class ListTestimonials extends ListRecords
 {

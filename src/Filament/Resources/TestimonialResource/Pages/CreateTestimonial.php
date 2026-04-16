@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\TestimonialResource\Pages;
 
-use Webfloo\Filament\Resources\TestimonialResource;
 use Filament\Resources\Pages\CreateRecord;
+use Webfloo\Filament\Resources\TestimonialResource;
 
 class CreateTestimonial extends CreateRecord
 {

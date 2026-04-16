@@ -2,9 +2,9 @@
 
 namespace Webfloo\Models;
 
-use Webfloo\Traits\HasActive;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Webfloo\Traits\HasActive;
 
 /**
  * @property int $id

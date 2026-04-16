@@ -2,10 +2,10 @@
 
 namespace Webfloo\Components\Sections;
 
-use Webfloo\Models\Post;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
+use Webfloo\Models\Post;
 
 class Blog extends Component
 {

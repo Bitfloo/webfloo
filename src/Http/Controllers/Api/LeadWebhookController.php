@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Webfloo\Http\Controllers\Api;
 
-use Webfloo\Models\Lead;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use Webfloo\Models\Lead;
 
 class LeadWebhookController extends Controller
 {

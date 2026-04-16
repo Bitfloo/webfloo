@@ -2,8 +2,6 @@
 
 namespace Webfloo\Models;
 
-use Webfloo\Traits\HasActive;
-use Webfloo\Traits\Sortable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Traits\HasActive;
+use Webfloo\Traits\Sortable;
 
 /**
  * @property int $id

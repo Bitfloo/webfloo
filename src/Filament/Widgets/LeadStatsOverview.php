@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Webfloo\Filament\Widgets;
 
-use Webfloo\Models\Lead;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Webfloo\Models\Lead;
 
 class LeadStatsOverview extends StatsOverviewWidget
 {

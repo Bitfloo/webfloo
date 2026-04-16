@@ -3,10 +3,6 @@
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\FaqResource\Pages\CreateFaq;
-use Webfloo\Filament\Resources\FaqResource\Pages\EditFaq;
-use Webfloo\Filament\Resources\FaqResource\Pages\ListFaqs;
-use Webfloo\Models\Faq;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -22,6 +18,10 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Webfloo\Filament\Resources\FaqResource\Pages\CreateFaq;
+use Webfloo\Filament\Resources\FaqResource\Pages\EditFaq;
+use Webfloo\Filament\Resources\FaqResource\Pages\ListFaqs;
+use Webfloo\Models\Faq;
 
 class FaqResource extends Resource
 {

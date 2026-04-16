@@ -3,10 +3,6 @@
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\ProjectResource\Pages\CreateProject;
-use Webfloo\Filament\Resources\ProjectResource\Pages\EditProject;
-use Webfloo\Filament\Resources\ProjectResource\Pages\ListProjects;
-use Webfloo\Models\Project;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -33,6 +29,10 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Webfloo\Filament\Resources\ProjectResource\Pages\CreateProject;
+use Webfloo\Filament\Resources\ProjectResource\Pages\EditProject;
+use Webfloo\Filament\Resources\ProjectResource\Pages\ListProjects;
+use Webfloo\Models\Project;
 
 class ProjectResource extends Resource
 {

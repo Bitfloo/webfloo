@@ -2,10 +2,6 @@
 
 namespace Webfloo\Models;
 
-use Webfloo\Traits\HasSeo;
-use Webfloo\Traits\HasSlug;
-use Webfloo\Traits\Publishable;
-use Webfloo\Traits\Sortable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,6 +10,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Traits\HasSeo;
+use Webfloo\Traits\HasSlug;
+use Webfloo\Traits\Publishable;
+use Webfloo\Traits\Sortable;
 
 /**
  * @property int $id

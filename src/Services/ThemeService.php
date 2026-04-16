@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Webfloo\Services;
 
-use Webfloo\Models\Setting;
 use Illuminate\Support\Facades\Cache;
+use Webfloo\Models\Setting;
 
 /**
  * Theme configuration service - SSOT for visual settings.

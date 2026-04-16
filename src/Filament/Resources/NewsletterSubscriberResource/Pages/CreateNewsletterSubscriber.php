@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\NewsletterSubscriberResource\Pages;
 
-use Webfloo\Filament\Resources\NewsletterSubscriberResource;
 use Filament\Resources\Pages\CreateRecord;
+use Webfloo\Filament\Resources\NewsletterSubscriberResource;
 
 class CreateNewsletterSubscriber extends CreateRecord
 {

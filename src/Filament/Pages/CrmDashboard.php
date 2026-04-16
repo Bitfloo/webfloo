@@ -5,12 +5,6 @@ declare(strict_types=1);
 namespace Webfloo\Filament\Pages;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\LeadResource;
-use Webfloo\Mail\LeadEmail;
-use Webfloo\Models\Lead;
-use Webfloo\Models\LeadActivity;
-use Webfloo\Models\LeadReminder;
-use Webfloo\Models\LeadTag;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -28,6 +22,12 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\On;
 use UnitEnum;
+use Webfloo\Filament\Resources\LeadResource;
+use Webfloo\Mail\LeadEmail;
+use Webfloo\Models\Lead;
+use Webfloo\Models\LeadActivity;
+use Webfloo\Models\LeadReminder;
+use Webfloo\Models\LeadTag;
 
 class CrmDashboard extends Page implements HasActions, HasForms
 {

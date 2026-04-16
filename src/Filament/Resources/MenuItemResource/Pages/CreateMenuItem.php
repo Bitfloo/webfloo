@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\MenuItemResource\Pages;
 
-use Webfloo\Filament\Resources\MenuItemResource;
 use Filament\Resources\Pages\CreateRecord;
+use Webfloo\Filament\Resources\MenuItemResource;
 
 class CreateMenuItem extends CreateRecord
 {

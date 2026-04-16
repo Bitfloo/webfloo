@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\LeadResource\Pages;
 
-use Webfloo\Filament\Resources\LeadResource;
 use Filament\Resources\Pages\EditRecord;
+use Webfloo\Filament\Resources\LeadResource;
 
 class EditLead extends EditRecord
 {

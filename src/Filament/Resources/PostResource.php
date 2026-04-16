@@ -3,11 +3,6 @@
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\PostResource\Pages\CreatePost;
-use Webfloo\Filament\Resources\PostResource\Pages\EditPost;
-use Webfloo\Filament\Resources\PostResource\Pages\ListPosts;
-use Webfloo\Models\Post;
-use Webfloo\Models\Project;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -37,6 +32,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use Webfloo\Filament\Resources\PostResource\Pages\CreatePost;
+use Webfloo\Filament\Resources\PostResource\Pages\EditPost;
+use Webfloo\Filament\Resources\PostResource\Pages\ListPosts;
+use Webfloo\Models\Post;
+use Webfloo\Models\Project;
 
 class PostResource extends Resource
 {

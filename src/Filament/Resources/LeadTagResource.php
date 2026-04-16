@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\LeadTagResource\Pages;
-use Webfloo\Models\LeadTag;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -19,6 +17,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Webfloo\Filament\Resources\LeadTagResource\Pages;
+use Webfloo\Models\LeadTag;
 
 class LeadTagResource extends Resource
 {

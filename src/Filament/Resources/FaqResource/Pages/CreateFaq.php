@@ -2,8 +2,8 @@
 
 namespace Webfloo\Filament\Resources\FaqResource\Pages;
 
-use Webfloo\Filament\Resources\FaqResource;
 use Filament\Resources\Pages\CreateRecord;
+use Webfloo\Filament\Resources\FaqResource;
 
 class CreateFaq extends CreateRecord
 {

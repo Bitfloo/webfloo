@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Webfloo\Filament\Resources\LeadResource\RelationManagers;
 
-use Webfloo\Models\LeadReminder;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -24,6 +23,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Webfloo\Models\LeadReminder;
 
 class RemindersRelationManager extends RelationManager
 {

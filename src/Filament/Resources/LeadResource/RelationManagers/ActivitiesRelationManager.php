@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Webfloo\Filament\Resources\LeadResource\RelationManagers;
 
-use Webfloo\Models\LeadActivity;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Webfloo\Models\LeadActivity;
 
 class ActivitiesRelationManager extends RelationManager
 {

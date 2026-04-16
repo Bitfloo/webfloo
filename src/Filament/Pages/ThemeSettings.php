@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Webfloo\Filament\Pages;
 
 use BackedEnum;
-use Webfloo\Services\ThemeService;
 use Filament\Actions\Action;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Radio;
@@ -21,6 +20,7 @@ use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use UnitEnum;
+use Webfloo\Services\ThemeService;
 
 /**
  * Theme settings page - SSOT for visual configuration.

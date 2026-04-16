@@ -3,10 +3,6 @@
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
-use Webfloo\Filament\Resources\PostCategoryResource\Pages\CreatePostCategory;
-use Webfloo\Filament\Resources\PostCategoryResource\Pages\EditPostCategory;
-use Webfloo\Filament\Resources\PostCategoryResource\Pages\ListPostCategories;
-use Webfloo\Models\PostCategory;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -23,6 +19,10 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Webfloo\Filament\Resources\PostCategoryResource\Pages\CreatePostCategory;
+use Webfloo\Filament\Resources\PostCategoryResource\Pages\EditPostCategory;
+use Webfloo\Filament\Resources\PostCategoryResource\Pages\ListPostCategories;
+use Webfloo\Models\PostCategory;
 
 class PostCategoryResource extends Resource
 {

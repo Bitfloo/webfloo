@@ -2,9 +2,9 @@
 
 namespace Webfloo\Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use Webfloo\Models\Post;
 use Webfloo\Models\PostCategory;
-use Illuminate\Database\Seeder;
 
 class BlogSeeder extends Seeder
 {
@@ -178,7 +178,7 @@ HTML;
     {
         return <<<'HTML'
 <h2>Co to jest Filament?</h2>
-<p>Filament to nowoczesny framework do budowania paneli administracyjnych w Laravel. Wersja 4 przynosi wiele usprawnień i nowych funkcji.</p>
+<p>Filament to nowoczesny framework do budowania paneli administracyjnych w Laravel. Wersja 5 przynosi wiele usprawnień i nowych funkcji.</p>
 
 <h2>Wymagania</h2>
 <ul>
@@ -189,7 +189,7 @@ HTML;
 
 <h2>Instalacja</h2>
 <p>Zacznij od instalacji pakietu:</p>
-<pre><code>composer require filament/filament:"^4.0"
+<pre><code>composer require filament/filament:"^5.0"
 php artisan filament:install --panels</code></pre>
 
 <h2>Tworzenie pierwszego Resource</h2>
