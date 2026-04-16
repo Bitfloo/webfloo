@@ -1,0 +1,24 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+
+    paths:
+        - src/
+
+    # Level 10 - strictest, requires type guards (no mixed casts)
+    level: 10
+
+    ignoreErrors:
+        # Filament v5 internal form handling (may not always occur)
+        -
+            message: '#Call to method (fill|getState)\(\) on an unknown class#'
+            reportUnmatched: false
+        -
+            message: '#PHPDoc tag @property.* contains unknown class Filament\\Forms\\Form#'
+            reportUnmatched: false
+        # Bulk action Collection type inference
+        -
+            message: '#Parameter \#1 \$callback of method Illuminate\\Support\\Collection.*::each\(\) expects callable.*Closure\(Webfloo\\Models\\Page\)#'
+            reportUnmatched: false
