@@ -64,6 +64,21 @@ final class ModuleRegistry
     }
 
     /**
+     * Czy moduł o podanym ID jest enabled runtime.
+     * SSOT dla innych miejsc (Resources, routing) które sprawdzają feature flag.
+     */
+    public static function isEnabled(string $id): bool
+    {
+        $module = self::all()[$id] ?? null;
+
+        if ($module === null) {
+            return false;
+        }
+
+        return self::isModuleEnabled($module);
+    }
+
+    /**
      * FQN Filament Resources enabled-only.
      *
      * @return list<class-string>
@@ -114,6 +129,8 @@ final class ModuleRegistry
             return true;
         }
 
+        // PHPStan wymaga is_string guard dla string interpolation — $flag jest mixed
+        // (config array value), defensive cast akceptowalny bo rzadko wywoływane.
         if (! is_string($flag)) {
             return false;
         }
@@ -135,7 +152,7 @@ final class ModuleRegistry
             }
 
             foreach ($items as $item) {
-                if (is_string($item) && class_exists($item)) {
+                if (is_string($item)) {
                     $collected[] = $item;
                 }
             }

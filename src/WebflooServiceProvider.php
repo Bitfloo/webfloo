@@ -34,10 +34,7 @@ class WebflooServiceProvider extends ServiceProvider
              * który wyłączy webfloo.features.crm nie dostaje
              * `webfloo:send-lead-reminders` w php artisan list.
              */
-            $commands = ModuleRegistry::enabledCommands();
-            if ($commands !== []) {
-                $this->commands($commands);
-            }
+            $this->commands(ModuleRegistry::enabledCommands());
 
             $this->publishes([
                 __DIR__.'/../config/webfloo.php' => config_path('webfloo.php'),

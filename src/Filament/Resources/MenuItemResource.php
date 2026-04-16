@@ -25,6 +25,7 @@ use Webfloo\Filament\Resources\MenuItemResource\Pages\CreateMenuItem;
 use Webfloo\Filament\Resources\MenuItemResource\Pages\EditMenuItem;
 use Webfloo\Filament\Resources\MenuItemResource\Pages\ListMenuItems;
 use Webfloo\Models\MenuItem;
+use Webfloo\Support\ModuleRegistry;
 
 class MenuItemResource extends Resource
 {
@@ -53,7 +54,7 @@ class MenuItemResource extends Resource
 
     public static function canAccess(): bool
     {
-        if (! config('webfloo.features.menu', true)) {
+        if (! ModuleRegistry::isEnabled('menu')) {
             return false;
         }
 
