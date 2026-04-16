@@ -33,6 +33,7 @@ return [
         'faq' => true,
         'newsletter' => true,
         'crm' => true,
+        'menu' => true,
 
         // Admin-editable inline JS injected on every public page. Disabled
         // by default — stored-XSS surface (admin-authored script runs for

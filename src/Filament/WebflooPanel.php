@@ -36,8 +36,15 @@ use Filament\Panel;
  * - src/Filament/Widgets/*        (LeadStatsOverview + 3 Charts + UpcomingReminders)
  *
  * Każdy Resource / Page ma własne `canAccess()` gate oparte na Shield
- * permissions + webfloo.features.* flag — host kontroluje widoczność
+ * permissions + `webfloo.features.*` flag — host kontroluje widoczność
  * przez config.
+ *
+ * Module grouping: patrz `config/webfloo-modules.php` rejestr — każdy
+ * Resource jest logicznie przypisany do modułu (blog / crm / newsletter /
+ * itd.) z enabled flagą. Flag off = canAccess() zwraca false → Resource
+ * niewidoczny w panelu. Rejestr używany też przez
+ * `Webfloo\Support\ModuleRegistry` do conditional bindings commands/routes
+ * w `WebflooServiceProvider`.
  */
 final class WebflooPanel implements Plugin
 {

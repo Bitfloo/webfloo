@@ -6,17 +6,16 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Webfloo\Services\PluginTranslationRegistry;
 use Webfloo\Services\ThemeService;
+use Webfloo\Support\ModuleRegistry;
 
 class WebflooServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/webfloo.php', 'webfloo');
+        $this->mergeConfigFrom(__DIR__.'/../config/webfloo-modules.php', 'webfloo-modules');
 
-        // Register ThemeService as singleton for SSOT theme management
         $this->app->singleton(ThemeService::class, fn () => new ThemeService);
-
-        // Register PluginTranslationRegistry for plugin i18n namespace support
         $this->app->singleton(PluginTranslationRegistry::class);
     }
 
@@ -30,14 +29,23 @@ class WebflooServiceProvider extends ServiceProvider
         $this->registerRoutes();
 
         if ($this->app->runningInConsole()) {
-            $this->commands([
-                Console\Commands\SendLeadReminders::class,
-                Console\Commands\GenerateSitemap::class,
-            ]);
+            /*
+             * Commands rejestrowane tylko dla modułów enabled — host
+             * który wyłączy webfloo.features.crm nie dostaje
+             * `webfloo:send-lead-reminders` w php artisan list.
+             */
+            $commands = ModuleRegistry::enabledCommands();
+            if ($commands !== []) {
+                $this->commands($commands);
+            }
 
             $this->publishes([
                 __DIR__.'/../config/webfloo.php' => config_path('webfloo.php'),
             ], 'webfloo-config');
+
+            $this->publishes([
+                __DIR__.'/../config/webfloo-modules.php' => config_path('webfloo-modules.php'),
+            ], 'webfloo-modules');
 
             $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/webfloo'),

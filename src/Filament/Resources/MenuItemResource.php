@@ -53,6 +53,10 @@ class MenuItemResource extends Resource
 
     public static function canAccess(): bool
     {
+        if (! config('webfloo.features.menu', true)) {
+            return false;
+        }
+
         return auth()->user()?->can('view_any_menu_item') === true;
     }
 
