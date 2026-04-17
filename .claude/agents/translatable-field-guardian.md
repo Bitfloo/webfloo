@@ -6,6 +6,13 @@ description: |
   Trigger phrases: "test translatable field", "test locale handling", "audit translations", "check HasTranslations".
   
   Use PROACTIVELY when a Model adds `HasTranslations` trait or when changing fields declared in `$translatable`.
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Grep
+  - Glob
 ---
 
 # translatable-field-guardian

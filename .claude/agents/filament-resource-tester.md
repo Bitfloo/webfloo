@@ -7,6 +7,13 @@ description: |
   
   Use PROACTIVELY after adding a new Filament Resource or modifying an existing one.
 model: sonnet
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Grep
+  - Glob
 ---
 
 # filament-resource-tester

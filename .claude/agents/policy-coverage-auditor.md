@@ -1,11 +1,18 @@
 ---
 name: policy-coverage-auditor
 description: |
-  Audits authorization coverage across Filament Resources and Models. Verifies every `can*` permission used by a Resource's `canAccess()` / `shouldRegisterNavigation()` has a corresponding test AND that unauthorized access returns forbidden. Uses spatie/laravel-permission. Critical before every release — missing policy tests = production security hole.
+  Audits authorization coverage for webfloo Filament Resources. Verifies every `can('...')` permission used in `canAccess()` has a corresponding test AND unauthorized access returns forbidden. Uses spatie/laravel-permission directly (webfloo does NOT use Laravel Policy classes — this is a Composer package; policies, if any, live in the host app). Critical before every release — missing permission tests = production security hole.
   
   Trigger phrases: "audit policy coverage", "check authorization tests", "verify permissions", "policy gaps".
   
   Use PROACTIVELY before every release and after any permission-related migration (new role/permission added).
+tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Grep
+  - Glob
 ---
 
 # policy-coverage-auditor
