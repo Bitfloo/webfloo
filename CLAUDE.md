@@ -10,6 +10,7 @@ Specific to bitfloo.com -> `app/`. Reusable -> here.
 
 Krótka wersja:
 - Logika / Model / Filament / Blade admin → **tu (`webfloo`)**
+- Reusable PHP Services (`src/Services/`) → **tu (`webfloo`)**
 - Vue Atom / shadcn-vue primitive → **`~/DEV/thezero/packages/core/`** (`@bitfloo/thezero-core` npm)
 - Vue Molecule / Organism / Section / Page / Layout → **`~/DEV/thezero/packages/template/`** (`@bitfloo/thezero-template`, NIE publikowany)
 - bitfloo.com-specific (content, routes, środowisko) → **`~/DEV/bitfloo-web/`**
@@ -186,3 +187,19 @@ Before using any component: read PHP class for prop names/types, match format (s
 - Use `webfloo::` view prefix
 - Always include `down()` in migrations
 - Follow Filament v5 API (see root CLAUDE.md for exact imports)
+
+## Agenci spoza zakresu
+
+Nie używaj `cbc:*` ani `plugin-dev:*` w tym repo — webfloo to Laravel Composer
+package, nie plugin Claude Code ani źródło pluginu CBC.
+
+- Dla pracy nad CBC: `~/DEV/cbc/`
+- Dla pracy nad pluginami Claude Code: użyj `plugin-dev:*` w odpowiednim repo pluginu
+- Dla webfloo: używaj agentów ogólnych (`feature-dev:code-reviewer`,
+  `feature-dev:code-architect`, `cbc:code-guardian`) oraz webfloo-specyficznych:
+  - `webfloo-laravel-auditor` — invarianty Laravel/Model/Migration/Filament
+  - `blade-atomic-validator` — Atomic Design + naming
+  - `filament-resource-tester` — testy PHPUnit dla Filament Resources
+  - `livewire-interaction-tester` — testy interakcji Livewire/Filament
+  - `policy-coverage-auditor` — audyt pokrycia uprawnień (spatie/permission)
+  - `translatable-field-guardian` — testy spatie/laravel-translatable

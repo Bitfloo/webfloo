@@ -39,5 +39,7 @@ yarn-error.log
 .cbc-bridge.md
 .cbc-push-gate/
 
-# Claude Code local session artifacts (per-machine)
-.claude/
+# Claude Code: share project agents/commands/settings — ignore per-machine artefacts only
+.claude/settings.local.json
+.claude/sessions/
+.claude/*.lock

@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# commit-msg hook — enforces Conventional Commits (ADR-011 requirement).
+#
+# Install: ln -sf ../../scripts/hooks/commit-msg .git/hooks/commit-msg
+# (nie chmod +x wymagany — hook i tak działa tylko po `git commit`)
+
+set -eu
+
+COMMIT_MSG_FILE="$1"
+FIRST_LINE=$(head -n1 "$COMMIT_MSG_FILE")
+
+# Skip dla merge commits, revert auto-generated, release-please bots
+case "$FIRST_LINE" in
+  "Merge "*|"Revert "*|"fixup!"*|"squash!"*|"amend!"*)
+    exit 0
+    ;;
+esac
+
+# Conventional Commits pattern: type(scope)!: description
+# Allowed types per ADR-011
+PATTERN='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z0-9_-]+\))?!?: .{3,}'
+
+if echo "$FIRST_LINE" | grep -qE "$PATTERN"; then
+  exit 0
+fi
+
+cat >&2 <<EOF
+╭────────────────────────────────────────────────────────────────╮
+│  Commit message NIE pasuje do Conventional Commits             │
+╰────────────────────────────────────────────────────────────────╯
+
+Twój message:
+  $FIRST_LINE
+
+Wymagany format:
+  <type>(<optional-scope>)<optional-!>: <description>
+
+Types (ADR-011):
+  feat      nowy feature           → minor bump
+  fix       bug fix                → patch bump
+  feat!     BREAKING                → major bump (po 1.0.0)
+  docs      dokumentacja            → no release
+  chore     deps, configs           → no release
+  refactor  reorganizacja bez behavior change
+  test      testy
+  ci        CI/CD
+  style     formatting
+  perf      performance
+
+Przykłady:
+  feat(models): add CaseStudy model
+  fix(sitemap): handle null updated_at
+  feat(core)!: rename AppButton variant 'red' -> 'accent'
+  chore(deps): bump phpstan to 3.0
+  docs: update ARCHITECTURE.md
+
+Szczegóły: https://www.conventionalcommits.org/en/v1.0.0/
+Szablon: .gitmessage (ustaw: git config commit.template .gitmessage)
+
+Aby pominąć walidację (np. draft commit):
+  git commit --no-verify -m "..."
+EOF
+exit 1
