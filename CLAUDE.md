@@ -4,6 +4,17 @@ Reusable Composer package. Every client project installs this via Composer. Ever
 
 Specific to bitfloo.com -> `app/`. Reusable -> here.
 
+## 🧭 Gdzie dodawać nowe feature (decision tree)
+
+**KONIECZNIE PRZECZYTAJ przed dodaniem nowej funkcjonalności:** [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
+
+Krótka wersja:
+- Logika / Model / Filament / Blade admin → **tu (`webfloo`)**
+- Vue UI / komponenty / layout / style → **`~/DEV/thezero/`** (`@bitfloo/thezero`)
+- bitfloo.com-specific (content, routes, środowisko) → **`~/DEV/bitfloo-web/`**
+
+Pełna matrix (content types, widgets, services, controllery, trait'y, flow end-to-end) — w `docs/ARCHITECTURE.md`.
+
 ## Structure
 
 ```
