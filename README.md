@@ -2,9 +2,49 @@
 
 **Reusable Laravel + Filament CMS foundation by [Bitfloo](https://bitfloo.com).**
 
-Laravel 12 + Filament v5 package dostarczający gotowy backend (14 modeli, 11 Filament Resources, 4 PageSettings, CRM lead pipeline, i18n infra, Shield RBAC). Skin layer (theme, frontend) — host responsibility.
+Laravel 12 + Filament v5 package dostarczający gotowy backend: **14 modeli, 11 Filament Resources, 5 Pages** (SiteSettings, ThemeSettings, CrmDashboard, HomePageSettings, ContactPageSettings), **5 Widgets**, CRM lead pipeline, i18n infra, Shield RBAC. Skin layer (theme, public frontend) — host responsibility.
 
 > Produkt używany w produkcji przez `bitfloo-web` (strona firmowa Bitfloo) od 2026-04. Target consumers: agency MVPs, corporate sites, SaaS CMS foundations.
+
+---
+
+> **Status: Pre-1.0 (`0.x`).** API niestabilne — breaking changes mogą pojawić się w minor bumpach (ADR-011, sekcja "Versioning & updates"). Pinuj przez `^0.1` i czytaj CHANGELOG przy każdym `composer update`. Stabilizacja do `1.0` po zakończeniu roadmapy ekosystemu (`docs/plans/2026-04-17-ecosystem-phase-1.md`).
+
+---
+
+## Spis treści
+
+- [Position w ekosystemie Bitfloo](#position-w-ekosystemie-bitfloo)
+- [Requirements](#requirements)
+- [Installation](#installation)
+  - [Consumer setup (`type: vcs`)](#consumer-setup-type-vcs)
+  - [Package bootstrap](#package-bootstrap)
+- [Features](#features)
+- [What Webfloo does NOT provide](#what-webfloo-does-not-provide)
+- [Feature flag matrix](#feature-flag-matrix)
+- [Extracting to a new host](#extracting-to-a-new-host)
+- [Versioning & updates](#versioning--updates)
+- [Contributing (Conventional Commits)](#contributing-conventional-commits)
+- [Development](#development)
+- [Consumed by](#consumed-by)
+- [License](#license)
+
+---
+
+## Position w ekosystemie Bitfloo
+
+Webfloo to **backend layer** 3-warstwowego ekosystemu:
+
+| Warstwa | Repo | Rola | Dystrybucja |
+|---|---|---|---|
+| **Backend (tu)** | `Bitfloo/webfloo` | Models, Filament admin, API, CMS logic | Composer `type: vcs` (ADR-011) |
+| **Frontend primitives** | `Bitfloo/thezero` → `@bitfloo/thezero-core` | Vue Atoms, shadcn-vue, composables | npm GitHub Packages |
+| **Frontend template** | `Bitfloo/thezero` → `@bitfloo/thezero-template` | Molecules, Organisms, Sections, Pages | GitHub Template repo (scaffold-once) |
+| **Konsument (klient)** | `bitfloo-web`, `acme-web`, … | Content, routing, brand customization | Laravel app — instaluje powyższe |
+
+**Decision tree — gdzie dodać feature:** [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) (source of truth).
+
+Krótka reguła: logika PHP / Model / Filament / Blade admin → tu. Vue UI → thezero. Content bitfloo.com-specific → bitfloo-web.
 
 ---
 
@@ -24,13 +64,63 @@ Full host contract: [ADR 005](docs/decisions/005-webfloo-host-contract.md).
 
 ## Installation
 
-### 1. Composer require
+### Consumer setup (`type: vcs`)
 
-```bash
-composer require bitfloo/webfloo
+Webfloo to prywatne repo — Composer wymaga `type: vcs` + PAT auth (ADR-011).
+
+**1.** W `composer.json` konsumenta:
+
+```json
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/Bitfloo/webfloo.git"
+    }
+  ],
+  "require": {
+    "bitfloo/webfloo": "^0.1"
+  }
+}
 ```
 
-### 2. Publish config
+**2.** Auth lokalnie — `~/.composer/auth.json` (NIGDY w repo, NIGDY w Dockerfile):
+
+```json
+{
+  "github-oauth": {
+    "github.com": "<github-pat-with-repo-scope>"
+  }
+}
+```
+
+Token: `github.com/settings/tokens` → Classic PAT → scope `repo` → save.
+
+**3.** Auth w CI konsumenta (GitHub Actions):
+
+```yaml
+env:
+  COMPOSER_AUTH: |
+    {
+      "github-oauth": {
+        "github.com": "${{ secrets.GH_PACKAGES_TOKEN }}"
+      }
+    }
+```
+
+Lokalny dev webfloo (testowanie zmian bez push) — patrz [Versioning & updates](#versioning--updates) niżej.
+
+### Package bootstrap
+
+Po skonfigurowanym `type: vcs` + auth:
+
+#### 1. Composer require
+
+```bash
+composer require bitfloo/webfloo:^0.1
+```
+
+#### 2. Publish config
 
 ```bash
 php artisan vendor:publish --tag=webfloo-config
@@ -57,14 +147,14 @@ return [
 ];
 ```
 
-### 3. Shield authorization (required)
+#### 3. Shield authorization (required)
 
 ```bash
 composer require bezhansalleh/filament-shield
 php artisan shield:install admin
 ```
 
-### 4. Register WebflooPanel plugin w host PanelProvider
+#### 4. Register WebflooPanel plugin w host PanelProvider
 
 ```php
 // app/Providers/Filament/AdminPanelProvider.php
@@ -84,7 +174,7 @@ public function panel(Panel $panel): Panel
 
 WebflooPanel auto-discovers wszystkie 11 Resources (`Post`, `Page`, `Lead`, itd.), 5 Pages (`SiteSettings`, `ThemeSettings`, `CrmDashboard`, `HomePageSettings`, `ContactPageSettings`) oraz 5 Widgets. Każdy surface ma własne `canAccess()` gate oparte na Shield permissions + `webfloo.features.*` flag.
 
-### 5. Migrate + seed
+#### 5. Migrate + seed
 
 ```bash
 php artisan migrate
@@ -99,14 +189,14 @@ Seeder tworzy 3 role:
 
 Editor + viewer traktują Newsletter Subscribers jako admin-only (GDPR).
 
-### 6. Optional publish
+#### 6. Optional publish
 
 ```bash
 php artisan vendor:publish --tag=webfloo-views   # custom Blade overrides
 php artisan vendor:publish --tag=webfloo-lang    # translation overrides
 ```
 
-### 7. Storage link
+#### 7. Storage link
 
 ```bash
 php artisan storage:link
@@ -155,7 +245,7 @@ Pakiet używa dysku `public` (Post images, Page meta images, Project/Testimonial
 - Publish tag `webfloo-lang` dla host override per-key
 - `PluginTranslationRegistry` dla Inertia/Vue side
 
-Patrz [ADR 006](https://github.com/Bitfloo/bitfloo-web/blob/main/docs/decisions/006-webfloo-translation-strategy.md) dla strategy details.
+Patrz [ADR 006](docs/decisions/006-webfloo-translation-strategy.md) dla strategy details.
 
 ### Other
 - SEO: `HasSeo` trait + sitemap generator (PL/EN hreflang via `GenerateSitemap` command)
@@ -195,21 +285,77 @@ Flag sprawdzany PRZED permission check:
 canAccess() = config('webfloo.features.<flag>') && user()->can('view_any_<slug>')
 ```
 
-Patrz [ADR 007](https://github.com/Bitfloo/bitfloo-web/blob/main/docs/decisions/007-webfloo-feature-flag-matrix.md) dla scope + security per flag.
+Patrz [ADR 007](docs/decisions/007-webfloo-feature-flag-matrix.md) dla scope + security per flag.
 
 ---
 
 ## Extracting to a new host
 
+Najpierw skonfiguruj `type: vcs` + `auth.json` — patrz [Installation → Consumer setup](#consumer-setup-type-vcs).
+
 Typowy workflow:
 
-1. `composer require bitfloo/webfloo`
+1. `composer require bitfloo/webfloo:^0.1`
 2. Publish config → wire `user_model` (krytyczne)
 3. Shield sequence (install → migrate → shield:generate → seed roles)
 4. Zaimplementuj własny frontend (Vue/Inertia/Blade — wybór hosta)
 5. Filament admin panel ma wszystkie Resources gotowe pod `/admin`
 
 Landing + blog frontend = host's code. Core dostarcza **data layer + admin UI + API webhooks**.
+
+---
+
+## Versioning & updates
+
+Webfloo używa **release-please** (automatyczny semver + CHANGELOG + tag) — ADR-011.
+
+### Jak propagować zmiany do konsumentów
+
+1. **Dev commits na `main`** z Conventional Commit prefixem (`feat:`, `fix:`, itp. — patrz [Contributing](#contributing-conventional-commits)).
+2. `.github/workflows/release.yml` uruchamia `googleapis/release-please-action@v4`.
+3. Release-please otwiera / aktualizuje Release PR (version bump + CHANGELOG diff).
+4. Maintainer mergeuje Release PR → auto tag `v0.x.y` + GitHub Release.
+5. Konsumenci robią `composer update bitfloo/webfloo` → dostają nową wersję.
+
+**Nie taguj ręcznie. Nie edytuj CHANGELOG ręcznie.** Release-please nadpisze oba.
+
+### Lokalny dev (override `type: vcs` na `path`)
+
+Testowanie zmian webfloo w konsumencie bez push:
+
+```bash
+cd ~/DEV/bitfloo-web
+composer config repositories.webfloo path ../webfloo
+composer update bitfloo/webfloo
+# ...iterate — edytuj w ~/DEV/webfloo, konsument widzi od razu (symlink)...
+
+# Restore do produkcyjnego vcs
+composer config --unset repositories.webfloo
+composer update bitfloo/webfloo
+```
+
+**NIE commituj** tego override'u w `composer.json` konsumenta.
+
+### Pre-1.0 caveats
+
+W `0.x` minor bump (`0.1 → 0.2`) MOŻE wprowadzać breaking changes. Pinuj `^0.1` (kompatybilne w obrębie `0.1.x`), czytaj CHANGELOG przed `composer update` na wyższy minor.
+
+---
+
+## Contributing (Conventional Commits)
+
+**WYMAGANE** od 2026-04-17 (ADR-011). Każdy commit na `main` MUSI mieć prefix:
+
+| Prefix | Bump w 0.x | Produkcja 1.x+ |
+|--------|-----------|----------------|
+| `feat:` | minor (0.1 → 0.2) | minor |
+| `fix:` | patch (0.1.0 → 0.1.1) | patch |
+| `feat!:` / `BREAKING CHANGE:` | minor (pre-major) | **major** |
+| `docs:`, `chore:`, `refactor:`, `test:`, `ci:`, `style:` | żaden | żaden |
+
+Commit bez prefixu psuje release-please auto-bump. Lokalny `commit-msg` hook waliduje format — instalacja przez `./scripts/install-hooks.sh`.
+
+Pełne reguły: [ADR-011](docs/decisions/011-distribution-strategy.md), ekosystem context: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ---
 
@@ -235,24 +381,9 @@ make pint        # tylko pint
 
 | Project | Role |
 |---|---|
-| [`Bitfloo/bitfloocom-web`](https://github.com/Bitfloo/bitfloocom-web) | Strona firmowa bitfloo.com — production consumer od 2026-04 |
+| [`Bitfloo/bitfloo-web`](https://github.com/Bitfloo/bitfloo-web) | Strona firmowa bitfloo.com — production consumer od 2026-04 |
 
-## Development workflow (dla konsumentów)
-
-```bash
-# 1. Zmiana w core
-cd ~/DEV/webfloo
-# edit → make check → commit
-git tag v1.x.y && git push origin main --tags
-
-# 2. Update w konsumencie (np. bitfloo-web)
-cd ~/DEV/bitfloo-web
-composer update bitfloo/webfloo
-make check
-git commit -m "chore(deps): bump webfloo to v1.x.y"
-```
-
-Lokalny dev: konsument może używać `composer.json` z `"type": "path"` na `../webfloo` (symlink) — zmiany w webfloo od razu widoczne bez `composer update`. Do CI/prod należy przełączyć na versioned dep.
+---
 
 ## License
 
