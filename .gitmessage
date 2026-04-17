@@ -1,0 +1,28 @@
+# <type>(<optional-scope>): <description>
+#
+# [optional body — wyjaśnij co i dlaczego, nie jak]
+#
+# [optional footer — BREAKING CHANGE: opis, albo Co-Authored-By:]
+
+# --- Types (release-please auto-bumps) ---
+# feat:     nowy feature        → minor bump (0.1 → 0.2)
+# fix:      bug fix             → patch bump (0.1.0 → 0.1.1)
+# feat!:    BREAKING            → w 0.x: minor; w 1.x+: major
+# BREAKING CHANGE: (w body)     → j.w.
+#
+# --- Types (non-release, no bump) ---
+# docs:     dokumentacja
+# chore:    nudne rzeczy (deps, configs)
+# refactor: reorganizacja bez zmiany behavior
+# test:     testy
+# ci:       CI/CD
+# style:    formatting, whitespace
+# perf:     performance bez zmiany behavior
+#
+# --- Przykłady ---
+# feat(models): add CaseStudy model with Filament Resource
+# fix(sitemap): handle null updated_at on Pages
+# feat!: rename Lead::status to Lead::stage
+# chore(deps): bump phpstan to 3.0
+#
+# Enable template: git config commit.template .gitmessage

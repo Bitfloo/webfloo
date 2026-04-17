@@ -1,0 +1,23 @@
+# CODEOWNERS — auto-review assignment
+#
+# Format: <path-glob> @username1 @username2 ...
+# First match wins (bottom-most rule takes precedence).
+
+# Default owner — Mike jako decision maker architektury
+*                           @bitfloo-mike
+
+# Architektoniczne decyzje + specs wymagają Mike'a + opcjonalnie 2nd reviewer
+/docs/decisions/            @bitfloo-mike
+/docs/plans/                @bitfloo-mike
+/.github/                   @bitfloo-mike
+/composer.json              @bitfloo-mike
+
+# Models + migrations — krytyczne (breaking w modelu = potencjalny bug w N klientach)
+/src/Models/                @bitfloo-mike
+/database/migrations/       @bitfloo-mike
+
+# Filament — architecture patterns, wymaga review
+/src/Filament/              @bitfloo-mike
+
+# Pozostałe — any owner review (jeden z 3 devów)
+# (brak explicit rule = * default)
