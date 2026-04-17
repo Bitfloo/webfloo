@@ -20,13 +20,13 @@ final class PostCategoryFactory extends Factory
         $name = $this->faker->unique()->words(2, true);
 
         return [
-            'name'        => ['pl' => $name, 'en' => $name],
-            'slug'        => Str::slug($name),
+            'name' => ['pl' => $name, 'en' => $name],
+            'slug' => Str::slug($name),
             'description' => ['pl' => $this->faker->sentence(), 'en' => $this->faker->sentence()],
-            'icon'        => null,
-            'color'       => 'primary',
-            'is_active'   => true,
-            'sort_order'  => 0,
+            'icon' => null,
+            'color' => 'primary',
+            'is_active' => true,
+            'sort_order' => 0,
         ];
     }
 

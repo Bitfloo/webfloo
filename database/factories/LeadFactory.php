@@ -17,17 +17,17 @@ final class LeadFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'             => $this->faker->name(),
-            'email'            => $this->faker->unique()->safeEmail(),
-            'phone'            => $this->faker->phoneNumber(),
-            'company'          => $this->faker->company(),
-            'message'          => $this->faker->sentence(),
-            'source'           => Lead::SOURCE_CONTACT_FORM,
-            'status'           => Lead::STATUS_NEW,
-            'assigned_to'      => null,
-            'estimated_value'  => null,
-            'currency'         => 'PLN',
-            'consent_at'       => now(),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'phone' => $this->faker->phoneNumber(),
+            'company' => $this->faker->company(),
+            'message' => $this->faker->sentence(),
+            'source' => Lead::SOURCE_CONTACT_FORM,
+            'status' => Lead::STATUS_NEW,
+            'assigned_to' => null,
+            'estimated_value' => null,
+            'currency' => 'PLN',
+            'consent_at' => now(),
         ];
     }
 

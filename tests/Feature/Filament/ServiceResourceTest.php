@@ -55,7 +55,7 @@ final class ServiceResourceTest extends TestCase
     {
         // Same reasoning as create: no custom canEdit() policy in this package.
         $service = Service::factory()->create();
-        $user    = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['view_any_service']);
         $this->actingAs($user);
 
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])->assertOk();
@@ -96,7 +96,7 @@ final class ServiceResourceTest extends TestCase
     public function test_index_renders_active_service_records(): void
     {
         $services = Service::factory()->active()->count(3)->create();
-        $user     = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['view_any_service']);
 
         $this->actingAs($user);
 
@@ -107,7 +107,7 @@ final class ServiceResourceTest extends TestCase
     public function test_index_renders_inactive_service_records(): void
     {
         $inactive = Service::factory()->inactive()->create();
-        $user     = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['view_any_service']);
 
         $this->actingAs($user);
 
@@ -122,9 +122,9 @@ final class ServiceResourceTest extends TestCase
 
     public function test_is_active_filter_shows_only_active_services(): void
     {
-        $active   = Service::factory()->active()->create();
+        $active = Service::factory()->active()->create();
         $inactive = Service::factory()->inactive()->create();
-        $user     = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['view_any_service']);
 
         $this->actingAs($user);
 
@@ -136,9 +136,9 @@ final class ServiceResourceTest extends TestCase
 
     public function test_is_active_filter_shows_only_inactive_services(): void
     {
-        $active   = Service::factory()->active()->create();
+        $active = Service::factory()->active()->create();
         $inactive = Service::factory()->inactive()->create();
-        $user     = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['view_any_service']);
 
         $this->actingAs($user);
 
@@ -159,12 +159,12 @@ final class ServiceResourceTest extends TestCase
 
         Livewire::test(CreateService::class)
             ->fillForm([
-                'title'       => ['pl' => 'Tworzenie stron', 'en' => 'Web Development'],
+                'title' => ['pl' => 'Tworzenie stron', 'en' => 'Web Development'],
                 'description' => ['pl' => 'Opis po polsku', 'en' => 'English description'],
-                'icon'        => 'code-bracket',
-                'is_active'   => true,
+                'icon' => 'code-bracket',
+                'is_active' => true,
                 'is_featured' => false,
-                'sort_order'  => 0,
+                'sort_order' => 0,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -190,7 +190,7 @@ final class ServiceResourceTest extends TestCase
         Livewire::test(CreateService::class)
             ->fillForm([
                 'title' => '',
-                'icon'  => 'code-bracket',
+                'icon' => 'code-bracket',
             ])
             ->call('create')
             ->assertHasFormErrors(['title']);
@@ -204,7 +204,7 @@ final class ServiceResourceTest extends TestCase
         Livewire::test(CreateService::class)
             ->fillForm([
                 'title' => ['pl' => 'Usługa', 'en' => 'Service'],
-                'icon'  => null,
+                'icon' => null,
             ])
             ->call('create')
             ->assertHasFormErrors(['icon']);
@@ -218,7 +218,7 @@ final class ServiceResourceTest extends TestCase
         Livewire::test(CreateService::class)
             ->fillForm([
                 'title' => ['pl' => 'Usługa', 'en' => 'Service'],
-                'icon'  => 'bolt',
+                'icon' => 'bolt',
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -234,8 +234,8 @@ final class ServiceResourceTest extends TestCase
 
         Livewire::test(CreateService::class)
             ->fillForm([
-                'title'      => ['pl' => 'Usługa', 'en' => 'Service'],
-                'icon'       => 'bolt',
+                'title' => ['pl' => 'Usługa', 'en' => 'Service'],
+                'icon' => 'bolt',
                 'sort_order' => 0,
             ])
             ->call('create')
@@ -252,18 +252,18 @@ final class ServiceResourceTest extends TestCase
     public function test_edit_form_prefills_existing_translations(): void
     {
         $service = Service::factory()->create([
-            'title'       => ['pl' => 'Oryginał PL', 'en' => 'Original EN'],
+            'title' => ['pl' => 'Oryginał PL', 'en' => 'Original EN'],
             'description' => ['pl' => 'Opis PL', 'en' => 'Desc EN'],
-            'icon'        => 'server',
+            'icon' => 'server',
         ]);
         $user = $this->makeAdmin(['view_any_service']);
         $this->actingAs($user);
 
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])
             ->assertFormSet([
-                'title'       => ['pl' => 'Oryginał PL', 'en' => 'Original EN'],
+                'title' => ['pl' => 'Oryginał PL', 'en' => 'Original EN'],
                 'description' => ['pl' => 'Opis PL', 'en' => 'Desc EN'],
-                'icon'        => 'server',
+                'icon' => 'server',
             ]);
     }
 
@@ -271,7 +271,7 @@ final class ServiceResourceTest extends TestCase
     {
         $service = Service::factory()->create([
             'title' => ['pl' => 'Stary tytuł', 'en' => 'Old title'],
-            'icon'  => 'server',
+            'icon' => 'server',
         ]);
         $user = $this->makeAdmin(['view_any_service']);
         $this->actingAs($user);
@@ -279,7 +279,7 @@ final class ServiceResourceTest extends TestCase
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])
             ->fillForm([
                 'title' => ['pl' => 'Nowy tytuł', 'en' => 'New title'],
-                'icon'  => 'cloud',
+                'icon' => 'cloud',
             ])
             ->call('save')
             ->assertHasNoFormErrors();
@@ -293,7 +293,7 @@ final class ServiceResourceTest extends TestCase
     public function test_edit_saves_is_active_toggle(): void
     {
         $service = Service::factory()->active()->create();
-        $user    = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['view_any_service']);
         $this->actingAs($user);
 
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])
@@ -307,7 +307,7 @@ final class ServiceResourceTest extends TestCase
     public function test_edit_saves_is_featured_toggle(): void
     {
         $service = Service::factory()->create(['is_featured' => false]);
-        $user    = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['view_any_service']);
         $this->actingAs($user);
 
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])
@@ -325,7 +325,7 @@ final class ServiceResourceTest extends TestCase
     public function test_authorized_user_can_delete_service(): void
     {
         $service = Service::factory()->create();
-        $user    = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['view_any_service']);
         $this->actingAs($user);
 
         Livewire::test(ListServices::class)
@@ -338,7 +338,7 @@ final class ServiceResourceTest extends TestCase
     public function test_bulk_delete_removes_selected_services(): void
     {
         $services = Service::factory()->count(3)->create();
-        $user     = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['view_any_service']);
         $this->actingAs($user);
 
         Livewire::test(ListServices::class)
@@ -384,7 +384,7 @@ final class ServiceResourceTest extends TestCase
         $this->assertArrayHasKey('en', $decoded);
     }
 
-    public function test_getTranslation_returns_null_for_missing_locale(): void
+    public function test_get_translation_returns_null_for_missing_locale(): void
     {
         $service = Service::factory()->create([
             'title' => ['pl' => 'Tylko PL'],
@@ -464,8 +464,8 @@ final class ServiceResourceTest extends TestCase
     public function test_service_defaults_is_active_to_true_on_database_level(): void
     {
         $id = DB::table('services')->insertGetId([
-            'title'      => json_encode(['pl' => 'Test']),
-            'icon'       => 'bolt',
+            'title' => json_encode(['pl' => 'Test']),
+            'icon' => 'bolt',
             'sort_order' => 0,
             'created_at' => now(),
             'updated_at' => now(),
@@ -478,8 +478,8 @@ final class ServiceResourceTest extends TestCase
     public function test_service_defaults_sort_order_to_zero_on_database_level(): void
     {
         $id = DB::table('services')->insertGetId([
-            'title'      => json_encode(['pl' => 'Test']),
-            'icon'       => 'bolt',
+            'title' => json_encode(['pl' => 'Test']),
+            'icon' => 'bolt',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

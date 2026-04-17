@@ -48,10 +48,10 @@ use Webfloo\Traits\Sortable;
  */
 class Project extends Model
 {
+    use HasActive;
+
     /** @use HasFactory<ProjectFactory> */
     use HasFactory;
-
-    use HasActive;
     use HasFeatured;
     use HasSlug;
     use HasTranslations;

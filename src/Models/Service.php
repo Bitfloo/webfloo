@@ -26,9 +26,11 @@ use Webfloo\Traits\Sortable;
 class Service extends Model
 {
     use HasActive;
-    use HasFeatured;
     /** @use HasFactory<ServiceFactory> */
     use HasFactory;
+
+    use HasFeatured;
+
     use HasTranslations;
     use Sortable;
 

@@ -24,10 +24,10 @@ use Webfloo\Traits\Sortable;
  */
 class Faq extends Model
 {
+    use HasActive;
+
     /** @use HasFactory<FaqFactory> */
     use HasFactory;
-
-    use HasActive;
     use HasTranslations;
     use Sortable;
 

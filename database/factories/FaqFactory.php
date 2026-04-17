@@ -17,11 +17,11 @@ final class FaqFactory extends Factory
     public function definition(): array
     {
         return [
-            'question'   => ['pl' => $this->faker->sentence().'?', 'en' => $this->faker->sentence().'?'],
-            'answer'     => ['pl' => $this->faker->paragraph(), 'en' => $this->faker->paragraph()],
-            'icon'       => null,
-            'category'   => null,
-            'is_active'  => true,
+            'question' => ['pl' => $this->faker->sentence().'?', 'en' => $this->faker->sentence().'?'],
+            'answer' => ['pl' => $this->faker->paragraph(), 'en' => $this->faker->paragraph()],
+            'icon' => null,
+            'category' => null,
+            'is_active' => true,
             'sort_order' => 0,
         ];
     }

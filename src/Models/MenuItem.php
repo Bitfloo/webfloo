@@ -31,10 +31,10 @@ use Webfloo\Traits\Sortable;
  */
 class MenuItem extends Model
 {
+    use HasActive;
+
     /** @use HasFactory<MenuItemFactory> */
     use HasFactory;
-
-    use HasActive;
     use HasTranslations;
     use Sortable;
 

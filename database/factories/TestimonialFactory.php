@@ -17,15 +17,15 @@ final class TestimonialFactory extends Factory
     public function definition(): array
     {
         return [
-            'content'     => ['pl' => $this->faker->paragraph(), 'en' => $this->faker->paragraph()],
-            'author'      => $this->faker->name(),
-            'role'        => ['pl' => 'Dyrektor', 'en' => 'Director'],
-            'company'     => ['pl' => $this->faker->company(), 'en' => $this->faker->company()],
-            'avatar'      => null,
-            'rating'      => 5,
-            'is_active'   => true,
+            'content' => ['pl' => $this->faker->paragraph(), 'en' => $this->faker->paragraph()],
+            'author' => $this->faker->name(),
+            'role' => ['pl' => 'Dyrektor', 'en' => 'Director'],
+            'company' => ['pl' => $this->faker->company(), 'en' => $this->faker->company()],
+            'avatar' => null,
+            'rating' => 5,
+            'is_active' => true,
             'is_featured' => false,
-            'sort_order'  => 0,
+            'sort_order' => 0,
         ];
     }
 

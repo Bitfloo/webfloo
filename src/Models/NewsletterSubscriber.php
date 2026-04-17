@@ -22,10 +22,10 @@ use Webfloo\Traits\HasActive;
  */
 class NewsletterSubscriber extends Model
 {
+    use HasActive;
+
     /** @use HasFactory<NewsletterSubscriberFactory> */
     use HasFactory;
-
-    use HasActive;
 
     protected static function newFactory(): NewsletterSubscriberFactory
     {

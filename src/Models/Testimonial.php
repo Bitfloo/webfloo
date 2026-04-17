@@ -27,10 +27,10 @@ use Webfloo\Traits\Sortable;
  */
 class Testimonial extends Model
 {
+    use HasActive;
+
     /** @use HasFactory<TestimonialFactory> */
     use HasFactory;
-
-    use HasActive;
     use HasFeatured;
     use HasTranslations;
     use Sortable;

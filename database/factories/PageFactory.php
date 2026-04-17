@@ -20,17 +20,17 @@ final class PageFactory extends Factory
         $titlePl = $this->faker->unique()->sentence(3);
 
         return [
-            'title'            => ['pl' => $titlePl, 'en' => $this->faker->sentence(3)],
-            'slug'             => Str::slug($titlePl),
-            'content'          => [],
-            'template'         => 'default',
-            'parent_id'        => null,
-            'meta_title'       => ['pl' => $titlePl, 'en' => $titlePl],
+            'title' => ['pl' => $titlePl, 'en' => $this->faker->sentence(3)],
+            'slug' => Str::slug($titlePl),
+            'content' => [],
+            'template' => 'default',
+            'parent_id' => null,
+            'meta_title' => ['pl' => $titlePl, 'en' => $titlePl],
             'meta_description' => ['pl' => $this->faker->sentence(), 'en' => $this->faker->sentence()],
-            'meta_image'       => null,
-            'status'           => 'draft',
-            'published_at'     => null,
-            'sort_order'       => 0,
+            'meta_image' => null,
+            'status' => 'draft',
+            'published_at' => null,
+            'sort_order' => 0,
         ];
     }
 

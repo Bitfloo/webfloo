@@ -93,7 +93,7 @@ final class ProjectResourceTest extends TestCase
     public function test_index_renders_active_project_records(): void
     {
         $projects = Project::factory()->active()->count(3)->create();
-        $user     = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['view_any_project']);
 
         $this->actingAs($user);
 
@@ -104,7 +104,7 @@ final class ProjectResourceTest extends TestCase
     public function test_index_renders_inactive_project_records(): void
     {
         $inactive = Project::factory()->inactive()->create();
-        $user     = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['view_any_project']);
 
         $this->actingAs($user);
 
@@ -119,9 +119,9 @@ final class ProjectResourceTest extends TestCase
 
     public function test_is_active_filter_shows_only_active_projects(): void
     {
-        $active   = Project::factory()->active()->create();
+        $active = Project::factory()->active()->create();
         $inactive = Project::factory()->inactive()->create();
-        $user     = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['view_any_project']);
 
         $this->actingAs($user);
 
@@ -133,9 +133,9 @@ final class ProjectResourceTest extends TestCase
 
     public function test_is_active_filter_shows_only_inactive_projects(): void
     {
-        $active   = Project::factory()->active()->create();
+        $active = Project::factory()->active()->create();
         $inactive = Project::factory()->inactive()->create();
-        $user     = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['view_any_project']);
 
         $this->actingAs($user);
 
@@ -147,9 +147,9 @@ final class ProjectResourceTest extends TestCase
 
     public function test_is_featured_filter_shows_only_featured_projects(): void
     {
-        $featured    = Project::factory()->featured()->create();
+        $featured = Project::factory()->featured()->create();
         $notFeatured = Project::factory()->create(['is_featured' => false]);
-        $user        = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['view_any_project']);
 
         $this->actingAs($user);
 
@@ -162,8 +162,8 @@ final class ProjectResourceTest extends TestCase
     public function test_industry_filter_narrows_results_to_matching_industry(): void
     {
         $fintech = Project::factory()->create(['industry' => 'fintech']);
-        $media   = Project::factory()->create(['industry' => 'media']);
-        $user    = $this->makeAdmin(['view_any_project']);
+        $media = Project::factory()->create(['industry' => 'media']);
+        $user = $this->makeAdmin(['view_any_project']);
 
         $this->actingAs($user);
 
@@ -175,9 +175,9 @@ final class ProjectResourceTest extends TestCase
 
     public function test_category_filter_narrows_results_to_matching_category(): void
     {
-        $web   = Project::factory()->create(['category' => 'web']);
-        $saas  = Project::factory()->create(['category' => 'saas']);
-        $user  = $this->makeAdmin(['view_any_project']);
+        $web = Project::factory()->create(['category' => 'web']);
+        $saas = Project::factory()->create(['category' => 'saas']);
+        $user = $this->makeAdmin(['view_any_project']);
 
         $this->actingAs($user);
 
@@ -201,10 +201,10 @@ final class ProjectResourceTest extends TestCase
         // Multi-locale persistence is verified by the factory-based translatable tests below.
         Livewire::test(CreateProject::class)
             ->fillForm([
-                'title'      => 'Projekt testowy',
-                'slug'       => 'projekt-testowy',
-                'category'   => 'web',
-                'is_active'  => true,
+                'title' => 'Projekt testowy',
+                'slug' => 'projekt-testowy',
+                'category' => 'web',
+                'is_active' => true,
                 'is_featured' => false,
                 'sort_order' => 0,
             ])
@@ -225,8 +225,8 @@ final class ProjectResourceTest extends TestCase
         // direct create to verify multi-locale storage of the case study fields.
         $project = Project::factory()->create([
             'challenge' => ['pl' => 'Wyzwanie PL', 'en' => 'Challenge EN'],
-            'solution'  => ['pl' => 'Rozwiązanie PL', 'en' => 'Solution EN'],
-            'results'   => ['pl' => 'Rezultaty PL', 'en' => 'Results EN'],
+            'solution' => ['pl' => 'Rozwiązanie PL', 'en' => 'Solution EN'],
+            'results' => ['pl' => 'Rezultaty PL', 'en' => 'Results EN'],
         ]);
 
         $this->assertSame('Wyzwanie PL', $project->getTranslation('challenge', 'pl'));
@@ -249,7 +249,7 @@ final class ProjectResourceTest extends TestCase
         Livewire::test(CreateProject::class)
             ->fillForm([
                 'title' => null,
-                'slug'  => 'some-slug',
+                'slug' => 'some-slug',
             ])
             ->call('create')
             ->assertHasFormErrors(['title']);
@@ -263,7 +263,7 @@ final class ProjectResourceTest extends TestCase
         Livewire::test(CreateProject::class)
             ->fillForm([
                 'title' => 'Projekt',
-                'slug'  => '',
+                'slug' => '',
             ])
             ->call('create')
             ->assertHasFormErrors(['slug']);
@@ -278,7 +278,7 @@ final class ProjectResourceTest extends TestCase
         Livewire::test(CreateProject::class)
             ->fillForm([
                 'title' => 'Nowy projekt',
-                'slug'  => 'zajety-slug',
+                'slug' => 'zajety-slug',
             ])
             ->call('create')
             ->assertHasFormErrors(['slug']);
@@ -292,7 +292,7 @@ final class ProjectResourceTest extends TestCase
         Livewire::test(CreateProject::class)
             ->fillForm([
                 'title' => 'Projekt aktywny',
-                'slug'  => 'projekt-aktywny',
+                'slug' => 'projekt-aktywny',
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -307,8 +307,8 @@ final class ProjectResourceTest extends TestCase
 
         Livewire::test(CreateProject::class)
             ->fillForm([
-                'title'      => 'Projekt kolejnosc',
-                'slug'       => 'projekt-kolejnosc',
+                'title' => 'Projekt kolejnosc',
+                'slug' => 'projekt-kolejnosc',
                 'sort_order' => 0,
             ])
             ->call('create')
@@ -333,7 +333,7 @@ final class ProjectResourceTest extends TestCase
         Livewire::test(CreateProject::class)
             ->fillForm([
                 'title' => 'Projekt z obrazem',
-                'slug'  => 'projekt-z-obrazem',
+                'slug' => 'projekt-z-obrazem',
                 'image' => $file,
             ])
             ->call('create')
@@ -355,8 +355,8 @@ final class ProjectResourceTest extends TestCase
 
         Livewire::test(CreateProject::class)
             ->fillForm([
-                'title'              => 'Projekt z avatarem',
-                'slug'               => 'projekt-z-avatarem',
+                'title' => 'Projekt z avatarem',
+                'slug' => 'projekt-z-avatarem',
                 'testimonial_avatar' => $avatar,
             ])
             ->call('create')
@@ -403,7 +403,7 @@ final class ProjectResourceTest extends TestCase
     public function test_authorized_user_can_delete_project(): void
     {
         $project = Project::factory()->create();
-        $user    = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['view_any_project']);
         $this->actingAs($user);
 
         Livewire::test(ListProjects::class)
@@ -416,7 +416,7 @@ final class ProjectResourceTest extends TestCase
     public function test_bulk_delete_removes_selected_projects(): void
     {
         $projects = Project::factory()->count(3)->create();
-        $user     = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['view_any_project']);
         $this->actingAs($user);
 
         Livewire::test(ListProjects::class)
@@ -496,7 +496,7 @@ final class ProjectResourceTest extends TestCase
         $this->assertSame('Quote EN', $decoded['en']);
     }
 
-    public function test_getTranslation_returns_empty_string_for_missing_locale(): void
+    public function test_get_translation_returns_empty_string_for_missing_locale(): void
     {
         $project = Project::factory()->create([
             'title' => ['pl' => 'Tylko PL'],
@@ -590,8 +590,8 @@ final class ProjectResourceTest extends TestCase
     {
         $project = Project::factory()->create([
             'challenge' => null,
-            'solution'  => null,
-            'results'   => null,
+            'solution' => null,
+            'results' => null,
         ]);
 
         $this->assertFalse($project->hasCaseStudy());
@@ -600,7 +600,7 @@ final class ProjectResourceTest extends TestCase
     public function test_has_testimonial_returns_true_when_quote_and_author_present(): void
     {
         $project = Project::factory()->create([
-            'testimonial_quote'  => ['pl' => 'Cytat', 'en' => 'Quote'],
+            'testimonial_quote' => ['pl' => 'Cytat', 'en' => 'Quote'],
             'testimonial_author' => 'Jan Kowalski',
         ]);
 
@@ -610,7 +610,7 @@ final class ProjectResourceTest extends TestCase
     public function test_has_testimonial_returns_false_when_author_missing(): void
     {
         $project = Project::factory()->create([
-            'testimonial_quote'  => ['pl' => 'Cytat', 'en' => 'Quote'],
+            'testimonial_quote' => ['pl' => 'Cytat', 'en' => 'Quote'],
             'testimonial_author' => null,
         ]);
 
@@ -624,8 +624,8 @@ final class ProjectResourceTest extends TestCase
     public function test_project_defaults_is_active_to_true_on_database_level(): void
     {
         $id = DB::table('projects')->insertGetId([
-            'title'      => json_encode(['pl' => 'Test']),
-            'slug'       => 'test-defaults',
+            'title' => json_encode(['pl' => 'Test']),
+            'slug' => 'test-defaults',
             'sort_order' => 0,
             'created_at' => now(),
             'updated_at' => now(),
@@ -638,8 +638,8 @@ final class ProjectResourceTest extends TestCase
     public function test_project_defaults_is_featured_to_false_on_database_level(): void
     {
         $id = DB::table('projects')->insertGetId([
-            'title'      => json_encode(['pl' => 'Test']),
-            'slug'       => 'test-featured-default',
+            'title' => json_encode(['pl' => 'Test']),
+            'slug' => 'test-featured-default',
             'sort_order' => 0,
             'created_at' => now(),
             'updated_at' => now(),
@@ -652,8 +652,8 @@ final class ProjectResourceTest extends TestCase
     public function test_project_defaults_sort_order_to_zero_on_database_level(): void
     {
         $id = DB::table('projects')->insertGetId([
-            'title'      => json_encode(['pl' => 'Test']),
-            'slug'       => 'test-sort-default',
+            'title' => json_encode(['pl' => 'Test']),
+            'slug' => 'test-sort-default',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

@@ -52,7 +52,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_authorized_user_can_access_edit_page(): void
     {
         $testimonial = Testimonial::factory()->create();
-        $user        = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])->assertOk();
@@ -92,7 +92,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_index_renders_active_testimonial_records(): void
     {
         $testimonials = Testimonial::factory()->active()->count(3)->create();
-        $user         = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
 
         $this->actingAs($user);
 
@@ -103,7 +103,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_index_renders_inactive_testimonial_records(): void
     {
         $inactive = Testimonial::factory()->inactive()->create();
-        $user     = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
 
         $this->actingAs($user);
 
@@ -117,9 +117,9 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_is_active_filter_shows_only_active_testimonials(): void
     {
-        $active   = Testimonial::factory()->active()->create();
+        $active = Testimonial::factory()->active()->create();
         $inactive = Testimonial::factory()->inactive()->create();
-        $user     = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
 
         $this->actingAs($user);
 
@@ -131,9 +131,9 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_is_active_filter_shows_only_inactive_testimonials(): void
     {
-        $active   = Testimonial::factory()->active()->create();
+        $active = Testimonial::factory()->active()->create();
         $inactive = Testimonial::factory()->inactive()->create();
-        $user     = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
 
         $this->actingAs($user);
 
@@ -154,14 +154,14 @@ final class TestimonialResourceTest extends TestCase
 
         Livewire::test(CreateTestimonial::class)
             ->fillForm([
-                'content'     => ['pl' => 'Świetna firma!', 'en' => 'Great company!'],
-                'author'      => 'Jan Kowalski',
-                'role'        => ['pl' => 'Dyrektor', 'en' => 'Director'],
-                'company'     => ['pl' => 'Firma Sp. z o.o.', 'en' => 'Company Ltd.'],
-                'rating'      => 5,
-                'is_active'   => true,
+                'content' => ['pl' => 'Świetna firma!', 'en' => 'Great company!'],
+                'author' => 'Jan Kowalski',
+                'role' => ['pl' => 'Dyrektor', 'en' => 'Director'],
+                'company' => ['pl' => 'Firma Sp. z o.o.', 'en' => 'Company Ltd.'],
+                'rating' => 5,
+                'is_active' => true,
                 'is_featured' => false,
-                'sort_order'  => 0,
+                'sort_order' => 0,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -195,7 +195,7 @@ final class TestimonialResourceTest extends TestCase
         Livewire::test(CreateTestimonial::class)
             ->fillForm([
                 'content' => null,
-                'author'  => 'Jan Kowalski',
+                'author' => 'Jan Kowalski',
             ])
             ->call('create')
             ->assertHasFormErrors(['content']);
@@ -209,7 +209,7 @@ final class TestimonialResourceTest extends TestCase
         Livewire::test(CreateTestimonial::class)
             ->fillForm([
                 'content' => ['pl' => 'Opinia', 'en' => 'Review'],
-                'author'  => '',
+                'author' => '',
             ])
             ->call('create')
             ->assertHasFormErrors(['author']);
@@ -223,8 +223,8 @@ final class TestimonialResourceTest extends TestCase
         Livewire::test(CreateTestimonial::class)
             ->fillForm([
                 'content' => ['pl' => 'Opinia', 'en' => 'Review'],
-                'author'  => 'Anna Nowak',
-                'rating'  => 3,
+                'author' => 'Anna Nowak',
+                'rating' => 3,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -240,7 +240,7 @@ final class TestimonialResourceTest extends TestCase
         Livewire::test(CreateTestimonial::class)
             ->fillForm([
                 'content' => ['pl' => 'Opinia', 'en' => 'Review'],
-                'author'  => 'Piotr Wiśniewski',
+                'author' => 'Piotr Wiśniewski',
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -256,7 +256,7 @@ final class TestimonialResourceTest extends TestCase
         Livewire::test(CreateTestimonial::class)
             ->fillForm([
                 'content' => ['pl' => 'Opinia', 'en' => 'Review'],
-                'author'  => 'Maria Wiśniewska',
+                'author' => 'Maria Wiśniewska',
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -280,8 +280,8 @@ final class TestimonialResourceTest extends TestCase
         Livewire::test(CreateTestimonial::class)
             ->fillForm([
                 'content' => ['pl' => 'Opinia', 'en' => 'Review'],
-                'author'  => 'Tomasz Nowak',
-                'avatar'  => $file,
+                'author' => 'Tomasz Nowak',
+                'avatar' => $file,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
@@ -300,9 +300,9 @@ final class TestimonialResourceTest extends TestCase
     {
         $testimonial = Testimonial::factory()->create([
             'content' => ['pl' => 'Oryginalna opinia', 'en' => 'Original review'],
-            'author'  => 'Zbigniew Testowy',
-            'role'    => ['pl' => 'Menedżer', 'en' => 'Manager'],
-            'rating'  => 4,
+            'author' => 'Zbigniew Testowy',
+            'role' => ['pl' => 'Menedżer', 'en' => 'Manager'],
+            'rating' => 4,
         ]);
         $user = $this->makeAdmin(['view_any_testimonial']);
         $this->actingAs($user);
@@ -310,9 +310,9 @@ final class TestimonialResourceTest extends TestCase
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
             ->assertFormSet([
                 'content' => ['pl' => 'Oryginalna opinia', 'en' => 'Original review'],
-                'author'  => 'Zbigniew Testowy',
-                'role'    => ['pl' => 'Menedżer', 'en' => 'Manager'],
-                'rating'  => 4,
+                'author' => 'Zbigniew Testowy',
+                'role' => ['pl' => 'Menedżer', 'en' => 'Manager'],
+                'rating' => 4,
             ]);
     }
 
@@ -320,7 +320,7 @@ final class TestimonialResourceTest extends TestCase
     {
         $testimonial = Testimonial::factory()->create([
             'content' => ['pl' => 'Stara opinia', 'en' => 'Old review'],
-            'author'  => 'Stary Autor',
+            'author' => 'Stary Autor',
         ]);
         $user = $this->makeAdmin(['view_any_testimonial']);
         $this->actingAs($user);
@@ -328,7 +328,7 @@ final class TestimonialResourceTest extends TestCase
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
             ->fillForm([
                 'content' => ['pl' => 'Nowa opinia', 'en' => 'New review'],
-                'author'  => 'Nowy Autor',
+                'author' => 'Nowy Autor',
             ])
             ->call('save')
             ->assertHasNoFormErrors();
@@ -342,7 +342,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_edit_saves_is_active_toggle(): void
     {
         $testimonial = Testimonial::factory()->active()->create();
-        $user        = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
@@ -356,7 +356,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_edit_saves_is_featured_toggle(): void
     {
         $testimonial = Testimonial::factory()->create(['is_featured' => false]);
-        $user        = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
@@ -370,7 +370,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_edit_saves_updated_rating(): void
     {
         $testimonial = Testimonial::factory()->withRating(5)->create();
-        $user        = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
@@ -388,7 +388,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_authorized_user_can_delete_testimonial(): void
     {
         $testimonial = Testimonial::factory()->create();
-        $user        = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
         $this->actingAs($user);
 
         Livewire::test(ListTestimonials::class)
@@ -401,7 +401,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_bulk_delete_removes_selected_testimonials(): void
     {
         $testimonials = Testimonial::factory()->count(3)->create();
-        $user         = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['view_any_testimonial']);
         $this->actingAs($user);
 
         Livewire::test(ListTestimonials::class)
@@ -463,7 +463,7 @@ final class TestimonialResourceTest extends TestCase
         $this->assertArrayHasKey('en', $decoded);
     }
 
-    public function test_getTranslation_returns_empty_string_for_missing_locale(): void
+    public function test_get_translation_returns_empty_string_for_missing_locale(): void
     {
         $testimonial = Testimonial::factory()->create([
             'content' => ['pl' => 'Tylko po polsku'],
@@ -540,9 +540,9 @@ final class TestimonialResourceTest extends TestCase
     public function test_testimonial_defaults_is_active_to_true_on_database_level(): void
     {
         $id = DB::table('testimonials')->insertGetId([
-            'content'    => json_encode(['pl' => 'Test']),
-            'author'     => 'Test Author',
-            'rating'     => 5,
+            'content' => json_encode(['pl' => 'Test']),
+            'author' => 'Test Author',
+            'rating' => 5,
             'sort_order' => 0,
             'created_at' => now(),
             'updated_at' => now(),
@@ -555,9 +555,9 @@ final class TestimonialResourceTest extends TestCase
     public function test_testimonial_defaults_sort_order_to_zero_on_database_level(): void
     {
         $id = DB::table('testimonials')->insertGetId([
-            'content'    => json_encode(['pl' => 'Test']),
-            'author'     => 'Test Author',
-            'rating'     => 5,
+            'content' => json_encode(['pl' => 'Test']),
+            'author' => 'Test Author',
+            'rating' => 5,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -569,8 +569,8 @@ final class TestimonialResourceTest extends TestCase
     public function test_testimonial_defaults_rating_to_five_on_database_level(): void
     {
         $id = DB::table('testimonials')->insertGetId([
-            'content'    => json_encode(['pl' => 'Test']),
-            'author'     => 'Test Author',
+            'content' => json_encode(['pl' => 'Test']),
+            'author' => 'Test Author',
             'sort_order' => 0,
             'created_at' => now(),
             'updated_at' => now(),

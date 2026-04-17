@@ -17,13 +17,13 @@ final class NewsletterSubscriberFactory extends Factory
     public function definition(): array
     {
         return [
-            'email'           => $this->faker->unique()->safeEmail(),
-            'name'            => $this->faker->name(),
-            'is_active'       => true,
-            'subscribed_at'   => now(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'name' => $this->faker->name(),
+            'is_active' => true,
+            'subscribed_at' => now(),
             'unsubscribed_at' => null,
-            'ip_address'      => $this->faker->ipv4(),
-            'source'          => 'footer',
+            'ip_address' => $this->faker->ipv4(),
+            'source' => 'footer',
         ];
     }
 

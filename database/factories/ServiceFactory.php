@@ -19,11 +19,11 @@ final class ServiceFactory extends Factory
         $icons = array_keys(Service::getIconOptions());
 
         return [
-            'title'      => ['pl' => $this->faker->sentence(3), 'en' => $this->faker->sentence(3)],
+            'title' => ['pl' => $this->faker->sentence(3), 'en' => $this->faker->sentence(3)],
             'description' => ['pl' => $this->faker->paragraph(), 'en' => $this->faker->paragraph()],
-            'icon'       => $this->faker->randomElement($icons),
-            'href'       => null,
-            'is_active'  => true,
+            'icon' => $this->faker->randomElement($icons),
+            'href' => null,
+            'is_active' => true,
             'is_featured' => false,
             'sort_order' => 0,
         ];

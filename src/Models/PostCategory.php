@@ -29,10 +29,10 @@ use Webfloo\Traits\Sortable;
  */
 class PostCategory extends Model
 {
+    use HasActive;
+
     /** @use HasFactory<PostCategoryFactory> */
     use HasFactory;
-
-    use HasActive;
     use HasSlug;
     use HasTranslations;
     use Sortable;

@@ -17,12 +17,12 @@ final class MenuItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'label'      => ['pl' => $this->faker->unique()->word(), 'en' => $this->faker->unique()->word()],
-            'href'       => '/'.$this->faker->slug(),
-            'target'     => '_self',
-            'location'   => 'header',
-            'parent_id'  => null,
-            'is_active'  => true,
+            'label' => ['pl' => $this->faker->unique()->word(), 'en' => $this->faker->unique()->word()],
+            'href' => '/'.$this->faker->slug(),
+            'target' => '_self',
+            'location' => 'header',
+            'parent_id' => null,
+            'is_active' => true,
             'sort_order' => 0,
         ];
     }
