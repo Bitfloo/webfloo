@@ -19,6 +19,7 @@ use Filament\Pages\Page;
 use Filament\Schemas\Components\Grid;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\On;
 use UnitEnum;
@@ -96,7 +97,6 @@ class CrmDashboard extends Page implements HasActions, HasForms
             + self::COLUMN_PAGE_SIZE;
         $this->kanbanLeadsCache = null;
     }
-
 
     public function getTitle(): string|Htmlable
     {
@@ -441,26 +441,37 @@ class CrmDashboard extends Page implements HasActions, HasForms
 
             $this->applySearchFilter($query);
 
-            $grouped[$status] = $query->get()
-                ->map(fn (Lead $lead): array => [
-                    'id' => $lead->id,
-                    'name' => $lead->name,
-                    'email' => $lead->email,
-                    'phone' => $lead->phone,
-                    'company' => $lead->company,
-                    'message' => $lead->message,
-                    'estimated_value' => $lead->estimated_value,
-                    'currency' => $lead->currency,
-                    'source' => $lead->source,
-                    'created_at' => $lead->created_at->format('d.m.Y'),
-                    'assignee' => $lead->assignee ? ['name' => $lead->assignee->name] : null,
-                    'pending_reminders_count' => $lead->pendingReminders->count(),
-                    'tags' => $lead->tags->map(fn ($t): array => ['name' => $t->name, 'color' => $t->color])->toArray(),
-                ])
-                ->toArray();
+            $grouped[$status] = array_values(array_map(
+                fn (Lead $lead): array => $this->leadToKanbanItem($lead),
+                $query->get()->all(),
+            ));
         }
 
         return $this->kanbanLeadsCache = $grouped;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function leadToKanbanItem(Lead $lead): array
+    {
+        return [
+            'id' => $lead->id,
+            'name' => $lead->name,
+            'email' => $lead->email,
+            'phone' => $lead->phone,
+            'company' => $lead->company,
+            'message' => $lead->message,
+            'estimated_value' => $lead->estimated_value,
+            'currency' => $lead->currency,
+            'source' => $lead->source,
+            'created_at' => $lead->created_at->format('d.m.Y'),
+            'assignee' => $lead->assignee ? ['name' => $lead->assignee->name] : null,
+            'pending_reminders_count' => $lead->pendingReminders->count(),
+            'tags' => $lead->tags->map(
+                fn (LeadTag $t): array => ['name' => $t->name, 'color' => $t->color]
+            )->all(),
+        ];
     }
 
     /**
@@ -482,7 +493,10 @@ class CrmDashboard extends Page implements HasActions, HasForms
         return $this->kanbanCountsCache = $counts;
     }
 
-    private function applySearchFilter(\Illuminate\Database\Eloquent\Builder $query): void
+    /**
+     * @param  Builder<Lead>  $query
+     */
+    private function applySearchFilter(Builder $query): void
     {
         if ($this->searchQuery === '') {
             return;

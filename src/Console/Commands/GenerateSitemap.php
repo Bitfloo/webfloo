@@ -50,7 +50,7 @@ class GenerateSitemap extends Command
                 '/portfolio/'.$project->slug,
                 '0.7',
                 'monthly',
-                $project->updated_at?->toW3cString()
+                $project->updated_at->toW3cString()
             );
             $urlCount += self::LOCALES_PER_URL;
         }
@@ -66,7 +66,7 @@ class GenerateSitemap extends Command
                 '/blog/'.$post->slug,
                 '0.6',
                 'monthly',
-                $post->updated_at?->toW3cString()
+                $post->updated_at->toW3cString()
             );
             $urlCount += self::LOCALES_PER_URL;
         }
@@ -81,7 +81,7 @@ class GenerateSitemap extends Command
                 $page->url,
                 '0.5',
                 'monthly',
-                $page->updated_at?->toW3cString()
+                $page->updated_at->toW3cString()
             );
             $urlCount += self::LOCALES_PER_URL;
         }
