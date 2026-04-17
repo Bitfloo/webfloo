@@ -39,6 +39,10 @@ yarn-error.log
 .cbc-bridge.md
 .cbc-push-gate/
 
+# Local audit / planning scratchpads — outputs belong in chat, not the repo
+.agent/
+.testing-audit-*.md
+
 # Claude Code: share project agents/commands/settings — ignore per-machine artefacts only
 .claude/settings.local.json
 .claude/sessions/
