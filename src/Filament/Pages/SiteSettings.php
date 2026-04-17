@@ -156,6 +156,7 @@ class SiteSettings extends AbstractPageSettings
                                 FileUpload::make('logo')
                                     ->label('Logo')
                                     ->image()
+                                    ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'])
                                     ->directory('brand')
                                     ->imageResizeMode('contain')
                                     ->imageCropAspectRatio(null)

@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-04-16T00:00:00.000Z",
-  "scores": { "kiss": 8, "ssot": 7, "slop": 8 },
-  "total": 23,
+  "timestamp": "2026-04-17T00:00:00.000Z",
+  "scores": { "kiss": 8, "ssot": 9, "slop": 9 },
+  "total": 26,
   "verdict": "PASS",
-  "commit": "5da3f4a705b318d4e6cc8094ecb51c9b185706a8"
+  "commit": "c866939de971cdffef54a5c60c1eed2dcea9772f"
 }
