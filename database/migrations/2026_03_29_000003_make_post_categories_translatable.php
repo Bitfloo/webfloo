@@ -38,6 +38,12 @@ return new class extends Migration
 
     private function isColumnJson(string $table, string $column): bool
     {
+        // SHOW COLUMNS is MySQL-only; on SQLite fresh installs the columns are
+        // already JSON from the original migration, so report true (no-op).
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            return true;
+        }
+
         /** @var list<object{Type: string}> $result */
         $result = DB::select("SHOW COLUMNS FROM `{$table}` WHERE `Field` = ?", [$column]);
 

@@ -28,6 +28,11 @@ return new class extends Migration
 
     private function isColumnType(string $table, string $column, string $typePrefix): bool
     {
+        // SHOW COLUMNS is MySQL-only; on SQLite the schema is always a string type.
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            return true;
+        }
+
         /** @var list<object{Type: string}> $result */
         $result = DB::select("SHOW COLUMNS FROM `{$table}` WHERE `Field` = ?", [$column]);
 

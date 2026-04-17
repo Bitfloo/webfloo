@@ -23,10 +23,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $hasIndex = collect(DB::select('SHOW INDEX FROM leads'))
-            ->contains(fn (object $row): bool => ($row->Key_name ?? null) === 'leads_converted_at_index');
-
-        if ($hasIndex) {
+        if ($this->hasIndex()) {
             return;
         }
 
@@ -37,15 +34,25 @@ return new class extends Migration
 
     public function down(): void
     {
-        $hasIndex = collect(DB::select('SHOW INDEX FROM leads'))
-            ->contains(fn (object $row): bool => ($row->Key_name ?? null) === 'leads_converted_at_index');
-
-        if (! $hasIndex) {
+        if (! $this->hasIndex()) {
             return;
         }
 
         Schema::table('leads', function (Blueprint $table): void {
             $table->dropIndex('leads_converted_at_index');
         });
+    }
+
+    private function hasIndex(): bool
+    {
+        // SHOW INDEX is MySQL-only; fall back to SQLite PRAGMA.
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            $indexes = DB::select('PRAGMA index_list(leads)');
+
+            return collect($indexes)->contains(fn (object $row): bool => ($row->name ?? null) === 'leads_converted_at_index');
+        }
+
+        return collect(DB::select('SHOW INDEX FROM leads'))
+            ->contains(fn (object $row): bool => ($row->Key_name ?? null) === 'leads_converted_at_index');
     }
 };

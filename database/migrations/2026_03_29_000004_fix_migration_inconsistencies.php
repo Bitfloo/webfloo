@@ -188,6 +188,12 @@ return new class extends Migration
 
     private function isColumnJson(string $table, string $column): bool
     {
+        // SHOW COLUMNS is MySQL-only; on SQLite fresh installs the columns
+        // are already JSON from the original migration, so report true (no-op).
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            return true;
+        }
+
         /** @var list<object{Type: string, Field: string}> $result */
         $result = DB::select("SHOW COLUMNS FROM `{$table}` WHERE `Field` = ?", [$column]);
 
@@ -200,6 +206,11 @@ return new class extends Migration
 
     private function isColumnUnsigned(string $table, string $column): bool
     {
+        // SHOW COLUMNS is MySQL-only; SQLite has no unsigned integer distinction.
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            return false;
+        }
+
         /** @var list<object{Type: string, Field: string}> $result */
         $result = DB::select("SHOW COLUMNS FROM `{$table}` WHERE `Field` = ?", [$column]);
 
@@ -212,6 +223,13 @@ return new class extends Migration
 
     private function hasIndex(string $table, string $indexName): bool
     {
+        // SHOW INDEX is MySQL-only; fall back to SQLite PRAGMA.
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            $indexes = DB::select("PRAGMA index_list({$table})");
+
+            return collect($indexes)->contains(fn (object $row): bool => ($row->name ?? null) === $indexName);
+        }
+
         /** @var list<object{Key_name: string}> $indexes */
         $indexes = DB::select("SHOW INDEX FROM `{$table}` WHERE `Key_name` = ?", [$indexName]);
 

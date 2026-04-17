@@ -32,6 +32,13 @@ return new class extends Migration
 
     private function hasIndex(string $table, string $indexName): bool
     {
+        // SHOW INDEX is MySQL-only; on SQLite fall back to PRAGMA index_list.
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            $indexes = DB::select("PRAGMA index_list({$table})");
+
+            return collect($indexes)->contains(fn (object $row): bool => ($row->name ?? null) === $indexName);
+        }
+
         /** @var list<object{Key_name: string}> $indexes */
         $indexes = DB::select("SHOW INDEX FROM `{$table}` WHERE `Key_name` = ?", [$indexName]);
 
