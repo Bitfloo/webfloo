@@ -3,8 +3,10 @@
 namespace Webfloo\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Database\Factories\ServiceFactory;
 use Webfloo\Traits\HasActive;
 use Webfloo\Traits\HasFeatured;
 use Webfloo\Traits\Sortable;
@@ -25,11 +27,18 @@ class Service extends Model
 {
     use HasActive;
     use HasFeatured;
+    /** @use HasFactory<ServiceFactory> */
+    use HasFactory;
     use HasTranslations;
     use Sortable;
 
     /** @var list<string> */
     public array $translatable = ['title', 'description'];
+
+    protected static function newFactory(): ServiceFactory
+    {
+        return ServiceFactory::new();
+    }
 
     /**
      * @var list<string>
