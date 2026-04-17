@@ -34,8 +34,18 @@ final class TestimonialFactory extends Factory
         return $this->state(['is_active' => true]);
     }
 
+    public function inactive(): static
+    {
+        return $this->state(['is_active' => false]);
+    }
+
     public function featured(): static
     {
         return $this->state(['is_featured' => true]);
+    }
+
+    public function withRating(int $rating): static
+    {
+        return $this->state(['rating' => $rating]);
     }
 }
