@@ -26,7 +26,8 @@
     "autoload": {
         "psr-4": {
             "Webfloo\\": "src/",
-            "Webfloo\\Database\\Seeders\\": "database/seeders/"
+            "Webfloo\\Database\\Seeders\\": "database/seeders/",
+            "Webfloo\\Database\\Factories\\": "database/factories/"
         },
         "files": [
             "src/Support/helpers.php"
