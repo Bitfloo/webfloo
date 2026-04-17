@@ -83,13 +83,13 @@ class PostResource extends Resource
             Tabs::make('Post')
                 ->columnSpanFull()
                 ->tabs([
-                    Tab::make('Podstawowe')
+                    Tab::make(__('Podstawowe'))
                         ->icon(Heroicon::DocumentText)
                         ->schema([
                             Grid::make(2)
                                 ->schema([
                                     TextInput::make('title')
-                                        ->label('Tytuł')
+                                        ->label(__('Tytuł'))
                                         ->required()
                                         ->maxLength(200)
                                         ->live(onBlur: true)
@@ -100,14 +100,14 @@ class PostResource extends Resource
                                         }),
 
                                     TextInput::make('slug')
-                                        ->label('Slug')
+                                        ->label(__('Slug'))
                                         ->required()
                                         ->maxLength(200)
                                         ->unique(ignoreRecord: true)
                                         ->rules(['alpha_dash']),
 
                                     Select::make('post_category_id')
-                                        ->label('Kategoria')
+                                        ->label(__('Kategoria'))
                                         ->relationship('category', 'name')
                                         ->searchable()
                                         ->preload()
@@ -122,7 +122,7 @@ class PostResource extends Resource
                                         ->nullable(),
 
                                     Select::make('author_id')
-                                        ->label('Autor')
+                                        ->label(__('Autor'))
                                         ->relationship('author', 'name')
                                         ->searchable()
                                         ->preload()
@@ -130,14 +130,14 @@ class PostResource extends Resource
                                 ]),
 
                             Textarea::make('excerpt')
-                                ->label('Zajawka')
+                                ->label(__('Zajawka'))
                                 ->maxLength(500)
                                 ->rows(3)
-                                ->helperText('Krótki opis widoczny na listingu i w meta description')
+                                ->helperText(__('Krótki opis widoczny na listingu i w meta description'))
                                 ->columnSpanFull(),
 
                             FileUpload::make('featured_image')
-                                ->label('Obrazek wyróżniający')
+                                ->label(__('Obrazek wyróżniający'))
                                 ->image()
                                 ->disk('public')
                                 ->directory('posts')
@@ -149,11 +149,11 @@ class PostResource extends Resource
                                 ->columnSpanFull(),
                         ]),
 
-                    Tab::make('Treść')
+                    Tab::make(__('Treść'))
                         ->icon(Heroicon::PencilSquare)
                         ->schema([
                             RichEditor::make('content')
-                                ->label('Treść artykułu')
+                                ->label(__('Treść artykułu'))
                                 ->columnSpanFull()
                                 ->fileAttachmentsDisk('public')
                                 ->fileAttachmentsDirectory('posts/attachments')
@@ -175,24 +175,24 @@ class PostResource extends Resource
                                 ]),
                         ]),
 
-                    Tab::make('SEO')
+                    Tab::make(__('SEO'))
                         ->icon(Heroicon::MagnifyingGlass)
                         ->schema([
                             TextInput::make('meta_title')
-                                ->label('Meta Title')
+                                ->label(__('Meta Title'))
                                 ->maxLength(70)
-                                ->placeholder('Pozostaw puste, aby użyć tytułu artykułu')
-                                ->helperText('Rekomendowane: 50-60 znaków'),
+                                ->placeholder(__('Pozostaw puste, aby użyć tytułu artykułu'))
+                                ->helperText(__('Rekomendowane: 50-60 znaków')),
 
                             Textarea::make('meta_description')
-                                ->label('Meta Description')
+                                ->label(__('Meta Description'))
                                 ->maxLength(160)
                                 ->rows(3)
-                                ->helperText(fn (mixed $state): string => 'Znaki: '.strlen(is_string($state) ? $state : '').'/160')
-                                ->placeholder('Krótki opis dla wyszukiwarek'),
+                                ->helperText(fn (mixed $state): string => __('Znaki').': '.strlen(is_string($state) ? $state : '').'/160')
+                                ->placeholder(__('Krótki opis dla wyszukiwarek')),
 
                             FileUpload::make('meta_image')
-                                ->label('Obrazek OG')
+                                ->label(__('Obrazek OG'))
                                 ->image()
                                 ->disk('public')
                                 ->directory('posts/meta')
@@ -201,62 +201,62 @@ class PostResource extends Resource
                                 ->imageResizeTargetWidth('1200')
                                 ->imageResizeTargetHeight('630')
                                 ->maxSize(2048)
-                                ->helperText('Rekomendowany rozmiar: 1200x630 px'),
+                                ->helperText(__('Rekomendowany rozmiar: 1200x630 px')),
 
                             Toggle::make('no_index')
-                                ->label('Nie indeksuj (noindex)')
-                                ->helperText('Ukryj stronę przed wyszukiwarkami'),
+                                ->label(__('Nie indeksuj (noindex)'))
+                                ->helperText(__('Ukryj stronę przed wyszukiwarkami')),
                         ]),
 
-                    Tab::make('Ustawienia')
+                    Tab::make(__('Ustawienia'))
                         ->icon(Heroicon::Cog6Tooth)
                         ->schema([
                             Grid::make(2)
                                 ->schema([
                                     Select::make('status')
-                                        ->label('Status')
+                                        ->label(__('Status'))
                                         ->options(Post::getStatusOptions())
                                         ->default('draft')
                                         ->native(false)
                                         ->required(),
 
                                     DateTimePicker::make('published_at')
-                                        ->label('Data publikacji')
+                                        ->label(__('Data publikacji'))
                                         ->nullable()
                                         ->displayFormat('d.m.Y H:i')
-                                        ->helperText('Zaplanuj publikację na przyszłą datę'),
+                                        ->helperText(__('Zaplanuj publikację na przyszłą datę')),
 
                                     Toggle::make('is_featured')
-                                        ->label('Wyróżniony')
-                                        ->helperText('Pokaż na głównej sekcji bloga'),
+                                        ->label(__('Wyróżniony'))
+                                        ->helperText(__('Pokaż na głównej sekcji bloga')),
 
                                     TextInput::make('reading_time')
-                                        ->label('Czas czytania (min)')
+                                        ->label(__('Czas czytania (min)'))
                                         ->numeric()
-                                        ->placeholder('Automatycznie')
-                                        ->helperText('Pozostaw puste dla automatycznego obliczenia'),
+                                        ->placeholder(__('Automatycznie'))
+                                        ->helperText(__('Pozostaw puste dla automatycznego obliczenia')),
 
                                     TextInput::make('sort_order')
-                                        ->label('Kolejność')
+                                        ->label(__('Kolejność'))
                                         ->numeric()
                                         ->default(0),
 
                                     TextInput::make('views_count')
-                                        ->label('Wyświetlenia')
+                                        ->label(__('Wyświetlenia'))
                                         ->numeric()
                                         ->default(0)
                                         ->disabled(),
                                 ]),
                         ]),
 
-                    Tab::make('Powiązania')
+                    Tab::make(__('Powiązania'))
                         ->icon(Heroicon::Link)
                         ->schema([
-                            Section::make('Powiązane projekty (Case Studies)')
-                                ->description('Wybierz projekty powiązane z tym artykułem')
+                            Section::make(__('Powiązane projekty (Case Studies)'))
+                                ->description(__('Wybierz projekty powiązane z tym artykułem'))
                                 ->schema([
                                     Select::make('relatedProjects')
-                                        ->label('Projekty')
+                                        ->label(__('Projekty'))
                                         ->relationship('relatedProjects', 'title')
                                         ->multiple()
                                         ->searchable()
@@ -268,11 +268,11 @@ class PostResource extends Resource
                                         ),
                                 ]),
 
-                            Section::make('Powiązane artykuły')
-                                ->description('Wybierz artykuły wyświetlane jako "Czytaj więcej"')
+                            Section::make(__('Powiązane artykuły'))
+                                ->description(__('Wybierz artykuły wyświetlane jako "Czytaj więcej"'))
                                 ->schema([
                                     Select::make('relatedPosts')
-                                        ->label('Artykuły')
+                                        ->label(__('Artykuły'))
                                         ->relationship('relatedPosts', 'title')
                                         ->multiple()
                                         ->searchable()
@@ -295,25 +295,25 @@ class PostResource extends Resource
                     ->defaultImageUrl(url('/images/placeholder.jpg')),
 
                 TextColumn::make('title')
-                    ->label('Tytuł')
+                    ->label(__('Tytuł'))
                     ->searchable()
                     ->sortable()
                     ->limit(50)
                     ->description(fn (Post $record): string => Str::limit($record->excerpt ?? '', 60)),
 
                 TextColumn::make('category.name')
-                    ->label('Kategoria')
+                    ->label(__('Kategoria'))
                     ->badge()
                     ->color(fn (Post $record): string => $record->category !== null ? $record->category->color : 'gray')
-                    ->placeholder('Brak'),
+                    ->placeholder(__('Brak')),
 
                 TextColumn::make('author.name')
-                    ->label('Autor')
-                    ->placeholder('Brak')
+                    ->label(__('Autor'))
+                    ->placeholder(__('Brak'))
                     ->toggleable(),
 
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'draft' => 'warning',
@@ -322,38 +322,38 @@ class PostResource extends Resource
                         default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'draft' => 'Szkic',
-                        'published' => 'Opublikowany',
-                        'archived' => 'Zarchiwizowany',
+                        'draft' => __('Szkic'),
+                        'published' => __('Opublikowany'),
+                        'archived' => __('Zarchiwizowany'),
                         default => $state,
                     }),
 
                 TextColumn::make('published_at')
-                    ->label('Publikacja')
+                    ->label(__('Publikacja'))
                     ->dateTime('d.m.Y')
                     ->sortable()
-                    ->placeholder('Nie zaplanowano'),
+                    ->placeholder(__('Nie zaplanowano')),
 
                 IconColumn::make('is_featured')
-                    ->label('Wyróżniony')
+                    ->label(__('Wyróżniony'))
                     ->boolean()
                     ->alignCenter()
                     ->toggleable(),
 
                 TextColumn::make('views_count')
-                    ->label('Wyśw.')
+                    ->label(__('Wyśw.'))
                     ->sortable()
                     ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('reading_time')
-                    ->label('Min')
+                    ->label(__('Min'))
                     ->suffix(' min')
                     ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
-                    ->label('Aktualizacja')
+                    ->label(__('Aktualizacja'))
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -361,23 +361,23 @@ class PostResource extends Resource
             ->defaultSort('published_at', 'desc')
             ->filters([
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->options(Post::getStatusOptions()),
 
                 SelectFilter::make('post_category_id')
-                    ->label('Kategoria')
+                    ->label(__('Kategoria'))
                     ->relationship('category', 'name')
                     ->searchable()
                     ->preload(),
 
                 SelectFilter::make('author_id')
-                    ->label('Autor')
+                    ->label(__('Autor'))
                     ->relationship('author', 'name')
                     ->searchable()
                     ->preload(),
 
                 TernaryFilter::make('is_featured')
-                    ->label('Wyróżniony'),
+                    ->label(__('Wyróżniony')),
             ])
             ->recordActions([
                 EditAction::make(),
@@ -396,7 +396,7 @@ class PostResource extends Resource
                     DeleteBulkAction::make(),
 
                     BulkAction::make('publish')
-                        ->label('Publikuj')
+                        ->label(__('Publikuj'))
                         ->icon(Heroicon::Check)
                         ->color('success')
                         ->requiresConfirmation()
@@ -410,7 +410,7 @@ class PostResource extends Resource
                         ->deselectRecordsAfterCompletion(),
 
                     BulkAction::make('unpublish')
-                        ->label('Cofnij publikację')
+                        ->label(__('Cofnij publikację'))
                         ->icon(Heroicon::XMark)
                         ->color('warning')
                         ->requiresConfirmation()
@@ -421,7 +421,7 @@ class PostResource extends Resource
                         ->deselectRecordsAfterCompletion(),
 
                     BulkAction::make('feature')
-                        ->label('Wyróżnij')
+                        ->label(__('Wyróżnij'))
                         ->icon(Heroicon::Star)
                         ->color('info')
                         ->action(function (Collection $records): void {

@@ -65,16 +65,16 @@ class FaqResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Pytanie i odpowiedź')
+            Section::make(__('Pytanie i odpowiedź'))
                 ->schema([
                     TextInput::make('question')
-                        ->label('Pytanie')
+                        ->label(__('Pytanie'))
                         ->required()
                         ->maxLength(500)
                         ->columnSpanFull(),
 
                     RichEditor::make('answer')
-                        ->label('Odpowiedź')
+                        ->label(__('Odpowiedź'))
                         ->required()
                         ->toolbarButtons([
                             'bold',
@@ -86,35 +86,35 @@ class FaqResource extends Resource
                         ->columnSpanFull(),
 
                     TextInput::make('icon')
-                        ->label('Ikona (Tabler)')
-                        ->placeholder('np. briefcase, credit-card, clock')
-                        ->helperText('Nazwa ikony Tabler bez prefiksu. Zobacz: tabler.io/icons')
+                        ->label(__('Ikona (Tabler)'))
+                        ->placeholder(__('np. briefcase, credit-card, clock'))
+                        ->helperText(__('Nazwa ikony Tabler bez prefiksu. Zobacz: tabler.io/icons'))
                         ->maxLength(100),
 
                     TextInput::make('category')
-                        ->label('Kategoria')
+                        ->label(__('Kategoria'))
                         ->maxLength(100)
                         ->datalist([
-                            'Ogólne',
-                            'Płatności',
-                            'Współpraca',
-                            'Techniczne',
-                            'Realizacja',
+                            __('Ogólne'),
+                            __('Płatności'),
+                            __('Współpraca'),
+                            __('Techniczne'),
+                            __('Realizacja'),
                         ])
-                        ->placeholder('Wybierz lub wpisz kategorię'),
+                        ->placeholder(__('Wybierz lub wpisz kategorię')),
                 ]),
 
-            Section::make('Ustawienia')
+            Section::make(__('Ustawienia'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('sort_order')
-                        ->label('Kolejność')
+                        ->label(__('Kolejność'))
                         ->numeric()
                         ->default(0)
                         ->minValue(0),
 
                     Toggle::make('is_active')
-                        ->label('Aktywny')
+                        ->label(__('Aktywny'))
                         ->default(true),
                 ]),
         ]);
@@ -130,26 +130,26 @@ class FaqResource extends Resource
                     ->width(50),
 
                 TextColumn::make('question')
-                    ->label('Pytanie')
+                    ->label(__('Pytanie'))
                     ->searchable()
                     ->sortable()
                     ->limit(80)
                     ->wrap(),
 
                 TextColumn::make('category')
-                    ->label('Kategoria')
+                    ->label(__('Kategoria'))
                     ->badge()
                     ->toggleable(),
 
                 IconColumn::make('is_active')
-                    ->label('Aktywny')
+                    ->label(__('Aktywny'))
                     ->boolean(),
             ])
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Aktywny'),
+                    ->label(__('Aktywny')),
             ])
             ->recordActions([
                 EditAction::make(),

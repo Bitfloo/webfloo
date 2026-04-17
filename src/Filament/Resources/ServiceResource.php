@@ -66,50 +66,50 @@ class ServiceResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Informacje')
+            Section::make(__('Informacje'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('title')
-                        ->label('Tytuł')
+                        ->label(__('Tytuł'))
                         ->required()
                         ->maxLength(100),
 
                     Select::make('icon')
-                        ->label('Ikona')
+                        ->label(__('Ikona'))
                         ->options(Service::getIconOptions())
                         ->required()
                         ->native(false)
                         ->searchable(),
 
                     Textarea::make('description')
-                        ->label('Opis')
+                        ->label(__('Opis'))
                         ->rows(3)
                         ->maxLength(500)
                         ->columnSpanFull(),
 
                     TextInput::make('href')
-                        ->label('Link')
+                        ->label(__('Link'))
                         ->url()
                         ->maxLength(255)
                         ->placeholder('https://...'),
                 ]),
 
-            Section::make('Ustawienia')
+            Section::make(__('Ustawienia'))
                 ->columns(3)
                 ->schema([
                     TextInput::make('sort_order')
-                        ->label('Kolejność')
+                        ->label(__('Kolejność'))
                         ->numeric()
                         ->default(0)
                         ->minValue(0),
 
                     Toggle::make('is_active')
-                        ->label('Aktywna')
+                        ->label(__('Aktywna'))
                         ->default(true),
 
                     Toggle::make('is_featured')
-                        ->label('Wyróżniona')
-                        ->helperText('Pokaż na stronie głównej')
+                        ->label(__('Wyróżniona'))
+                        ->helperText(__('Pokaż na stronie głównej'))
                         ->default(false),
                 ]),
         ]);
@@ -125,26 +125,26 @@ class ServiceResource extends Resource
                     ->width(50),
 
                 TextColumn::make('title')
-                    ->label('Tytuł')
+                    ->label(__('Tytuł'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('icon')
-                    ->label('Ikona')
+                    ->label(__('Ikona'))
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => Service::getIconOptions()[$state] ?? $state),
 
                 TextColumn::make('description')
-                    ->label('Opis')
+                    ->label(__('Opis'))
                     ->limit(50)
                     ->toggleable(),
 
                 IconColumn::make('is_active')
-                    ->label('Aktywna')
+                    ->label(__('Aktywna'))
                     ->boolean(),
 
                 IconColumn::make('is_featured')
-                    ->label('Wyróżniona')
+                    ->label(__('Wyróżniona'))
                     ->boolean()
                     ->toggleable(),
             ])
@@ -152,7 +152,7 @@ class ServiceResource extends Resource
             ->reorderable('sort_order')
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Aktywna'),
+                    ->label(__('Aktywna')),
             ])
             ->recordActions([
                 EditAction::make(),

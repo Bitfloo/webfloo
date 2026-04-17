@@ -67,43 +67,43 @@ class NewsletterSubscriberResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Dane subskrybenta')
+            Section::make(__('Dane subskrybenta'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('email')
-                        ->label('Email')
+                        ->label(__('Email'))
                         ->email()
                         ->required()
                         ->unique(ignoreRecord: true)
                         ->maxLength(255),
 
                     TextInput::make('name')
-                        ->label('Imię')
+                        ->label(__('Imię'))
                         ->maxLength(100),
 
                     Toggle::make('is_active')
-                        ->label('Aktywny')
+                        ->label(__('Aktywny'))
                         ->default(true),
 
                     TextInput::make('source')
-                        ->label('Źródło')
+                        ->label(__('Źródło'))
                         ->default('footer')
                         ->maxLength(50),
                 ]),
 
-            Section::make('Daty')
+            Section::make(__('Daty'))
                 ->columns(2)
                 ->collapsed()
                 ->schema([
                     DateTimePicker::make('subscribed_at')
-                        ->label('Data zapisania')
+                        ->label(__('Data zapisania'))
                         ->default(now()),
 
                     DateTimePicker::make('unsubscribed_at')
-                        ->label('Data wypisania'),
+                        ->label(__('Data wypisania')),
 
                     TextInput::make('ip_address')
-                        ->label('Adres IP')
+                        ->label(__('Adres IP'))
                         ->disabled(),
                 ]),
         ]);
@@ -114,32 +114,32 @@ class NewsletterSubscriberResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('email')
-                    ->label('Email')
+                    ->label(__('Email'))
                     ->searchable()
                     ->sortable()
                     ->copyable(),
 
                 TextColumn::make('name')
-                    ->label('Imię')
+                    ->label(__('Imię'))
                     ->searchable()
                     ->placeholder('—'),
 
                 IconColumn::make('is_active')
-                    ->label('Aktywny')
+                    ->label(__('Aktywny'))
                     ->boolean(),
 
                 TextColumn::make('source')
-                    ->label('Źródło')
+                    ->label(__('Źródło'))
                     ->badge()
                     ->color('gray'),
 
                 TextColumn::make('subscribed_at')
-                    ->label('Data zapisania')
+                    ->label(__('Data zapisania'))
                     ->dateTime('d.m.Y H:i')
                     ->sortable(),
 
                 TextColumn::make('created_at')
-                    ->label('Utworzono')
+                    ->label(__('Utworzono'))
                     ->dateTime('d.m.Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -147,19 +147,19 @@ class NewsletterSubscriberResource extends Resource
             ->defaultSort('subscribed_at', 'desc')
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Status')
-                    ->trueLabel('Aktywni')
-                    ->falseLabel('Nieaktywni')
-                    ->placeholder('Wszyscy'),
+                    ->label(__('Status'))
+                    ->trueLabel(__('Aktywni'))
+                    ->falseLabel(__('Nieaktywni'))
+                    ->placeholder(__('Wszyscy')),
 
                 SelectFilter::make('source')
-                    ->label('Źródło')
+                    ->label(__('Źródło'))
                     ->options([
-                        'footer' => 'Stopka',
-                        'blog' => 'Blog',
-                        'popup' => 'Popup',
-                        'landing' => 'Landing',
-                        'manual' => 'Ręczny',
+                        'footer' => __('Stopka'),
+                        'blog' => __('Blog'),
+                        'popup' => __('Popup'),
+                        'landing' => __('Landing'),
+                        'manual' => __('Ręczny'),
                     ]),
             ])
             ->recordActions([

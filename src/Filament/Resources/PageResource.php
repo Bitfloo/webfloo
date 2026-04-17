@@ -73,13 +73,13 @@ class PageResource extends Resource
             Tabs::make('Page')
                 ->columnSpanFull()
                 ->tabs([
-                    Tab::make('Treść')
+                    Tab::make(__('Treść'))
                         ->icon(Heroicon::DocumentText)
                         ->schema([
                             Grid::make(2)
                                 ->schema([
                                     TextInput::make('title')
-                                        ->label('Tytuł')
+                                        ->label(__('Tytuł'))
                                         ->required()
                                         ->maxLength(255)
                                         ->live(onBlur: true)
@@ -90,7 +90,7 @@ class PageResource extends Resource
                                         }),
 
                                     TextInput::make('slug')
-                                        ->label('Slug')
+                                        ->label(__('Slug'))
                                         ->required()
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true)
@@ -98,7 +98,7 @@ class PageResource extends Resource
                                 ]),
 
                             RichEditor::make('content')
-                                ->label('Treść')
+                                ->label(__('Treść'))
                                 ->columnSpanFull()
                                 ->fileAttachmentsDisk('public')
                                 ->fileAttachmentsDirectory('pages')
@@ -119,32 +119,32 @@ class PageResource extends Resource
                                 ]),
 
                             Select::make('parent_id')
-                                ->label('Strona nadrzędna')
+                                ->label(__('Strona nadrzędna'))
                                 ->relationship('parent', 'title')
                                 ->searchable()
                                 ->preload()
                                 ->nullable()
-                                ->placeholder('Brak (strona główna)'),
+                                ->placeholder(__('Brak (strona główna)')),
                         ]),
 
-                    Tab::make('SEO')
+                    Tab::make(__('SEO'))
                         ->icon(Heroicon::MagnifyingGlass)
                         ->schema([
                             TextInput::make('meta_title')
-                                ->label('Meta tytuł')
+                                ->label(__('Meta tytuł'))
                                 ->maxLength(70)
-                                ->placeholder('Pozostaw puste, aby użyć tytułu strony')
-                                ->helperText('Zalecane: 50-60 znaków'),
+                                ->placeholder(__('Pozostaw puste, aby użyć tytułu strony'))
+                                ->helperText(__('Zalecane: 50-60 znaków')),
 
                             Textarea::make('meta_description')
-                                ->label('Meta opis')
+                                ->label(__('Meta opis'))
                                 ->maxLength(160)
                                 ->rows(3)
-                                ->helperText(fn (mixed $state): string => 'Znaki: '.strlen(is_string($state) ? $state : '').'/160')
-                                ->placeholder('Krótki opis dla wyszukiwarek'),
+                                ->helperText(fn (mixed $state): string => __('Znaki').': '.strlen(is_string($state) ? $state : '').'/160')
+                                ->placeholder(__('Krótki opis dla wyszukiwarek')),
 
                             FileUpload::make('meta_image')
-                                ->label('Obraz udostępniania')
+                                ->label(__('Obraz udostępniania'))
                                 ->image()
                                 ->disk('public')
                                 ->directory('pages/meta')
@@ -153,16 +153,16 @@ class PageResource extends Resource
                                 ->imageResizeTargetWidth('1200')
                                 ->imageResizeTargetHeight('630')
                                 ->maxSize(2048)
-                                ->helperText('Zalecany rozmiar: 1200x630 pikseli'),
+                                ->helperText(__('Zalecany rozmiar: 1200x630 pikseli')),
                         ]),
 
-                    Tab::make('Ustawienia')
+                    Tab::make(__('Ustawienia'))
                         ->icon(Heroicon::Cog6Tooth)
                         ->schema([
                             Grid::make(2)
                                 ->schema([
                                     Select::make('template')
-                                        ->label('Szablon')
+                                        ->label(__('Szablon'))
                                         ->options([
                                             'default' => 'Default',
                                             'home' => 'Home',
@@ -175,7 +175,7 @@ class PageResource extends Resource
                                         ->required(),
 
                                     Select::make('status')
-                                        ->label('Status')
+                                        ->label(__('Status'))
                                         ->options([
                                             'draft' => 'Draft',
                                             'published' => 'Published',
@@ -186,16 +186,16 @@ class PageResource extends Resource
                                         ->required(),
 
                                     DateTimePicker::make('published_at')
-                                        ->label('Data publikacji')
+                                        ->label(__('Data publikacji'))
                                         ->nullable()
                                         ->displayFormat('d.m.Y H:i')
-                                        ->helperText('Zaplanuj publikację na przyszłą datę'),
+                                        ->helperText(__('Zaplanuj publikację na przyszłą datę')),
 
                                     TextInput::make('sort_order')
-                                        ->label('Kolejność')
+                                        ->label(__('Kolejność'))
                                         ->numeric()
                                         ->default(0)
-                                        ->helperText('Niższe wartości wyświetlane pierwsze'),
+                                        ->helperText(__('Niższe wartości wyświetlane pierwsze')),
                                 ]),
                         ]),
                 ]),
@@ -208,24 +208,24 @@ class PageResource extends Resource
             ->modifyQueryUsing(fn (Builder $query) => $query->with([Page::parentChainEagerLoad()]))
             ->columns([
                 TextColumn::make('title')
-                    ->label('Tytuł')
+                    ->label(__('Tytuł'))
                     ->searchable()
                     ->sortable()
                     ->description(fn (Page $record): string => $record->slug),
 
                 TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label(__('Slug'))
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('template')
-                    ->label('Szablon')
+                    ->label(__('Szablon'))
                     ->badge()
                     ->color('gray')
                     ->formatStateUsing(fn (string $state): string => ucfirst($state)),
 
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'draft' => 'warning',
@@ -236,23 +236,23 @@ class PageResource extends Resource
                     ->formatStateUsing(fn (string $state): string => ucfirst($state)),
 
                 TextColumn::make('parent.title')
-                    ->label('Nadrzędna')
-                    ->placeholder('Główna')
+                    ->label(__('Nadrzędna'))
+                    ->placeholder(__('Główna'))
                     ->toggleable(),
 
                 TextColumn::make('published_at')
-                    ->label('Opublikowano')
+                    ->label(__('Opublikowano'))
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
-                    ->placeholder('Nie zaplanowano'),
+                    ->placeholder(__('Nie zaplanowano')),
 
                 TextColumn::make('sort_order')
-                    ->label('Kolejność')
+                    ->label(__('Kolejność'))
                     ->sortable()
                     ->alignCenter(),
 
                 TextColumn::make('updated_at')
-                    ->label('Zaktualizowano')
+                    ->label(__('Zaktualizowano'))
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -261,7 +261,7 @@ class PageResource extends Resource
             ->reorderable('sort_order')
             ->filters([
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->options([
                         'draft' => 'Draft',
                         'published' => 'Published',
@@ -269,7 +269,7 @@ class PageResource extends Resource
                     ]),
 
                 SelectFilter::make('template')
-                    ->label('Szablon')
+                    ->label(__('Szablon'))
                     ->options([
                         'default' => 'Default',
                         'home' => 'Home',
@@ -279,11 +279,11 @@ class PageResource extends Resource
                     ]),
 
                 SelectFilter::make('parent_id')
-                    ->label('Strona nadrzędna')
+                    ->label(__('Strona nadrzędna'))
                     ->relationship('parent', 'title')
                     ->searchable()
                     ->preload()
-                    ->placeholder('Wszystkie strony'),
+                    ->placeholder(__('Wszystkie strony')),
             ])
             ->recordActions([
                 EditAction::make(),
@@ -301,7 +301,7 @@ class PageResource extends Resource
                     DeleteBulkAction::make(),
 
                     BulkAction::make('publish')
-                        ->label('Publish')
+                        ->label(__('Publish'))
                         ->icon(Heroicon::Check)
                         ->color('success')
                         ->requiresConfirmation()
@@ -314,7 +314,7 @@ class PageResource extends Resource
                         ->deselectRecordsAfterCompletion(),
 
                     BulkAction::make('unpublish')
-                        ->label('Unpublish')
+                        ->label(__('Unpublish'))
                         ->icon(Heroicon::XMark)
                         ->color('warning')
                         ->requiresConfirmation()

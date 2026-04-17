@@ -17,6 +17,8 @@ class GenerateSitemap extends Command
     /** @var string */
     protected $description = 'Generate sitemap.xml with PL and EN URLs';
 
+    private const LOCALES_PER_URL = 2;
+
     private string $baseUrl = '';
 
     public function handle(): int
@@ -38,17 +40,19 @@ class GenerateSitemap extends Command
 
         $urlCount = 0;
 
-        $urlCount += $this->writeEntry($handle, '/', '1.0', 'weekly', null);
-        $urlCount += $this->writeEntry($handle, '/portfolio', '0.8', 'weekly', null);
+        $this->writeEntry($handle, '/', '1.0', 'weekly', null);
+        $this->writeEntry($handle, '/portfolio', '0.8', 'weekly', null);
+        $urlCount += self::LOCALES_PER_URL * 2;
 
         foreach (Project::active()->ordered()->cursor() as $project) {
-            $urlCount += $this->writeEntry(
+            $this->writeEntry(
                 $handle,
                 '/portfolio/'.$project->slug,
                 '0.7',
                 'monthly',
                 $project->updated_at?->toW3cString()
             );
+            $urlCount += self::LOCALES_PER_URL;
         }
 
         $postsQuery = Post::query()
@@ -57,13 +61,14 @@ class GenerateSitemap extends Command
             ->orderByDesc('published_at');
 
         foreach ($postsQuery->cursor() as $post) {
-            $urlCount += $this->writeEntry(
+            $this->writeEntry(
                 $handle,
                 '/blog/'.$post->slug,
                 '0.6',
                 'monthly',
                 $post->updated_at?->toW3cString()
             );
+            $urlCount += self::LOCALES_PER_URL;
         }
 
         $pagesQuery = Page::published()
@@ -71,13 +76,14 @@ class GenerateSitemap extends Command
             ->ordered();
 
         foreach ($pagesQuery->cursor() as $page) {
-            $urlCount += $this->writeEntry(
+            $this->writeEntry(
                 $handle,
                 $page->url,
                 '0.5',
                 'monthly',
                 $page->updated_at?->toW3cString()
             );
+            $urlCount += self::LOCALES_PER_URL;
         }
 
         fwrite($handle, "</urlset>\n");
@@ -89,19 +95,17 @@ class GenerateSitemap extends Command
     }
 
     /**
-     * Write PL + EN url entries with hreflang alternates. Returns 2 (entries written).
+     * Write PL + EN url entries with hreflang alternates.
      *
      * @param  resource  $handle
      */
-    private function writeEntry($handle, string $loc, string $priority, string $changefreq, ?string $lastmod): int
+    private function writeEntry($handle, string $loc, string $priority, string $changefreq, ?string $lastmod): void
     {
         $plUrl = $this->baseUrl.$loc;
         $enUrl = $this->baseUrl.'/en'.$loc;
 
         fwrite($handle, $this->urlXml($plUrl, $plUrl, $enUrl, $priority, $changefreq, $lastmod));
         fwrite($handle, $this->urlXml($enUrl, $plUrl, $enUrl, $priority, $changefreq, $lastmod));
-
-        return 2;
     }
 
     private function urlXml(string $loc, string $plUrl, string $enUrl, string $priority, string $changefreq, ?string $lastmod): string

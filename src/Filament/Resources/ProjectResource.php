@@ -78,57 +78,57 @@ class ProjectResource extends Resource
         return $schema->components([
             Tabs::make('Projekt')
                 ->tabs([
-                    Tab::make('Podstawowe')
+                    Tab::make(__('Podstawowe'))
                         ->icon(Heroicon::InformationCircle)
                         ->schema([
-                            Section::make('Informacje')
+                            Section::make(__('Informacje'))
                                 ->columns(2)
                                 ->schema([
                                     TextInput::make('title')
-                                        ->label('Tytuł')
+                                        ->label(__('Tytuł'))
                                         ->required()
                                         ->maxLength(200)
                                         ->live(onBlur: true)
                                         ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state ?? ''))),
 
                                     TextInput::make('slug')
-                                        ->label('Slug')
+                                        ->label(__('Slug'))
                                         ->required()
                                         ->unique(ignoreRecord: true)
                                         ->maxLength(200)
                                         ->alphaDash(),
 
                                     Select::make('category')
-                                        ->label('Kategoria')
+                                        ->label(__('Kategoria'))
                                         ->options(Project::getCategoryOptions())
                                         ->native(false)
                                         ->searchable(),
 
                                     Select::make('industry')
-                                        ->label('Branża')
+                                        ->label(__('Branża'))
                                         ->options(Project::getIndustryOptions())
                                         ->native(false)
                                         ->searchable(),
 
                                     TextInput::make('client')
-                                        ->label('Klient')
+                                        ->label(__('Klient'))
                                         ->maxLength(100),
 
                                     TextInput::make('url')
-                                        ->label('URL projektu')
+                                        ->label(__('URL projektu'))
                                         ->url()
                                         ->maxLength(255)
                                         ->placeholder('https://...'),
 
                                     Textarea::make('excerpt')
-                                        ->label('Krótki opis')
+                                        ->label(__('Krótki opis'))
                                         ->rows(2)
                                         ->maxLength(300)
                                         ->columnSpanFull()
-                                        ->helperText('Wyświetlany na liście projektów'),
+                                        ->helperText(__('Wyświetlany na liście projektów')),
 
                                     RichEditor::make('description')
-                                        ->label('Opis ogólny')
+                                        ->label(__('Opis ogólny'))
                                         ->toolbarButtons([
                                             'bold',
                                             'italic',
@@ -141,22 +141,22 @@ class ProjectResource extends Resource
                                         ->columnSpanFull(),
                                 ]),
 
-                            Section::make('Szczegóły projektu')
+                            Section::make(__('Szczegóły projektu'))
                                 ->columns(3)
                                 ->schema([
                                     TextInput::make('duration')
-                                        ->label('Czas realizacji')
-                                        ->placeholder('np. 3 miesiące')
+                                        ->label(__('Czas realizacji'))
+                                        ->placeholder(__('np. 3 miesiące'))
                                         ->maxLength(50),
 
                                     TextInput::make('team_size')
-                                        ->label('Zespół')
-                                        ->placeholder('np. 5 programistów')
+                                        ->label(__('Zespół'))
+                                        ->placeholder(__('np. 5 programistów'))
                                         ->maxLength(50),
 
                                     TagsInput::make('technologies')
-                                        ->label('Technologie')
-                                        ->placeholder('Dodaj technologię...')
+                                        ->label(__('Technologie'))
+                                        ->placeholder(__('Dodaj technologię...'))
                                         ->suggestions([
                                             'PHP',
                                             'Laravel',
@@ -180,14 +180,14 @@ class ProjectResource extends Resource
                                 ]),
                         ]),
 
-                    Tab::make('Case Study')
+                    Tab::make(__('Case Study'))
                         ->icon(Heroicon::DocumentText)
                         ->schema([
-                            Section::make('Wyzwanie')
-                                ->description('Opisz problem lub wyzwanie przed którym stał klient')
+                            Section::make(__('Wyzwanie'))
+                                ->description(__('Opisz problem lub wyzwanie przed którym stał klient'))
                                 ->schema([
                                     RichEditor::make('challenge')
-                                        ->label('Wyzwanie')
+                                        ->label(__('Wyzwanie'))
                                         ->toolbarButtons([
                                             'bold',
                                             'italic',
@@ -198,11 +198,11 @@ class ProjectResource extends Resource
                                         ->columnSpanFull(),
                                 ]),
 
-                            Section::make('Rozwiązanie')
-                                ->description('Opisz jak rozwiązaliście problem')
+                            Section::make(__('Rozwiązanie'))
+                                ->description(__('Opisz jak rozwiązaliście problem'))
                                 ->schema([
                                     RichEditor::make('solution')
-                                        ->label('Rozwiązanie')
+                                        ->label(__('Rozwiązanie'))
                                         ->toolbarButtons([
                                             'bold',
                                             'italic',
@@ -213,11 +213,11 @@ class ProjectResource extends Resource
                                         ->columnSpanFull(),
                                 ]),
 
-                            Section::make('Rezultaty')
-                                ->description('Jakie efekty przyniosło wdrożenie')
+                            Section::make(__('Rezultaty'))
+                                ->description(__('Jakie efekty przyniosło wdrożenie'))
                                 ->schema([
                                     RichEditor::make('results')
-                                        ->label('Rezultaty')
+                                        ->label(__('Rezultaty'))
                                         ->toolbarButtons([
                                             'bold',
                                             'italic',
@@ -229,23 +229,23 @@ class ProjectResource extends Resource
                                 ]),
                         ]),
 
-                    Tab::make('Metryki')
+                    Tab::make(__('Metryki'))
                         ->icon(Heroicon::ChartBar)
                         ->schema([
-                            Section::make('Kluczowe metryki')
-                                ->description('Liczby pokazujące sukces projektu (np. "2M+" - "Pobrania aplikacji")')
+                            Section::make(__('Kluczowe metryki'))
+                                ->description(__('Liczby pokazujące sukces projektu (np. "2M+" - "Pobrania aplikacji")'))
                                 ->schema([
                                     Repeater::make('metrics')
-                                        ->label('Metryki')
+                                        ->label(__('Metryki'))
                                         ->schema([
                                             TextInput::make('value')
-                                                ->label('Wartość')
-                                                ->placeholder('np. 2M+, 98%, 50%')
+                                                ->label(__('Wartość'))
+                                                ->placeholder(__('np. 2M+, 98%, 50%'))
                                                 ->required()
                                                 ->maxLength(20),
                                             TextInput::make('label')
-                                                ->label('Opis')
-                                                ->placeholder('np. Pobrania aplikacji')
+                                                ->label(__('Opis'))
+                                                ->placeholder(__('np. Pobrania aplikacji'))
                                                 ->required()
                                                 ->maxLength(100),
                                         ])
@@ -256,36 +256,36 @@ class ProjectResource extends Resource
                                         ->itemLabel(fn (array $state): string => (is_string($state['value'] ?? null) ? $state['value'] : '').' - '.(is_string($state['label'] ?? null) ? $state['label'] : '')),
                                 ]),
 
-                            Section::make('Osiągnięcia')
-                                ->description('Nagrody, wyróżnienia, certyfikaty')
+                            Section::make(__('Osiągnięcia'))
+                                ->description(__('Nagrody, wyróżnienia, certyfikaty'))
                                 ->schema([
                                     TagsInput::make('achievements')
-                                        ->label('Osiągnięcia')
-                                        ->placeholder('Dodaj osiągnięcie...')
-                                        ->helperText('Np. "Featured in App Store", "Fintech Innovation Award"'),
+                                        ->label(__('Osiągnięcia'))
+                                        ->placeholder(__('Dodaj osiągnięcie...'))
+                                        ->helperText(__('Np. "Featured in App Store", "Fintech Innovation Award"')),
                                 ]),
                         ]),
 
-                    Tab::make('Media')
+                    Tab::make(__('Media'))
                         ->icon(Heroicon::Photo)
                         ->schema([
-                            Section::make('Główne zdjęcie')
+                            Section::make(__('Główne zdjęcie'))
                                 ->schema([
                                     FileUpload::make('image')
-                                        ->label('Zdjęcie główne')
+                                        ->label(__('Zdjęcie główne'))
                                         ->image()
                                         ->directory('projects')
                                         ->visibility('public')
                                         ->maxSize(2048)
                                         ->imageEditor()
-                                        ->helperText('Wyświetlane na liście projektów i w hero'),
+                                        ->helperText(__('Wyświetlane na liście projektów i w hero')),
                                 ]),
 
-                            Section::make('Galeria')
-                                ->description('Dodatkowe zdjęcia, screenshoty')
+                            Section::make(__('Galeria'))
+                                ->description(__('Dodatkowe zdjęcia, screenshoty'))
                                 ->schema([
                                     FileUpload::make('gallery')
-                                        ->label('Galeria')
+                                        ->label(__('Galeria'))
                                         ->image()
                                         ->multiple()
                                         ->reorderable()
@@ -295,46 +295,46 @@ class ProjectResource extends Resource
                                         ->maxFiles(10),
                                 ]),
 
-                            Section::make('Video')
+                            Section::make(__('Video'))
                                 ->schema([
                                     TextInput::make('video_url')
-                                        ->label('URL video')
+                                        ->label(__('URL video'))
                                         ->url()
                                         ->placeholder('https://youtube.com/watch?v=...')
-                                        ->helperText('Link do YouTube lub Vimeo'),
+                                        ->helperText(__('Link do YouTube lub Vimeo')),
                                 ]),
                         ]),
 
-                    Tab::make('Testimonial')
+                    Tab::make(__('Testimonial'))
                         ->icon(Heroicon::ChatBubbleLeftRight)
                         ->schema([
-                            Section::make('Referencja klienta')
-                                ->description('Opinia klienta specyficzna dla tego projektu')
+                            Section::make(__('Referencja klienta'))
+                                ->description(__('Opinia klienta specyficzna dla tego projektu'))
                                 ->columns(2)
                                 ->schema([
                                     Textarea::make('testimonial_quote')
-                                        ->label('Cytat')
+                                        ->label(__('Cytat'))
                                         ->rows(4)
                                         ->columnSpanFull()
-                                        ->placeholder('Co klient powiedział o współpracy...'),
+                                        ->placeholder(__('Co klient powiedział o współpracy...')),
 
                                     TextInput::make('testimonial_author')
-                                        ->label('Autor')
+                                        ->label(__('Autor'))
                                         ->placeholder('Jan Kowalski')
                                         ->maxLength(100),
 
                                     TextInput::make('testimonial_role')
-                                        ->label('Stanowisko')
+                                        ->label(__('Stanowisko'))
                                         ->placeholder('CEO')
                                         ->maxLength(100),
 
                                     TextInput::make('testimonial_company')
-                                        ->label('Firma')
-                                        ->placeholder('Nazwa firmy')
+                                        ->label(__('Firma'))
+                                        ->placeholder(__('Nazwa firmy'))
                                         ->maxLength(100),
 
                                     FileUpload::make('testimonial_avatar')
-                                        ->label('Zdjęcie autora')
+                                        ->label(__('Zdjęcie autora'))
                                         ->image()
                                         ->avatar()
                                         ->directory('testimonials')
@@ -343,25 +343,25 @@ class ProjectResource extends Resource
                                 ]),
                         ]),
 
-                    Tab::make('Ustawienia')
+                    Tab::make(__('Ustawienia'))
                         ->icon(Heroicon::Cog6Tooth)
                         ->schema([
-                            Section::make('Widoczność')
+                            Section::make(__('Widoczność'))
                                 ->columns(3)
                                 ->schema([
                                     TextInput::make('sort_order')
-                                        ->label('Kolejność')
+                                        ->label(__('Kolejność'))
                                         ->numeric()
                                         ->default(0)
                                         ->minValue(0),
 
                                     Toggle::make('is_featured')
-                                        ->label('Wyróżniany')
+                                        ->label(__('Wyróżniany'))
                                         ->default(false)
-                                        ->helperText('Pokazuj na stronie głównej'),
+                                        ->helperText(__('Pokazuj na stronie głównej')),
 
                                     Toggle::make('is_active')
-                                        ->label('Aktywny')
+                                        ->label(__('Aktywny'))
                                         ->default(true),
                                 ]),
                         ]),
@@ -380,59 +380,59 @@ class ProjectResource extends Resource
                     ->width(50),
 
                 ImageColumn::make('image')
-                    ->label('Zdjęcie')
+                    ->label(__('Zdjęcie'))
                     ->size(60)
                     ->square(),
 
                 TextColumn::make('title')
-                    ->label('Tytuł')
+                    ->label(__('Tytuł'))
                     ->searchable()
                     ->sortable()
                     ->description(fn (Project $record): ?string => $record->client),
 
                 TextColumn::make('industry')
-                    ->label('Branża')
+                    ->label(__('Branża'))
                     ->badge()
                     ->color('info')
                     ->formatStateUsing(fn (?string $state): string => $state ? (Project::getIndustryOptions()[$state] ?? $state) : '-'),
 
                 TextColumn::make('category')
-                    ->label('Kategoria')
+                    ->label(__('Kategoria'))
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => $state ? (Project::getCategoryOptions()[$state] ?? $state) : '-')
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('technologies')
-                    ->label('Technologie')
+                    ->label(__('Technologie'))
                     ->badge()
                     ->separator(',')
                     ->limitList(3)
                     ->toggleable(),
 
                 IconColumn::make('is_featured')
-                    ->label('Wyróżniany')
+                    ->label(__('Wyróżniany'))
                     ->boolean(),
 
                 IconColumn::make('is_active')
-                    ->label('Aktywny')
+                    ->label(__('Aktywny'))
                     ->boolean(),
             ])
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
             ->filters([
                 SelectFilter::make('industry')
-                    ->label('Branża')
+                    ->label(__('Branża'))
                     ->options(Project::getIndustryOptions()),
 
                 SelectFilter::make('category')
-                    ->label('Kategoria')
+                    ->label(__('Kategoria'))
                     ->options(Project::getCategoryOptions()),
 
                 TernaryFilter::make('is_featured')
-                    ->label('Wyróżniany'),
+                    ->label(__('Wyróżniany')),
 
                 TernaryFilter::make('is_active')
-                    ->label('Aktywny'),
+                    ->label(__('Aktywny')),
             ])
             ->recordActions([
                 EditAction::make(),

@@ -83,85 +83,85 @@ class LeadResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Dane kontaktowe')
+            Section::make(__('Dane kontaktowe'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('name')
-                        ->label('Imię i nazwisko')
+                        ->label(__('Imię i nazwisko'))
                         ->required()
                         ->maxLength(100),
 
                     TextInput::make('email')
-                        ->label('Email')
+                        ->label(__('Email'))
                         ->email()
                         ->required()
                         ->maxLength(255),
 
                     TextInput::make('phone')
-                        ->label('Telefon')
+                        ->label(__('Telefon'))
                         ->tel()
                         ->maxLength(20),
 
                     TextInput::make('company')
-                        ->label('Firma')
+                        ->label(__('Firma'))
                         ->maxLength(100),
                 ]),
 
-            Section::make('Wiadomość')
+            Section::make(__('Wiadomość'))
                 ->schema([
                     Textarea::make('message')
-                        ->label('Treść wiadomości')
+                        ->label(__('Treść wiadomości'))
                         ->rows(4)
                         ->columnSpanFull(),
                 ]),
 
-            Section::make('Status i wartość')
+            Section::make(__('Status i wartość'))
                 ->columns(2)
                 ->schema([
                     Select::make('status')
-                        ->label('Status')
+                        ->label(__('Status'))
                         ->options(Lead::getStatusOptions())
                         ->default(Lead::STATUS_NEW)
                         ->native(false),
 
                     Select::make('source')
-                        ->label('Źródło')
+                        ->label(__('Źródło'))
                         ->options(Lead::getSourceOptions())
                         ->default(Lead::SOURCE_CONTACT_FORM)
                         ->native(false),
 
                     Select::make('assigned_to')
-                        ->label('Przypisany do')
+                        ->label(__('Przypisany do'))
                         ->relationship('assignee', 'name')
                         ->searchable()
                         ->preload()
                         ->native(false),
 
                     Select::make('tags')
-                        ->label('Tagi')
+                        ->label(__('Tagi'))
                         ->relationship('tags', 'name')
                         ->multiple()
                         ->preload()
                         ->createOptionForm([
                             TextInput::make('name')
-                                ->label('Nazwa')
+                                ->label(__('Nazwa'))
                                 ->required()
                                 ->maxLength(50),
                             Select::make('color')
-                                ->label('Kolor')
+                                ->label(__('Kolor'))
                                 ->options(LeadTag::getColorOptions())
                                 ->default('gray')
                                 ->native(false),
                         ]),
 
                     TextInput::make('estimated_value')
-                        ->label('Szacowana wartość')
+                        ->label(__('Szacowana wartość'))
                         ->numeric()
                         ->prefix('PLN')
                         ->step(0.01),
 
                     Select::make('currency')
-                        ->label('Waluta')
+                        ->label(__('Waluta'))
                         ->options([
                             'PLN' => 'PLN',
                             'EUR' => 'EUR',
@@ -171,16 +171,16 @@ class LeadResource extends Resource
                         ->native(false),
                 ]),
 
-            Section::make('Notatki')
+            Section::make(__('Notatki'))
                 ->collapsed()
                 ->schema([
                     Textarea::make('notes')
-                        ->label('Notatki wewnętrzne')
+                        ->label(__('Notatki wewnętrzne'))
                         ->rows(3)
                         ->columnSpanFull(),
 
                     KeyValue::make('metadata')
-                        ->label('Dodatkowe dane')
+                        ->label(__('Dodatkowe dane'))
                         ->columnSpanFull(),
                 ]),
         ]);
@@ -192,58 +192,58 @@ class LeadResource extends Resource
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['assignee', 'tags']))
             ->columns([
                 TextColumn::make('name')
-                    ->label('Imię i nazwisko')
+                    ->label(__('Imię i nazwisko'))
                     ->searchable()
                     ->sortable()
                     ->description(fn (Lead $record): ?string => $record->company),
 
                 TextColumn::make('email')
-                    ->label('Email')
+                    ->label(__('Email'))
                     ->searchable()
                     ->copyable()
                     ->toggleable(),
 
                 TextColumn::make('phone')
-                    ->label('Telefon')
+                    ->label(__('Telefon'))
                     ->searchable()
                     ->toggleable(),
 
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => Lead::getStatusOptions()[$state] ?? $state)
                     ->color(fn (string $state): string => Lead::getStatusColors()[$state] ?? 'gray'),
 
                 TextColumn::make('source')
-                    ->label('Źródło')
+                    ->label(__('Źródło'))
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => Lead::getSourceOptions()[$state] ?? $state)
                     ->color('gray')
                     ->toggleable(),
 
                 TextColumn::make('estimated_value')
-                    ->label('Wartość')
+                    ->label(__('Wartość'))
                     ->money('PLN')
                     ->sortable()
                     ->toggleable(),
 
                 TextColumn::make('assignee.name')
-                    ->label('Przypisany')
+                    ->label(__('Przypisany'))
                     ->toggleable()
-                    ->placeholder('Nieprzypisany'),
+                    ->placeholder(__('Nieprzypisany')),
 
                 TextColumn::make('tags.name')
-                    ->label('Tagi')
+                    ->label(__('Tagi'))
                     ->badge()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('created_at')
-                    ->label('Data')
+                    ->label(__('Data'))
                     ->dateTime('d.m.Y H:i')
                     ->sortable(),
 
                 TextColumn::make('last_contacted_at')
-                    ->label('Ostatni kontakt')
+                    ->label(__('Ostatni kontakt'))
                     ->dateTime('d.m.Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -251,23 +251,23 @@ class LeadResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label(__('Status'))
                     ->options(Lead::getStatusOptions())
                     ->multiple(),
 
                 SelectFilter::make('source')
-                    ->label('Źródło')
+                    ->label(__('Źródło'))
                     ->options(Lead::getSourceOptions())
                     ->multiple(),
 
                 SelectFilter::make('assigned_to')
-                    ->label('Przypisany do')
+                    ->label(__('Przypisany do'))
                     ->relationship('assignee', 'name')
                     ->searchable()
                     ->preload(),
 
                 TernaryFilter::make('unassigned')
-                    ->label('Nieprzypisane')
+                    ->label(__('Nieprzypisane'))
                     ->queries(
                         true: fn (Builder $query) => $query->whereNull('assigned_to'),
                         false: fn (Builder $query) => $query->whereNotNull('assigned_to'),

@@ -69,34 +69,34 @@ class MenuItemResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Element menu')
+            Section::make(__('Element menu'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('label')
-                        ->label('Etykieta')
+                        ->label(__('Etykieta'))
                         ->required()
                         ->maxLength(100),
 
                     TextInput::make('href')
-                        ->label('Link (URL)')
-                        ->placeholder('#services lub /kontakt')
+                        ->label(__('Link (URL)'))
+                        ->placeholder(__('#services lub /kontakt'))
                         ->maxLength(255),
 
                     Select::make('target')
-                        ->label('Otworz w')
+                        ->label(__('Otworz w'))
                         ->options(MenuItem::getTargetOptions())
                         ->default('_self')
                         ->native(false),
 
                     Select::make('location')
-                        ->label('Lokalizacja')
+                        ->label(__('Lokalizacja'))
                         ->options(MenuItem::getLocationOptions())
                         ->required()
                         ->native(false)
                         ->live(),
 
                     Select::make('parent_id')
-                        ->label('Element nadrzedny')
+                        ->label(__('Element nadrzedny'))
                         ->relationship(
                             name: 'parent',
                             titleAttribute: 'label',
@@ -106,17 +106,17 @@ class MenuItemResource extends Resource
                         )
                         ->searchable()
                         ->preload()
-                        ->placeholder('Brak (poziom główny)')
+                        ->placeholder(__('Brak (poziom główny)'))
                         ->visible(fn (Get $get): bool => filled($get('location'))),
 
                     TextInput::make('sort_order')
-                        ->label('Kolejność')
+                        ->label(__('Kolejność'))
                         ->numeric()
                         ->default(0)
                         ->minValue(0),
 
                     Toggle::make('is_active')
-                        ->label('Aktywny')
+                        ->label(__('Aktywny'))
                         ->default(true)
                         ->columnSpanFull(),
                 ]),
@@ -134,39 +134,39 @@ class MenuItemResource extends Resource
                     ->width('50px'),
 
                 TextColumn::make('label')
-                    ->label('Etykieta')
+                    ->label(__('Etykieta'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('href')
-                    ->label('Link')
+                    ->label(__('Link'))
                     ->limit(30)
                     ->toggleable(),
 
                 TextColumn::make('location')
-                    ->label('Lokalizacja')
+                    ->label(__('Lokalizacja'))
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => MenuItem::getLocationOptions()[$state] ?? $state)
                     ->color('gray'),
 
                 TextColumn::make('parent.label')
-                    ->label('Nadrzedny')
+                    ->label(__('Nadrzedny'))
                     ->placeholder('-')
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 IconColumn::make('is_active')
-                    ->label('Aktywny')
+                    ->label(__('Aktywny'))
                     ->boolean(),
             ])
             ->defaultSort('sort_order', 'asc')
             ->reorderable('sort_order')
             ->filters([
                 SelectFilter::make('location')
-                    ->label('Lokalizacja')
+                    ->label(__('Lokalizacja'))
                     ->options(MenuItem::getLocationOptions()),
 
                 TernaryFilter::make('is_active')
-                    ->label('Aktywny'),
+                    ->label(__('Aktywny')),
             ])
             ->recordActions([
                 EditAction::make(),

@@ -69,13 +69,13 @@ class LeadTagResource extends Resource
             Section::make()
                 ->schema([
                     TextInput::make('name')
-                        ->label('Nazwa')
+                        ->label(__('Nazwa'))
                         ->required()
                         ->unique(ignoreRecord: true)
                         ->maxLength(50),
 
                     Select::make('color')
-                        ->label('Kolor')
+                        ->label(__('Kolor'))
                         ->options(LeadTag::getColorOptions())
                         ->default('gray')
                         ->native(false)
@@ -89,23 +89,23 @@ class LeadTagResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label('Nazwa')
+                    ->label(__('Nazwa'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('color')
-                    ->label('Kolor')
+                    ->label(__('Kolor'))
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => LeadTag::getColorOptions()[$state] ?? $state)
                     ->color(fn (string $state): string => $state),
 
                 TextColumn::make('leads_count')
-                    ->label('Leady')
+                    ->label(__('Leady'))
                     ->counts('leads')
                     ->sortable(),
 
                 TextColumn::make('created_at')
-                    ->label('Data utworzenia')
+                    ->label(__('Data utworzenia'))
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -68,18 +68,18 @@ class TestimonialResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Opinia')
+            Section::make(__('Opinia'))
                 ->columns(2)
                 ->schema([
                     Textarea::make('content')
-                        ->label('Tresc opinii')
+                        ->label(__('Treść opinii'))
                         ->required()
                         ->rows(4)
                         ->maxLength(1000)
                         ->columnSpanFull(),
 
                     Select::make('rating')
-                        ->label('Ocena')
+                        ->label(__('Ocena'))
                         ->options([
                             5 => str_repeat("\u{2B50}", 5).' (5)',
                             4 => str_repeat("\u{2B50}", 4).' (4)',
@@ -91,25 +91,25 @@ class TestimonialResource extends Resource
                         ->native(false),
                 ]),
 
-            Section::make('Autor')
+            Section::make(__('Autor'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('author')
-                        ->label('Imie i nazwisko')
+                        ->label(__('Imię i nazwisko'))
                         ->required()
                         ->maxLength(100),
 
                     TextInput::make('role')
-                        ->label('Stanowisko')
+                        ->label(__('Stanowisko'))
                         ->maxLength(100)
-                        ->placeholder('np. CEO, CTO, Manager'),
+                        ->placeholder(__('np. CEO, CTO, Manager')),
 
                     TextInput::make('company')
-                        ->label('Firma')
+                        ->label(__('Firma'))
                         ->maxLength(100),
 
                     FileUpload::make('avatar')
-                        ->label('Zdjęcie')
+                        ->label(__('Zdjęcie'))
                         ->image()
                         ->avatar()
                         ->directory('testimonials')
@@ -119,22 +119,22 @@ class TestimonialResource extends Resource
                         ->circleCropper(),
                 ]),
 
-            Section::make('Ustawienia')
+            Section::make(__('Ustawienia'))
                 ->columns(3)
                 ->schema([
                     TextInput::make('sort_order')
-                        ->label('Kolejność')
+                        ->label(__('Kolejność'))
                         ->numeric()
                         ->default(0)
                         ->minValue(0),
 
                     Toggle::make('is_active')
-                        ->label('Aktywna')
+                        ->label(__('Aktywna'))
                         ->default(true),
 
                     Toggle::make('is_featured')
-                        ->label('Wyróżniona')
-                        ->helperText('Pokaż na stronie głównej')
+                        ->label(__('Wyróżniona'))
+                        ->helperText(__('Pokaż na stronie głównej'))
                         ->default(false),
                 ]),
         ]);
@@ -150,37 +150,37 @@ class TestimonialResource extends Resource
                     ->width(50),
 
                 ImageColumn::make('avatar')
-                    ->label('Zdjęcie')
+                    ->label(__('Zdjęcie'))
                     ->circular()
                     ->size(40),
 
                 TextColumn::make('author')
-                    ->label('Autor')
+                    ->label(__('Autor'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('company')
-                    ->label('Firma')
+                    ->label(__('Firma'))
                     ->searchable()
                     ->toggleable(),
 
                 TextColumn::make('content')
-                    ->label('Opinia')
+                    ->label(__('Opinia'))
                     ->limit(60)
                     ->wrap()
                     ->toggleable(),
 
                 TextColumn::make('rating')
-                    ->label('Ocena')
+                    ->label(__('Ocena'))
                     ->formatStateUsing(fn (?int $state): string => $state ? str_repeat("\u{2B50}", $state) : '-')
                     ->alignCenter(),
 
                 IconColumn::make('is_active')
-                    ->label('Aktywna')
+                    ->label(__('Aktywna'))
                     ->boolean(),
 
                 IconColumn::make('is_featured')
-                    ->label('Wyróżniona')
+                    ->label(__('Wyróżniona'))
                     ->boolean()
                     ->toggleable(),
             ])
@@ -188,7 +188,7 @@ class TestimonialResource extends Resource
             ->reorderable('sort_order')
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Aktywna'),
+                    ->label(__('Aktywna')),
             ])
             ->recordActions([
                 EditAction::make(),

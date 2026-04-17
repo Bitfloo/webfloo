@@ -69,7 +69,7 @@ class PostCategoryResource extends Resource
             Grid::make(2)
                 ->schema([
                     TextInput::make('name')
-                        ->label('Nazwa')
+                        ->label(__('Nazwa'))
                         ->required()
                         ->maxLength(100)
                         ->live(onBlur: true)
@@ -80,38 +80,38 @@ class PostCategoryResource extends Resource
                         }),
 
                     TextInput::make('slug')
-                        ->label('Slug')
+                        ->label(__('Slug'))
                         ->required()
                         ->maxLength(100)
                         ->unique(ignoreRecord: true)
                         ->rules(['alpha_dash']),
 
                     TextInput::make('icon')
-                        ->label('Ikona')
+                        ->label(__('Ikona'))
                         ->maxLength(50)
-                        ->placeholder('np. tabler--code')
-                        ->helperText('Nazwa ikony Iconify'),
+                        ->placeholder(__('np. tabler--code'))
+                        ->helperText(__('Nazwa ikony Iconify')),
 
                     Select::make('color')
-                        ->label('Kolor')
+                        ->label(__('Kolor'))
                         ->options(PostCategory::getColorOptions())
                         ->default('primary')
                         ->native(false)
                         ->required(),
 
                     Textarea::make('description')
-                        ->label('Opis')
+                        ->label(__('Opis'))
                         ->maxLength(500)
                         ->rows(3)
                         ->columnSpanFull(),
 
                     TextInput::make('sort_order')
-                        ->label('Kolejność')
+                        ->label(__('Kolejność'))
                         ->numeric()
                         ->default(0),
 
                     Toggle::make('is_active')
-                        ->label('Aktywna')
+                        ->label(__('Aktywna'))
                         ->default(true),
                 ]),
         ]);
@@ -128,30 +128,30 @@ class PostCategoryResource extends Resource
                     ->width(50),
 
                 TextColumn::make('name')
-                    ->label('Nazwa')
+                    ->label(__('Nazwa'))
                     ->searchable()
                     ->sortable()
                     ->description(fn (PostCategory $record): string => $record->slug),
 
                 TextColumn::make('color')
-                    ->label('Kolor')
+                    ->label(__('Kolor'))
                     ->badge()
                     ->color(fn (string $state): string => $state)
                     ->formatStateUsing(fn (string $state): string => ucfirst($state)),
 
                 TextColumn::make('posts_count')
-                    ->label('Posty')
+                    ->label(__('Posty'))
                     ->counts('posts')
                     ->sortable()
                     ->alignCenter(),
 
                 IconColumn::make('is_active')
-                    ->label('Aktywna')
+                    ->label(__('Aktywna'))
                     ->boolean()
                     ->alignCenter(),
 
                 TextColumn::make('updated_at')
-                    ->label('Zaktualizowano')
+                    ->label(__('Zaktualizowano'))
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
