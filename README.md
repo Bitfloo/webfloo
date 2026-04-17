@@ -18,7 +18,7 @@ Laravel 12 + Filament v5 package dostarczający gotowy backend (14 modeli, 11 Fi
 | MySQL | `8.0+` | JSON columns, `SHOW INDEX` guards w 4 migracjach |
 | `bezhansalleh/filament-shield` | `^4.0` | Host installs separately — patrz Installation |
 
-Full host contract: [ADR 005](https://github.com/Bitfloo/bitfloo-web/blob/main/docs/decisions/005-webfloo-host-contract.md) (w repozytorium `bitfloo-web`).
+Full host contract: [ADR 005](docs/decisions/005-webfloo-host-contract.md).
 
 ---
 
@@ -230,6 +230,29 @@ make pint        # tylko pint
 - PHPUnit (backend testing — models, traits, Filament resources)
 
 ---
+
+## Consumed by
+
+| Project | Role |
+|---|---|
+| [`Bitfloo/bitfloocom-web`](https://github.com/Bitfloo/bitfloocom-web) | Strona firmowa bitfloo.com — production consumer od 2026-04 |
+
+## Development workflow (dla konsumentów)
+
+```bash
+# 1. Zmiana w core
+cd ~/DEV/webfloo
+# edit → make check → commit
+git tag v1.x.y && git push origin main --tags
+
+# 2. Update w konsumencie (np. bitfloo-web)
+cd ~/DEV/bitfloo-web
+composer update bitfloo/webfloo
+make check
+git commit -m "chore(deps): bump webfloo to v1.x.y"
+```
+
+Lokalny dev: konsument może używać `composer.json` z `"type": "path"` na `../webfloo` (symlink) — zmiany w webfloo od razu widoczne bez `composer update`. Do CI/prod należy przełączyć na versioned dep.
 
 ## License
 
