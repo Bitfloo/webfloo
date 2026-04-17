@@ -30,6 +30,11 @@ Thumbs.db
 .phpstan/
 .phpstan-cache/
 
+
 # npm / yarn (for completeness, pakiet nie ma JS build)
 npm-debug.log
 yarn-error.log
+
+# CBC (Context-Based Computing) — host-machine bridge, not source
+.cbc-bridge.md
+.cbc-push-gate/
