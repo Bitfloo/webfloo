@@ -66,8 +66,8 @@
                                         {{ $column['title'] }}
                                     </h3>
                                 </div>
-                                <span class="text-xs text-gray-500 bg-gray-200 dark:bg-gray-800 px-2 py-0.5 rounded-full">
-                                    {{ count($this->getKanbanLeads()[$column['id']] ?? []) }}
+                                <span class="text-xs text-gray-500 bg-gray-200 dark:bg-gray-800 px-2 py-0.5 rounded-full" title="Łącznie w kolumnie">
+                                    {{ $this->getKanbanCounts()[$column['id']] ?? 0 }}
                                 </span>
                             </div>
 
@@ -200,6 +200,28 @@
                                         </div>
                                     </div>
                                 @endforeach
+
+                                @php
+                                    $visibleCount = count($this->getKanbanLeads()[$column['id']] ?? []);
+                                    $totalCount = $this->getKanbanCounts()[$column['id']] ?? 0;
+                                    $hiddenCount = max(0, $totalCount - $visibleCount);
+                                @endphp
+                                @if($hiddenCount > 0)
+                                    <button
+                                        type="button"
+                                        wire:click="loadMore('{{ $column['id'] }}')"
+                                        wire:loading.attr="disabled"
+                                        wire:target="loadMore('{{ $column['id'] }}')"
+                                        class="w-full text-xs text-center py-2 px-3 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 rounded-lg border border-dashed border-gray-300 dark:border-gray-700 hover:border-gray-400 transition disabled:opacity-60 disabled:cursor-wait"
+                                    >
+                                        <span wire:loading.remove wire:target="loadMore('{{ $column['id'] }}')">
+                                            Pokaż więcej ({{ $hiddenCount }})
+                                        </span>
+                                        <span wire:loading wire:target="loadMore('{{ $column['id'] }}')">
+                                            Ładowanie…
+                                        </span>
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     @endforeach

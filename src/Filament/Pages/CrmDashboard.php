@@ -62,11 +62,41 @@ class CrmDashboard extends Page implements HasActions, HasForms
         return static::canAccess();
     }
 
+    public const COLUMN_PAGE_SIZE = 25;
+
     public string $viewMode = 'kanban';
 
     public string $searchQuery = '';
 
     public ?int $selectedLeadId = null;
+
+    /** @var array<string, int> */
+    public array $columnLimits = [];
+
+    /** @var array<string, array<int, array<string, mixed>>>|null */
+    private ?array $kanbanLeadsCache = null;
+
+    /** @var array<string, int>|null */
+    private ?array $kanbanCountsCache = null;
+
+    public function mount(): void
+    {
+        foreach (Lead::PIPELINE_STATUSES as $status) {
+            $this->columnLimits[$status] = self::COLUMN_PAGE_SIZE;
+        }
+    }
+
+    public function loadMore(string $status): void
+    {
+        if (! in_array($status, Lead::PIPELINE_STATUSES, true)) {
+            return;
+        }
+
+        $this->columnLimits[$status] = ($this->columnLimits[$status] ?? self::COLUMN_PAGE_SIZE)
+            + self::COLUMN_PAGE_SIZE;
+        $this->kanbanLeadsCache = null;
+    }
+
 
     public function getTitle(): string|Htmlable
     {
@@ -397,44 +427,73 @@ class CrmDashboard extends Page implements HasActions, HasForms
      */
     public function getKanbanLeads(): array
     {
-        $query = Lead::inPipeline()
-            ->with(['assignee', 'pendingReminders', 'tags'])
-            ->orderByDesc('created_at');
-
-        if ($this->searchQuery) {
-            $query->where(function ($q) {
-                $q->where('name', 'like', "%{$this->searchQuery}%")
-                    ->orWhere('email', 'like', "%{$this->searchQuery}%")
-                    ->orWhere('company', 'like', "%{$this->searchQuery}%");
-            });
+        if ($this->kanbanLeadsCache !== null) {
+            return $this->kanbanLeadsCache;
         }
-
-        $leads = $query->get();
 
         $grouped = [];
         foreach (Lead::PIPELINE_STATUSES as $status) {
-            $grouped[$status] = [];
+            $query = Lead::query()
+                ->where('status', $status)
+                ->with(['assignee', 'pendingReminders', 'tags'])
+                ->orderByDesc('created_at')
+                ->limit($this->columnLimits[$status] ?? self::COLUMN_PAGE_SIZE);
+
+            $this->applySearchFilter($query);
+
+            $grouped[$status] = $query->get()
+                ->map(fn (Lead $lead): array => [
+                    'id' => $lead->id,
+                    'name' => $lead->name,
+                    'email' => $lead->email,
+                    'phone' => $lead->phone,
+                    'company' => $lead->company,
+                    'message' => $lead->message,
+                    'estimated_value' => $lead->estimated_value,
+                    'currency' => $lead->currency,
+                    'source' => $lead->source,
+                    'created_at' => $lead->created_at->format('d.m.Y'),
+                    'assignee' => $lead->assignee ? ['name' => $lead->assignee->name] : null,
+                    'pending_reminders_count' => $lead->pendingReminders->count(),
+                    'tags' => $lead->tags->map(fn ($t): array => ['name' => $t->name, 'color' => $t->color])->toArray(),
+                ])
+                ->toArray();
         }
 
-        foreach ($leads as $lead) {
-            $grouped[$lead->status][] = [
-                'id' => $lead->id,
-                'name' => $lead->name,
-                'email' => $lead->email,
-                'phone' => $lead->phone,
-                'company' => $lead->company,
-                'message' => $lead->message,
-                'estimated_value' => $lead->estimated_value,
-                'currency' => $lead->currency,
-                'source' => $lead->source,
-                'created_at' => $lead->created_at->format('d.m.Y'),
-                'assignee' => $lead->assignee ? ['name' => $lead->assignee->name] : null,
-                'pending_reminders_count' => $lead->pendingReminders->count(),
-                'tags' => $lead->tags->map(fn ($t) => ['name' => $t->name, 'color' => $t->color])->toArray(),
-            ];
+        return $this->kanbanLeadsCache = $grouped;
+    }
+
+    /**
+     * @return array<string, int>
+     */
+    public function getKanbanCounts(): array
+    {
+        if ($this->kanbanCountsCache !== null) {
+            return $this->kanbanCountsCache;
         }
 
-        return $grouped;
+        $counts = [];
+        foreach (Lead::PIPELINE_STATUSES as $status) {
+            $query = Lead::query()->where('status', $status);
+            $this->applySearchFilter($query);
+            $counts[$status] = $query->count();
+        }
+
+        return $this->kanbanCountsCache = $counts;
+    }
+
+    private function applySearchFilter(\Illuminate\Database\Eloquent\Builder $query): void
+    {
+        if ($this->searchQuery === '') {
+            return;
+        }
+
+        $term = $this->searchQuery;
+        $query->where(function ($q) use ($term): void {
+            $q->where('name', 'like', "%{$term}%")
+                ->orWhere('email', 'like', "%{$term}%")
+                ->orWhere('company', 'like', "%{$term}%");
+        });
     }
 
     /**
@@ -537,6 +596,7 @@ class CrmDashboard extends Page implements HasActions, HasForms
 
     public function updatedSearchQuery(): void
     {
-        // Livewire will automatically re-render
+        $this->kanbanLeadsCache = null;
+        $this->kanbanCountsCache = null;
     }
 }
