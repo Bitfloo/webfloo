@@ -4,9 +4,11 @@ namespace Webfloo\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Database\Factories\ProjectFactory;
 use Webfloo\Traits\HasActive;
 use Webfloo\Traits\HasFeatured;
 use Webfloo\Traits\HasSlug;
@@ -46,6 +48,9 @@ use Webfloo\Traits\Sortable;
  */
 class Project extends Model
 {
+    /** @use HasFactory<ProjectFactory> */
+    use HasFactory;
+
     use HasActive;
     use HasFeatured;
     use HasSlug;
@@ -54,6 +59,11 @@ class Project extends Model
 
     /** @var list<string> */
     public array $translatable = ['title', 'excerpt', 'description', 'challenge', 'solution', 'results', 'testimonial_quote'];
+
+    protected static function newFactory(): ProjectFactory
+    {
+        return ProjectFactory::new();
+    }
 
     /**
      * @var list<string>

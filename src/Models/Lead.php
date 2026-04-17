@@ -7,11 +7,13 @@ namespace Webfloo\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User;
+use Webfloo\Database\Factories\LeadFactory;
 
 /**
  * @property int $id
@@ -40,6 +42,9 @@ use Illuminate\Foundation\Auth\User;
  */
 class Lead extends Model
 {
+    /** @use HasFactory<LeadFactory> */
+    use HasFactory;
+
     // Status constants
     public const STATUS_NEW = 'new';
 
@@ -109,6 +114,11 @@ class Lead extends Model
             'last_contacted_at' => 'datetime',
             'converted_at' => 'datetime',
         ];
+    }
+
+    protected static function newFactory(): LeadFactory
+    {
+        return LeadFactory::new();
     }
 
     // ==================== RELATIONSHIPS ====================

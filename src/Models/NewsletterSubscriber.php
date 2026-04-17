@@ -3,7 +3,9 @@
 namespace Webfloo\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Webfloo\Database\Factories\NewsletterSubscriberFactory;
 use Webfloo\Traits\HasActive;
 
 /**
@@ -20,7 +22,15 @@ use Webfloo\Traits\HasActive;
  */
 class NewsletterSubscriber extends Model
 {
+    /** @use HasFactory<NewsletterSubscriberFactory> */
+    use HasFactory;
+
     use HasActive;
+
+    protected static function newFactory(): NewsletterSubscriberFactory
+    {
+        return NewsletterSubscriberFactory::new();
+    }
 
     /**
      * @var list<string>

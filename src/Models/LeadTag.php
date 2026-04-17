@@ -6,8 +6,10 @@ namespace Webfloo\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Webfloo\Database\Factories\LeadTagFactory;
 
 /**
  * @property int $id
@@ -19,6 +21,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class LeadTag extends Model
 {
+    /** @use HasFactory<LeadTagFactory> */
+    use HasFactory;
+
     /**
      * @var list<string>
      */
@@ -26,6 +31,11 @@ class LeadTag extends Model
         'name',
         'color',
     ];
+
+    protected static function newFactory(): LeadTagFactory
+    {
+        return LeadTagFactory::new();
+    }
 
     /**
      * @return array<string, string>

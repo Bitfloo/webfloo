@@ -5,6 +5,7 @@ namespace Webfloo\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Database\Factories\PostFactory;
 use Webfloo\Traits\HasFeatured;
 use Webfloo\Traits\HasSeo;
 use Webfloo\Traits\HasSlug;
@@ -49,6 +51,9 @@ use Webfloo\Traits\Sortable;
  */
 class Post extends Model
 {
+    /** @use HasFactory<PostFactory> */
+    use HasFactory;
+
     use HasFeatured;
     use HasSeo;
     use HasSlug;
@@ -59,6 +64,11 @@ class Post extends Model
 
     /** @var list<string> */
     public array $translatable = ['title', 'excerpt', 'content', 'meta_title', 'meta_description'];
+
+    protected static function newFactory(): PostFactory
+    {
+        return PostFactory::new();
+    }
 
     /**
      * @var list<string>

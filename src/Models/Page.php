@@ -5,11 +5,13 @@ namespace Webfloo\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Database\Factories\PageFactory;
 use Webfloo\Traits\HasSeo;
 use Webfloo\Traits\HasSlug;
 use Webfloo\Traits\Publishable;
@@ -38,12 +40,20 @@ use Webfloo\Traits\Sortable;
  */
 class Page extends Model
 {
+    /** @use HasFactory<PageFactory> */
+    use HasFactory;
+
     use HasSeo;
     use HasSlug;
     use HasTranslations;
     use Publishable;
     use SoftDeletes;
     use Sortable;
+
+    protected static function newFactory(): PageFactory
+    {
+        return PageFactory::new();
+    }
 
     /** @var list<string> */
     public array $translatable = ['title', 'meta_title', 'meta_description'];

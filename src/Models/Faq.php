@@ -4,8 +4,10 @@ namespace Webfloo\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Database\Factories\FaqFactory;
 use Webfloo\Traits\HasActive;
 use Webfloo\Traits\Sortable;
 
@@ -22,9 +24,17 @@ use Webfloo\Traits\Sortable;
  */
 class Faq extends Model
 {
+    /** @use HasFactory<FaqFactory> */
+    use HasFactory;
+
     use HasActive;
     use HasTranslations;
     use Sortable;
+
+    protected static function newFactory(): FaqFactory
+    {
+        return FaqFactory::new();
+    }
 
     /** @var list<string> */
     public array $translatable = ['question', 'answer'];

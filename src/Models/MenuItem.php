@@ -5,11 +5,13 @@ namespace Webfloo\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Database\Factories\MenuItemFactory;
 use Webfloo\Traits\HasActive;
 use Webfloo\Traits\Sortable;
 
@@ -29,9 +31,17 @@ use Webfloo\Traits\Sortable;
  */
 class MenuItem extends Model
 {
+    /** @use HasFactory<MenuItemFactory> */
+    use HasFactory;
+
     use HasActive;
     use HasTranslations;
     use Sortable;
+
+    protected static function newFactory(): MenuItemFactory
+    {
+        return MenuItemFactory::new();
+    }
 
     /** @var list<string> */
     public array $translatable = ['label'];

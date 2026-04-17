@@ -3,8 +3,10 @@
 namespace Webfloo\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Database\Factories\TestimonialFactory;
 use Webfloo\Traits\HasActive;
 use Webfloo\Traits\HasFeatured;
 use Webfloo\Traits\Sortable;
@@ -25,10 +27,18 @@ use Webfloo\Traits\Sortable;
  */
 class Testimonial extends Model
 {
+    /** @use HasFactory<TestimonialFactory> */
+    use HasFactory;
+
     use HasActive;
     use HasFeatured;
     use HasTranslations;
     use Sortable;
+
+    protected static function newFactory(): TestimonialFactory
+    {
+        return TestimonialFactory::new();
+    }
 
     /** @var list<string> */
     public array $translatable = ['content', 'role', 'company'];

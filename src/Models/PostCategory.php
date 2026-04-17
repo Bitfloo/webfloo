@@ -4,9 +4,11 @@ namespace Webfloo\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
+use Webfloo\Database\Factories\PostCategoryFactory;
 use Webfloo\Traits\HasActive;
 use Webfloo\Traits\HasSlug;
 use Webfloo\Traits\Sortable;
@@ -27,10 +29,18 @@ use Webfloo\Traits\Sortable;
  */
 class PostCategory extends Model
 {
+    /** @use HasFactory<PostCategoryFactory> */
+    use HasFactory;
+
     use HasActive;
     use HasSlug;
     use HasTranslations;
     use Sortable;
+
+    protected static function newFactory(): PostCategoryFactory
+    {
+        return PostCategoryFactory::new();
+    }
 
     /** @var list<string> */
     public array $translatable = ['name', 'description'];
