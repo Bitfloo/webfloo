@@ -6,16 +6,36 @@ Ten dokument definiuje **gdzie co dodajesz** w ekosystemie `webfloo`. Jest sourc
 
 ```
 webfloo      (core, PHP)       — logika, modele, Filament, Blade admin, Traits
-thezero      (theme, Vue)      — UI, komponenty, layouts, sekcje, style
+thezero      (theme, monorepo) — UI; split na 2 warstwy (ADR-012):
+                                 - @bitfloo/thezero-core (npm, auto-propagation)
+                                 - @bitfloo/thezero-template (GitHub Template, scaffold)
 bitfloo-web  (konsument, app)  — content, routing, bitfloo.com-specific
 ```
 
-Wszystkie trzy repo są pod `Bitfloo` org (private). Konsument instaluje core + theme:
+Wszystkie trzy repo są pod `Bitfloo` org (private). Konsument instaluje core + core primitives + forked template:
 
 ```bash
-composer require bitfloo/webfloo
-npm install @bitfloo/thezero
+# Backend dependency (via type: vcs — ADR-011)
+composer require bitfloo/webfloo:^0.1
+
+# Frontend primitives (npm, GitHub Packages)
+pnpm install @bitfloo/thezero-core:^0.1
+
+# Frontend template: GitHub Template Repo clone (one-time scaffold, divergent after)
+# lub istniejący consumer może mieć forked template in-place (jak bitfloo-web w resources/js/themes/)
 ```
+
+## Trzy warstwy propagacji zmian (ADR-011 + ADR-012)
+
+Każda zmiana w ekosystemie idzie przez jedną z trzech warstw update'u:
+
+| Warstwa | Gdzie | Update flow | Konflikt ryzyko |
+|---------|-------|-------------|-----------------|
+| **A — CORE** (auto) | `webfloo/src/*` + `thezero/packages/core/src/*` | `feat:`/`fix:` commit → release-please → tag → konsument `composer update` / `pnpm update` → zmiana u wszystkich klientów | Zero (klient NIE edytuje tej warstwy) |
+| **B — TEMPLATE** (semi-auto) | `thezero/packages/template/src/*` | Commit w thezero → klient uruchamia `/thezero-sync` skill (Phase 3) → 3-way diff vs `.thezero-sync.md` state → agent decyduje apply/skip | Wysokie (klient customizuje), kontrolowane przez sync skill |
+| **C — KLIENT** (unique) | `bitfloo-web/*`, `acme-web/*`, etc. | Klient edytuje u siebie. Żadnej propagacji. | N/A (klient jest ownerem) |
+
+Ta tabela reguluje **kiedy bug fix w core automatycznie rozwiązuje problem u klientów (A)**, **kiedy wymaga kontrolowanego sync (B)**, **kiedy jest sprawą wyłącznie klienta (C)**.
 
 ## Reguła #1 — pytanie zerowe
 
@@ -39,10 +59,15 @@ Przy każdym nowym feature zapytaj:
 | Nowy Filament widget (generic) | `webfloo` | `src/Filament/Widgets/` |
 | Nowy Filament widget (bitfloo-only) | `bitfloo-web` | `app/Filament/Widgets/` |
 | Blade component (admin-facing) | `webfloo` | `src/Components/` + `resources/views/components/` |
-| Vue component (frontend) | `thezero` | `src/Components/{Atoms\|Molecules\|Organisms\|Sections}/` |
-| Nowa sekcja landing page | `thezero` | `src/Components/Sections/` |
-| Nowy layout Vue | `thezero` | `src/Layouts/` |
-| Nowa strona Vue (Pricing, itp.) | `thezero` jeśli generic; `bitfloo-web/resources/js/Pages/` jeśli bitfloo-only |
+| Vue Atom (AppButton, AppIcon) | `thezero` — **core** | `packages/core/src/Atoms/` |
+| shadcn-vue primitive (button, input, carousel) | `thezero` — **core** | `packages/core/src/ui/` |
+| Composable (useX) | `thezero` — **core** | `packages/core/src/Composables/` |
+| Nowa sekcja landing page | `thezero` — **template** | `packages/template/src/Sections/` |
+| Molecule (Card, Header, ...) | `thezero` — **template** | `packages/template/src/Molecules/` |
+| Organism (Header, Footer) | `thezero` — **template** | `packages/template/src/Organisms/` |
+| Form (Contact, Newsletter) | `thezero` — **template** | `packages/template/src/Forms/` |
+| Nowy layout Vue | `thezero` — **template** | `packages/template/src/Layouts/` |
+| Nowa strona Vue (Pricing, itp.) | `thezero/packages/template/src/Pages/` jeśli generic; `bitfloo-web/resources/js/themes/bitfloo/Pages/` jeśli bitfloo-only |
 | Nowy route | `bitfloo-web` | `routes/web.php` |
 | Controller (generic webhook/API) | `webfloo` | `src/Http/` |
 | Controller (bitfloo-specific) | `bitfloo-web` | `app/Http/Controllers/` |
@@ -61,32 +86,35 @@ Przy każdym nowym feature zapytaj:
    - Policy (jeśli wymagana) — w `bitfloo-web/app/Policies/` (konsument)
    - Test/feature — wg konwencji projektu
 
-2. **thezero** (frontend)
-   - `src/Pages/CaseStudy/Index.vue` + `Show.vue`
-   - `src/Components/Molecules/CaseStudyCard.vue`
-   - Może `src/Components/Sections/CaseStudiesSection.vue` (dla landing page grid)
-   - Update exports w `package.json` jeśli dodajesz nowe sub-path
-   - `npm version patch` → push tag → GitHub Actions publikuje
+2. **thezero** (frontend; **decyzja: core primitive czy template Section?**)
+   - `packages/template/src/Pages/CaseStudy/Index.vue` + `Show.vue` (template — brand-influenced)
+   - `packages/template/src/Molecules/CaseStudyCard.vue` (template — ma content klienta)
+   - `packages/template/src/Sections/CaseStudiesSection.vue` (template — układ per klient)
+   - Brak zmian w core (nowy content type nie wymaga primitive)
+   - `feat(template): add CaseStudy views` commit → NIE publikuje się (template) — klient dostaje przez `/thezero-sync` (Phase 3) lub manualnie cherry-pick'uje
 
 3. **bitfloo-web** (konsument)
-   - `composer update bitfloo/webfloo` → ładuje Model + Resource + migration
+   - `composer update bitfloo/webfloo` → ładuje Model + Resource + migration (warstwa A)
    - `php artisan migrate` — tworzy tabelę
-   - `npm update @bitfloo/thezero` → ładuje nowe Vue components
+   - `pnpm update @bitfloo/thezero-core` → ładuje nowe primitives jeśli były w tym release (warstwa A)
+   - Dla template changes (warstwa B): `/thezero-sync` skill (Phase 3) albo manualny cherry-pick z `Bitfloo/thezero` do `resources/js/themes/bitfloo/`
    - Rejestracja route w `routes/web.php` (Inertia render do `CaseStudy/Index`)
    - Seed/content jeśli trzeba
 
 ## Atomic Design — Blade (webfloo) i Vue (thezero)
 
-Obie strony trzymają się tego samego podziału:
+Obie strony trzymają się tego samego podziału, ale thezero rozdziela na **core** (primitives) i **template** (compositions):
 
-| Poziom | Definicja | Przykłady |
-|---|---|---|
-| **Atom** | Bezstanowy, najmniejsza jednostka | Button, Badge, Icon, Heading, Text |
-| **Molecule** | Kompozycja atomów | Card, ServiceCard, ProjectCard, SectionHeader |
-| **Organism** | Większa sekcja funkcjonalna | Header, Footer |
-| **Section** | Pełna sekcja strony | Hero, FAQ, Portfolio, Services, CTA |
-| **Form** | (thezero) Kontaktowe/newsletter | ContactForm, NewsletterForm |
-| **ui/** | (thezero) shadcn-vue primitives — kopiowane, nie modyfikowane bez powodu | Input, Button, Carousel, Alert |
+| Poziom | Definicja | Przykłady | thezero location |
+|---|---|---|---|
+| **Atom** | Bezstanowy, najmniejsza jednostka | Button, Badge, Icon, Heading, Text | `packages/core/src/Atoms/` |
+| **ui/** | shadcn-vue primitives — brand-agnostic | Input, Button, Carousel, Alert | `packages/core/src/ui/` |
+| **Molecule** | Kompozycja atomów | Card, ServiceCard, ProjectCard, SectionHeader | `packages/template/src/Molecules/` |
+| **Organism** | Większa sekcja funkcjonalna | Header, Footer | `packages/template/src/Organisms/` |
+| **Section** | Pełna sekcja strony | Hero, FAQ, Portfolio, Services, CTA | `packages/template/src/Sections/` |
+| **Form** | Kontaktowe/newsletter | ContactForm, NewsletterForm | `packages/template/src/Forms/` |
+
+**Zasada**: Atoms+ui = core (bo generic, brand-agnostic, updates propagate auto). Molecules i wyżej = template (bo kompozycje są brand-influenced, klient customizuje).
 
 ## SSOT — Single Source of Truth
 
@@ -111,9 +139,13 @@ Przykłady:
 - ❌ Logika biznesowa w `thezero` (theme jest stateless)
 - ❌ `hardcode bitfloo.com` w `webfloo` albo `thezero` (oba muszą działać dla dowolnego klienta)
 - ❌ Duplikacja kodu między webfloo i bitfloo-web (jeśli to samo = idzie do webfloo)
-- ❌ Bezpośredni import z `vendor/` lub `node_modules/@bitfloo/thezero/` w kodzie konsumenta (używaj Composer/npm API, nie ścieżek plików)
+- ❌ Bezpośredni import z `vendor/` lub `node_modules/@bitfloo/thezero-core/` w kodzie konsumenta (używaj Composer/npm API, nie ścieżek plików)
 - ❌ Commit specyficznych `.env`, `composer.lock` w webfloo/thezero (tylko w konsumencie)
-- ❌ Edycja `~/DEV/bitfloo-web/node_modules/@bitfloo/thezero/` — zmiany robisz w `~/DEV/thezero/`, potem republish
+- ❌ Edycja `~/DEV/bitfloo-web/node_modules/@bitfloo/thezero-core/` — zmiany robisz w `~/DEV/thezero/packages/core/`, potem `feat(core):` commit → Release PR → publish
+- ❌ **Brand colors w `thezero/packages/core/`** — CI `structure` job blokuje; brand tokens idą do `packages/template/src/colors.css` albo klient-local
+- ❌ **Nowy Section w `packages/core/`** — Section = kompozycja brand-influenced = idzie do `packages/template/`. CI guard tego NIE łapie; dev review musi
+- ❌ **`npm install` / `npm update` przy monorepo thezero dev** — używaj `pnpm` (workspace linking, strict deps)
+- ❌ Commit bez Conventional prefix (`feat:`, `fix:`, `docs:`, ...) na main — psuje release-please auto-bump
 
 ## Linki
 

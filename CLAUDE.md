@@ -10,10 +10,62 @@ Specific to bitfloo.com -> `app/`. Reusable -> here.
 
 Krótka wersja:
 - Logika / Model / Filament / Blade admin → **tu (`webfloo`)**
-- Vue UI / komponenty / layout / style → **`~/DEV/thezero/`** (`@bitfloo/thezero`)
+- Vue Atom / shadcn-vue primitive → **`~/DEV/thezero/packages/core/`** (`@bitfloo/thezero-core` npm)
+- Vue Molecule / Organism / Section / Page / Layout → **`~/DEV/thezero/packages/template/`** (`@bitfloo/thezero-template`, NIE publikowany)
 - bitfloo.com-specific (content, routes, środowisko) → **`~/DEV/bitfloo-web/`**
 
 Pełna matrix (content types, widgets, services, controllery, trait'y, flow end-to-end) — w `docs/ARCHITECTURE.md`.
+
+## Release workflow (Conventional Commits + release-please)
+
+**WYMAGANE** od 2026-04-17 (ADR-011). Każdy commit na main MUSI mieć prefix:
+
+| Prefix | Bump w 0.x | Produkcja 1.x+ |
+|--------|-----------|----------------|
+| `feat:` | minor (0.1 → 0.2) | minor |
+| `fix:` | patch (0.1.0 → 0.1.1) | patch |
+| `feat!:` / `BREAKING CHANGE:` | minor (pre-major) | **major** |
+| `docs:`, `chore:`, `refactor:`, `test:`, `ci:`, `style:` | żaden | żaden |
+
+**Flow**:
+1. Dev pushes commit na main z właściwym prefixem
+2. `.github/workflows/release.yml` uruchamia `googleapis/release-please-action@v4`
+3. Release-please otwiera / aktualizuje Release PR (z bump version + CHANGELOG)
+4. Jakiś dev mergeuje Release PR
+5. Auto: tag `v0.x.y` + GitHub Release
+6. Konsumenci (bitfloo-web, przyszli klienci) dostają dostęp przez `composer update`
+
+**NIE tagujemy ręcznie**. NIE edytujemy CHANGELOG ręcznie (nadpisze release-please).
+
+## Distribution (type: vcs)
+
+Konsument dostaje webfloo przez `type: vcs` w swoim composer.json (ADR-011). Wymaga PAT z `repo` scope w `auth.json`. Szczegóły:
+
+```json
+// konsument composer.json
+{
+  "repositories": [{
+    "type": "vcs",
+    "url": "https://github.com/Bitfloo/webfloo.git"
+  }],
+  "require": {
+    "bitfloo/webfloo": "^0.1"
+  }
+}
+```
+
+Dev webfloo który chce testować zmiany lokalnie w bitfloo-web (bez push):
+
+```bash
+cd ~/DEV/bitfloo-web
+composer config repositories.webfloo path ../webfloo  # override
+composer update bitfloo/webfloo
+# ...iterate...
+composer config --unset repositories.webfloo         # restore vcs
+composer update bitfloo/webfloo
+```
+
+**Nie commituj** tego override'u.
 
 ## Structure
 
