@@ -7,26 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * D4 — FULLTEXT index na posts content (PARTIAL).
- *
- * Discovery during implementation: `posts.title`, `posts.excerpt`,
- * `posts.content` są wszystkie JSON columns (spatie/laravel-translatable
- * multi-locale storage). MySQL FULLTEXT nie działa bezpośrednio na JSON —
- * wymaga generated columns per locale.
- *
- * Pragmatic decyzja: index tylko na `slug` (VARCHAR, non-translatable,
- * admin search hit) + odroczenie full-content indeksu do osobnego
- * migration'u D4.1 używającego generated columns pattern.
- *
- * D4.1 scope (TODO):
- *   ALTER TABLE posts ADD COLUMN content_pl TEXT GENERATED ALWAYS
- *     AS (JSON_UNQUOTE(JSON_EXTRACT(content, '$.pl'))) STORED,
- *     ADD COLUMN content_en TEXT GENERATED ALWAYS
- *     AS (JSON_UNQUOTE(JSON_EXTRACT(content, '$.en'))) STORED;
- *   ALTER TABLE posts ADD FULLTEXT (content_pl), ADD FULLTEXT (content_en);
- *
- * Refs: docs/plans/webfloo-extraction/02-extraction-plan.md D4.
- * Idempotent + skip dla non-MySQL (SQLite in tests).
+ * FULLTEXT na posts.slug. title/excerpt/content są JSON (translatable) —
+ * FULLTEXT na nich wymaga generated columns per locale (D4.1, deferred).
+ * Idempotent + no-op na non-MySQL.
  */
 return new class extends Migration
 {

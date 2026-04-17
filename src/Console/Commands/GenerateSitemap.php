@@ -94,36 +94,28 @@ class GenerateSitemap extends Command
         return self::SUCCESS;
     }
 
-    /**
-     * Write PL + EN url entries with hreflang alternates.
-     *
-     * @param  resource  $handle
-     */
+    /** @param  resource  $handle */
     private function writeEntry($handle, string $loc, string $priority, string $changefreq, ?string $lastmod): void
     {
         $plUrl = $this->baseUrl.$loc;
         $enUrl = $this->baseUrl.'/en'.$loc;
 
-        fwrite($handle, $this->urlXml($plUrl, $plUrl, $enUrl, $priority, $changefreq, $lastmod));
-        fwrite($handle, $this->urlXml($enUrl, $plUrl, $enUrl, $priority, $changefreq, $lastmod));
-    }
+        foreach ([$plUrl, $enUrl] as $url) {
+            $xml = "  <url>\n";
+            $xml .= "    <loc>{$url}</loc>\n";
+            $xml .= '    <xhtml:link rel="alternate" hreflang="pl" href="'.$plUrl.'" />'."\n";
+            $xml .= '    <xhtml:link rel="alternate" hreflang="en" href="'.$enUrl.'" />'."\n";
+            $xml .= '    <xhtml:link rel="alternate" hreflang="x-default" href="'.$plUrl.'" />'."\n";
 
-    private function urlXml(string $loc, string $plUrl, string $enUrl, string $priority, string $changefreq, ?string $lastmod): string
-    {
-        $xml = "  <url>\n";
-        $xml .= "    <loc>{$loc}</loc>\n";
-        $xml .= '    <xhtml:link rel="alternate" hreflang="pl" href="'.$plUrl.'" />'."\n";
-        $xml .= '    <xhtml:link rel="alternate" hreflang="en" href="'.$enUrl.'" />'."\n";
-        $xml .= '    <xhtml:link rel="alternate" hreflang="x-default" href="'.$plUrl.'" />'."\n";
+            if ($lastmod !== null) {
+                $xml .= "    <lastmod>{$lastmod}</lastmod>\n";
+            }
 
-        if ($lastmod !== null) {
-            $xml .= "    <lastmod>{$lastmod}</lastmod>\n";
+            $xml .= "    <changefreq>{$changefreq}</changefreq>\n";
+            $xml .= "    <priority>{$priority}</priority>\n";
+            $xml .= "  </url>\n";
+
+            fwrite($handle, $xml);
         }
-
-        $xml .= "    <changefreq>{$changefreq}</changefreq>\n";
-        $xml .= "    <priority>{$priority}</priority>\n";
-        $xml .= "  </url>\n";
-
-        return $xml;
     }
 }
