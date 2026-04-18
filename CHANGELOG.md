@@ -13,6 +13,31 @@ na podstawie [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.
 
 <!-- release-please inserts new entries here -->
 
+## [0.1.1](https://github.com/Bitfloo/webfloo/compare/v0.1.0...v0.1.1) (2026-04-18)
+
+
+### Features
+
+* **factories:** add inactive() and withRating() states to TestimonialFactory ([eb283b9](https://github.com/Bitfloo/webfloo/commit/eb283b9e031cbcdf15a140811589571cb06a2d66))
+* **factories:** add model factories for 10 Models + HasFactory trait ([9494719](https://github.com/Bitfloo/webfloo/commit/9494719d9f936558684d8a6c73188a3c94e07eaa))
+* **factories:** add ServiceFactory and wire HasFactory on Service ([f7072ae](https://github.com/Bitfloo/webfloo/commit/f7072ae3376e11f8daaa18de92225c5efa7457db))
+
+
+### Bug Fixes
+
+* **factory:** remove redundant new() state on LeadFactory ([e0c2aa0](https://github.com/Bitfloo/webfloo/commit/e0c2aa0ed1430a9bc168a6ca7755eac4e194743c))
+* **migrations:** add SQLite driver fallbacks for MySQL-only schema queries ([0c6c4a4](https://github.com/Bitfloo/webfloo/commit/0c6c4a47341758e9952660713c385f60cae4b9ce))
+
+
+### Miscellaneous Chores
+
+* **agents:** audit testerskich agentów — REMOVE livewire-interaction-tester, IMPROVE 3 pozostałe ([c63ac29](https://github.com/Bitfloo/webfloo/commit/c63ac299facd1d8c863362bd9386a5e908323686))
+* **autoload:** register Webfloo\\Database\\Factories PSR-4 namespace ([f1d540b](https://github.com/Bitfloo/webfloo/commit/f1d540b875a1d730c13f62aac5f326fe22f5f640))
+* **claude:** clarify agents addition in 7a37490 ([baaa87d](https://github.com/Bitfloo/webfloo/commit/baaa87d34b5afba3d18d0f9dab8a28eaa982f4c1))
+* **gitignore:** exclude local audit/state markdown scratchpads ([c14d556](https://github.com/Bitfloo/webfloo/commit/c14d55615ca6a9044e2051149b37abccecd879fa))
+* **hooks:** commit-msg Conventional Commits validator + install script ([7a37490](https://github.com/Bitfloo/webfloo/commit/7a374908163c4985a30280c04fa3a84beef84cc3))
+* **release:** patch-only bumps in 0.x ([467c34d](https://github.com/Bitfloo/webfloo/commit/467c34d675ae05325f7e86364f87a734bf63e78e))
+
 ## [Unreleased]
 
 ### Infrastructure
