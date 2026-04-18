@@ -52,6 +52,7 @@ class Project extends Model
 
     /** @use HasFactory<ProjectFactory> */
     use HasFactory;
+
     use HasFeatured;
     use HasSlug;
     use HasTranslations;

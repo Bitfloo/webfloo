@@ -31,6 +31,7 @@ class Testimonial extends Model
 
     /** @use HasFactory<TestimonialFactory> */
     use HasFactory;
+
     use HasFeatured;
     use HasTranslations;
     use Sortable;

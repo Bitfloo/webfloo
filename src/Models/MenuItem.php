@@ -35,6 +35,7 @@ class MenuItem extends Model
 
     /** @use HasFactory<MenuItemFactory> */
     use HasFactory;
+
     use HasTranslations;
     use Sortable;
 

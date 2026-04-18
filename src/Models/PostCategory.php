@@ -33,6 +33,7 @@ class PostCategory extends Model
 
     /** @use HasFactory<PostCategoryFactory> */
     use HasFactory;
+
     use HasSlug;
     use HasTranslations;
     use Sortable;
