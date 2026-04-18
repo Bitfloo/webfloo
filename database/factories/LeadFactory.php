@@ -31,11 +31,6 @@ final class LeadFactory extends Factory
         ];
     }
 
-    public function new(): static
-    {
-        return $this->state(['status' => Lead::STATUS_NEW]);
-    }
-
     public function contacted(): static
     {
         return $this->state(['status' => Lead::STATUS_CONTACTED, 'last_contacted_at' => now()]);
