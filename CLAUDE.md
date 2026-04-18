@@ -21,14 +21,14 @@ Pełna matrix (content types, widgets, services, controllery, trait'y, flow end-
 
 **WYMAGANE** od 2026-04-17 (ADR-011). Każdy commit na main MUSI mieć prefix:
 
-| Prefix | Bump w 0.x | Produkcja 1.x+ |
+| Prefix | Bump w 0.0.x | Produkcja 1.x+ |
 |--------|-----------|----------------|
-| `feat:` | patch (0.1.0 → 0.1.1) | minor |
-| `fix:` | patch (0.1.0 → 0.1.1) | patch |
-| `feat!:` / `BREAKING CHANGE:` | minor (0.1 → 0.2) | **major** |
+| `feat:` | patch (0.0.25 → 0.0.26) | minor |
+| `fix:` | patch (0.0.25 → 0.0.26) | patch |
+| `feat!:` / `BREAKING CHANGE:` | minor (0.0 → 0.1) | **major** |
 | `docs:`, `chore:`, `refactor:`, `test:`, `ci:`, `style:` | żaden | żaden |
 
-W `0.x` wszystko idzie jako patch (shipowanie szybkie, stabilizacja API). Minor bump rezerwowany dla jawnych breaking changes. Od `1.0` normalny semver.
+W `0.0.x` wszystko idzie jako patch (shipowanie szybkie, stabilizacja API). Minor bump (`0.0 → 0.1`) rezerwowany dla jawnych breaking changes. Od `1.0` normalny semver.
 
 **Flow**:
 1. Dev pushes commit na main z właściwym prefixem
@@ -52,7 +52,7 @@ Konsument dostaje webfloo przez `type: vcs` w swoim composer.json (ADR-011). Wym
     "url": "https://github.com/Bitfloo/webfloo.git"
   }],
   "require": {
-    "bitfloo/webfloo": "^0.1"
+    "bitfloo/webfloo": "0.0.*"
   }
 }
 ```

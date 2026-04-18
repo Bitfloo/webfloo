@@ -8,7 +8,7 @@ Laravel 12 + Filament v5 package dostarczający gotowy backend: **14 modeli, 11 
 
 ---
 
-> **Status: Pre-1.0 (`0.x`).** API niestabilne — breaking changes mogą pojawić się w minor bumpach (ADR-011, sekcja "Versioning & updates"). Pinuj przez `^0.1` i czytaj CHANGELOG przy każdym `composer update`. Stabilizacja do `1.0` po zakończeniu roadmapy ekosystemu (`docs/plans/2026-04-17-ecosystem-phase-1.md`).
+> **Status: Pre-1.0 (`0.0.x`).** API niestabilne — każdy release może wprowadzać breaking changes. Pinuj przez `0.0.*` lub exact version i czytaj CHANGELOG przy każdym `composer update`. Stabilizacja do `1.0` po zakończeniu roadmapy ekosystemu (`docs/plans/2026-04-17-ecosystem-phase-1.md`).
 
 ---
 
@@ -79,7 +79,7 @@ Webfloo to prywatne repo — Composer wymaga `type: vcs` + PAT auth (ADR-011).
     }
   ],
   "require": {
-    "bitfloo/webfloo": "^0.1"
+    "bitfloo/webfloo": "0.0.*"
   }
 }
 ```
@@ -117,7 +117,7 @@ Po skonfigurowanym `type: vcs` + auth:
 #### 1. Composer require
 
 ```bash
-composer require bitfloo/webfloo:^0.1
+composer require bitfloo/webfloo:0.0.*
 ```
 
 #### 2. Publish config
@@ -295,7 +295,7 @@ Najpierw skonfiguruj `type: vcs` + `auth.json` — patrz [Installation → Consu
 
 Typowy workflow:
 
-1. `composer require bitfloo/webfloo:^0.1`
+1. `composer require bitfloo/webfloo:0.0.*`
 2. Publish config → wire `user_model` (krytyczne)
 3. Shield sequence (install → migrate → shield:generate → seed roles)
 4. Zaimplementuj własny frontend (Vue/Inertia/Blade — wybór hosta)
@@ -338,7 +338,7 @@ composer update bitfloo/webfloo
 
 ### Pre-1.0 caveats
 
-W `0.x` minor bump (`0.1 → 0.2`) MOŻE wprowadzać breaking changes. Pinuj `^0.1` (kompatybilne w obrębie `0.1.x`), czytaj CHANGELOG przed `composer update` na wyższy minor.
+W `0.0.x` każdy patch MOŻE wprowadzać breaking changes (pre-stable API). Pinuj `0.0.*` albo exact version, czytaj CHANGELOG przed każdym `composer update`. Od `0.1.0` zacznie działać normalny semver (minor = breaking, patch = safe).
 
 ---
 
@@ -346,14 +346,14 @@ W `0.x` minor bump (`0.1 → 0.2`) MOŻE wprowadzać breaking changes. Pinuj `^0
 
 **WYMAGANE** od 2026-04-17 (ADR-011). Każdy commit na `main` MUSI mieć prefix:
 
-| Prefix | Bump w 0.x | Produkcja 1.x+ |
+| Prefix | Bump w 0.0.x | Produkcja 1.x+ |
 |--------|-----------|----------------|
-| `feat:` | patch (0.1.0 → 0.1.1) | minor |
-| `fix:` | patch (0.1.0 → 0.1.1) | patch |
-| `feat!:` / `BREAKING CHANGE:` | minor (0.1 → 0.2) | **major** |
+| `feat:` | patch (0.0.25 → 0.0.26) | minor |
+| `fix:` | patch (0.0.25 → 0.0.26) | patch |
+| `feat!:` / `BREAKING CHANGE:` | minor (0.0 → 0.1) | **major** |
 | `docs:`, `chore:`, `refactor:`, `test:`, `ci:`, `style:` | żaden | żaden |
 
-W `0.x` wszystko idzie jako patch (pre-stable API). Minor bump rezerwowany dla jawnych breaking changes. Od `1.0` normalny semver.
+W `0.0.x` wszystko idzie jako patch (pre-stable API). Minor bump (`0.0 → 0.1`) rezerwowany dla jawnych breaking changes. Od `1.0` normalny semver.
 
 Commit bez prefixu psuje release-please auto-bump. Lokalny `commit-msg` hook waliduje format — instalacja przez `./scripts/install-hooks.sh`.
 
