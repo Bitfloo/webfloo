@@ -23,10 +23,12 @@ Pełna matrix (content types, widgets, services, controllery, trait'y, flow end-
 
 | Prefix | Bump w 0.x | Produkcja 1.x+ |
 |--------|-----------|----------------|
-| `feat:` | minor (0.1 → 0.2) | minor |
+| `feat:` | patch (0.1.0 → 0.1.1) | minor |
 | `fix:` | patch (0.1.0 → 0.1.1) | patch |
-| `feat!:` / `BREAKING CHANGE:` | minor (pre-major) | **major** |
+| `feat!:` / `BREAKING CHANGE:` | minor (0.1 → 0.2) | **major** |
 | `docs:`, `chore:`, `refactor:`, `test:`, `ci:`, `style:` | żaden | żaden |
+
+W `0.x` wszystko idzie jako patch (shipowanie szybkie, stabilizacja API). Minor bump rezerwowany dla jawnych breaking changes. Od `1.0` normalny semver.
 
 **Flow**:
 1. Dev pushes commit na main z właściwym prefixem

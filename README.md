@@ -348,10 +348,12 @@ W `0.x` minor bump (`0.1 → 0.2`) MOŻE wprowadzać breaking changes. Pinuj `^0
 
 | Prefix | Bump w 0.x | Produkcja 1.x+ |
 |--------|-----------|----------------|
-| `feat:` | minor (0.1 → 0.2) | minor |
+| `feat:` | patch (0.1.0 → 0.1.1) | minor |
 | `fix:` | patch (0.1.0 → 0.1.1) | patch |
-| `feat!:` / `BREAKING CHANGE:` | minor (pre-major) | **major** |
+| `feat!:` / `BREAKING CHANGE:` | minor (0.1 → 0.2) | **major** |
 | `docs:`, `chore:`, `refactor:`, `test:`, `ci:`, `style:` | żaden | żaden |
+
+W `0.x` wszystko idzie jako patch (pre-stable API). Minor bump rezerwowany dla jawnych breaking changes. Od `1.0` normalny semver.
 
 Commit bez prefixu psuje release-please auto-bump. Lokalny `commit-msg` hook waliduje format — instalacja przez `./scripts/install-hooks.sh`.
 
