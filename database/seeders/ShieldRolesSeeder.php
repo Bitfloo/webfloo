@@ -6,6 +6,7 @@ namespace Webfloo\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
@@ -83,16 +84,16 @@ class ShieldRolesSeeder extends Seeder
     ];
 
     /**
-     * Page permission keys the editor role can access.
-     * Format: view_{class_name_snake}
+     * Page identifiers the editor role can view. Built as `View:{StudlyName}`
+     * to match Shield v4 permission identifiers (e.g. View:HomePageSettings).
      *
      * @var list<string>
      */
     private const EDITOR_PAGE_PERMISSIONS = [
-        'view_home_page_settings',
-        'view_contact_page_settings',
-        'view_site_settings',
-        'view_theme_settings',
+        'home_page_settings',
+        'contact_page_settings',
+        'site_settings',
+        'theme_settings',
     ];
 
     /**
@@ -169,12 +170,13 @@ class ShieldRolesSeeder extends Seeder
 
         foreach ($resources as $resource) {
             foreach ($actions as $action) {
-                $permissions->push("{$action}_{$resource}");
+                // Shield v4 identifier format: {StudlyAction}:{StudlyResource} (e.g. ViewAny:Post)
+                $permissions->push(Str::studly($action).':'.Str::studly($resource));
             }
         }
 
-        foreach ($pagePermissions as $pagePermission) {
-            $permissions->push($pagePermission);
+        foreach ($pagePermissions as $page) {
+            $permissions->push('View:'.Str::studly($page));
         }
 
         $existing = Permission::where('guard_name', $guard)
