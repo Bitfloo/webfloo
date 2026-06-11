@@ -124,7 +124,7 @@ Przykłady:
 
 - Struktura Atomic Design → opisana **raz** tutaj, referencjonowana w webfloo CLAUDE.md i thezero CLAUDE.md
 - Filament v5 imports → źródło w webfloo root `CLAUDE.md`, referencjonowane w bitfloo-web
-- Architektura npm package thezero → `~/DEV/thezero/docs/ARCHITECTURE.md`, NIE duplikuj tu
+- Architektura npm package thezero → `~/PROJEKTY/thezero/docs/ARCHITECTURE.md`, NIE duplikuj tu
 
 ## Gdy nie wiesz
 
@@ -141,7 +141,7 @@ Przykłady:
 - ❌ Duplikacja kodu między webfloo i bitfloo-web (jeśli to samo = idzie do webfloo)
 - ❌ Bezpośredni import z `vendor/` lub `node_modules/@bitfloo/thezero-core/` w kodzie konsumenta (używaj Composer/npm API, nie ścieżek plików)
 - ❌ Commit specyficznych `.env`, `composer.lock` w webfloo/thezero (tylko w konsumencie)
-- ❌ Edycja `~/DEV/bitfloo-web/node_modules/@bitfloo/thezero-core/` — zmiany robisz w `~/DEV/thezero/packages/core/`, potem `feat(core):` commit → Release PR → publish
+- ❌ Edycja `~/PROJEKTY/bitfloo-web/node_modules/@bitfloo/thezero-core/` — zmiany robisz w `~/PROJEKTY/thezero/packages/core/`, potem `feat(core):` commit → Release PR → publish
 - ❌ **Brand colors w `thezero/packages/core/`** — CI `structure` job blokuje; brand tokens idą do `packages/template/src/colors.css` albo klient-local
 - ❌ **Nowy Section w `packages/core/`** — Section = kompozycja brand-influenced = idzie do `packages/template/`. CI guard tego NIE łapie; dev review musi
 - ❌ **`npm install` / `npm update` przy monorepo thezero dev** — używaj `pnpm` (workspace linking, strict deps)

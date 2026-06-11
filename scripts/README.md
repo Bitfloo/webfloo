@@ -20,10 +20,10 @@ One-shot ecosystem Phase 1 completion — pushy, tags, auth, CI secret, PR.
 ```bash
 # Opcja A: token jako env
 export BITFLOO_ECOSYSTEM_TOKEN=ghp_xxxxx
-~/DEV/webfloo/scripts/finalize-ecosystem.sh
+~/PROJEKTY/webfloo/scripts/finalize-ecosystem.sh
 
 # Opcja B: prompt (input hidden)
-~/DEV/webfloo/scripts/finalize-ecosystem.sh
+~/PROJEKTY/webfloo/scripts/finalize-ecosystem.sh
 ```
 
 ### Co robi (9 kroków auto, 1 manualny)

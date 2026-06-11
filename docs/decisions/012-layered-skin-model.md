@@ -149,7 +149,7 @@ thezero/
 ### Files / directory tree po split
 
 ```
-~/DEV/thezero/
+~/PROJEKTY/thezero/
 ├── .github/workflows/
 │   ├── ci.yml              (typecheck + struct check obie packages)
 │   ├── release.yml         (release-please auto bump core)

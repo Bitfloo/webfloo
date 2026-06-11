@@ -48,7 +48,7 @@ Violations of Code Quality Rules block merge. If in doubt — re-read § 9 Agent
    - Policy: `can*` per method
    - Scopes used by Resource have unit tests
 5. **Use Livewire::test** for all page interactions — never hit HTTP directly for forms.
-6. **Run tests**: `cd /Users/michal/DEV/webfloo && ./vendor/bin/phpunit --filter={Name}Test` — quote output.
+6. **Run tests**: `cd /Users/michal/PROJEKTY/webfloo && ./vendor/bin/phpunit --filter={Name}Test` — quote output.
 
 ## Reference test skeleton
 

@@ -28,7 +28,7 @@ CBC skill `/new-client <nazwa>` scaffolduje nowe repo klienta wykorzystujące ek
 
 - [ ] **AC2.1** Utworzenie nowego repo w GH org (wymaga `gh` CLI auth z `repo` scope):
   - `gh repo create Bitfloo/<slug>-web --private --template Bitfloo/thezero`
-- [ ] **AC2.2** Clone do `~/DEV/<slug>-web/`
+- [ ] **AC2.2** Clone do `~/PROJEKTY/<slug>-web/`
 - [ ] **AC2.3** Remove template-only files:
   - Delete `packages/core/` (klient użyje z npm, nie monorepo)
   - Move `packages/template/src/*` na `resources/js/themes/<slug>/` (Laravel konwencja)
@@ -110,7 +110,7 @@ inputs:
 
 outputs:
   repo_url: string (GitHub repo URL)
-  local_path: string (~/DEV/<slug>-web)
+  local_path: string (~/PROJEKTY/<slug>-web)
   first_commit_sha: string
   ci_run_id: string
   verified: boolean (AC6 pass)

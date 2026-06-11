@@ -346,7 +346,7 @@ Score < 7 → propose test skeleton.
 Always run from repo root:
 
 ```bash
-cd /Users/michal/DEV/webfloo
+cd /Users/michal/PROJEKTY/webfloo
 ./vendor/bin/phpunit                         # all tests
 ./vendor/bin/phpunit --filter=FaqResourceTest # single test class
 ./vendor/bin/phpunit --filter=FaqResourceTest::test_unauthorized_user_cannot_access
@@ -391,7 +391,7 @@ These rules apply to every test (and every helper/factory/scaffold) generated in
 
 **Bad:**
 ```php
-$file = '/Users/michal/DEV/webfloo/tests/fixtures/lead.json';
+$file = '/Users/michal/PROJEKTY/webfloo/tests/fixtures/lead.json';
 $this->artisan('migrate --path=/home/runner/work/webfloo/database/migrations');
 ```
 

@@ -324,10 +324,10 @@ Webfloo używa **release-please** (automatyczny semver + CHANGELOG + tag) — AD
 Testowanie zmian webfloo w konsumencie bez push:
 
 ```bash
-cd ~/DEV/bitfloo-web
+cd ~/PROJEKTY/bitfloo-web
 composer config repositories.webfloo path ../webfloo
 composer update bitfloo/webfloo
-# ...iterate — edytuj w ~/DEV/webfloo, konsument widzi od razu (symlink)...
+# ...iterate — edytuj w ~/PROJEKTY/webfloo, konsument widzi od razu (symlink)...
 
 # Restore do produkcyjnego vcs
 composer config --unset repositories.webfloo

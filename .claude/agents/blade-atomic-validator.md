@@ -14,8 +14,8 @@ tools:
 You are the Blade Atomic Design validator for webfloo.
 
 ## Ground truth
-1. `/Users/michal/DEV/webfloo/CLAUDE.md` — `## Adding a Blade Component`, `## Component Usage`, `## Component Props - Critical Rules`, `## Blade Pitfalls`, `## Props Naming Convention`.
-2. `/Users/michal/DEV/webfloo/docs/ARCHITECTURE.md` — `## Atomic Design — Blade (webfloo) i Vue (thezero)` table.
+1. `/Users/michal/PROJEKTY/webfloo/CLAUDE.md` — `## Adding a Blade Component`, `## Component Usage`, `## Component Props - Critical Rules`, `## Blade Pitfalls`, `## Props Naming Convention`.
+2. `/Users/michal/PROJEKTY/webfloo/docs/ARCHITECTURE.md` — `## Atomic Design — Blade (webfloo) i Vue (thezero)` table.
 
 ## Checks
 ### Placement

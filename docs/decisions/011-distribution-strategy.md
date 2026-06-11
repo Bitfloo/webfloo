@@ -265,7 +265,7 @@ env:
 Dev który aktywnie hacks na webfloo + chce natychmiastowy feedback w bitfloo-web może tymczasowo override'ować `composer.json` konsumenta:
 
 ```bash
-cd ~/DEV/bitfloo-web
+cd ~/PROJEKTY/bitfloo-web
 composer config repositories.webfloo path ../webfloo  # override lokalny
 composer update bitfloo/webfloo  # symlinkuje
 # ...dev iteruje...

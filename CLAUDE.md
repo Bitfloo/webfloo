@@ -11,9 +11,9 @@ Specific to bitfloo.com -> `app/`. Reusable -> here.
 Krótka wersja:
 - Logika / Model / Filament / Blade admin → **tu (`webfloo`)**
 - Reusable PHP Services (`src/Services/`) → **tu (`webfloo`)**
-- Vue Atom / shadcn-vue primitive → **`~/DEV/thezero/packages/core/`** (`@bitfloo/thezero-core` npm)
-- Vue Molecule / Organism / Section / Page / Layout → **`~/DEV/thezero/packages/template/`** (`@bitfloo/thezero-template`, NIE publikowany)
-- bitfloo.com-specific (content, routes, środowisko) → **`~/DEV/bitfloo-web/`**
+- Vue Atom / shadcn-vue primitive → **`~/PROJEKTY/thezero/packages/core/`** (`@bitfloo/thezero-core` npm)
+- Vue Molecule / Organism / Section / Page / Layout → **`~/PROJEKTY/thezero/packages/template/`** (`@bitfloo/thezero-template`, NIE publikowany)
+- bitfloo.com-specific (content, routes, środowisko) → **`~/PROJEKTY/bitfloo-web/`**
 
 Pełna matrix (content types, widgets, services, controllery, trait'y, flow end-to-end) — w `docs/ARCHITECTURE.md`.
 
@@ -60,7 +60,7 @@ Konsument dostaje webfloo przez `type: vcs` w swoim composer.json (ADR-011). Wym
 Dev webfloo który chce testować zmiany lokalnie w bitfloo-web (bez push):
 
 ```bash
-cd ~/DEV/bitfloo-web
+cd ~/PROJEKTY/bitfloo-web
 composer config repositories.webfloo path ../webfloo  # override
 composer update bitfloo/webfloo
 # ...iterate...
@@ -195,7 +195,7 @@ Before using any component: read PHP class for prop names/types, match format (s
 Nie używaj `cbc:*` ani `plugin-dev:*` w tym repo — webfloo to Laravel Composer
 package, nie plugin Claude Code ani źródło pluginu CBC.
 
-- Dla pracy nad CBC: `~/DEV/cbc/`
+- Dla pracy nad CBC: `~/PROJEKTY/cbc/`
 - Dla pracy nad pluginami Claude Code: użyj `plugin-dev:*` w odpowiednim repo pluginu
 - Dla webfloo: używaj agentów ogólnych (`feature-dev:code-reviewer`,
   `feature-dev:code-architect`, `cbc:code-guardian`) oraz webfloo-specyficznych:

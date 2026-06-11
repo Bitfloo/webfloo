@@ -420,7 +420,7 @@ Nie robię w tej Phase 1:
 ## Appendix A — Plik tree po Phase 1
 
 ```
-~/DEV/webfloo/                           (unchanged structure, + publish workflow)
+~/PROJEKTY/webfloo/                           (unchanged structure, + publish workflow)
 ├── .github/workflows/
 │   ├── check.yml                        (exists)
 │   └── publish.yml                       ← NEW (T1.2)
@@ -440,7 +440,7 @@ Nie robię w tej Phase 1:
 ├── tests/                                (unchanged, expanded later)
 └── composer.json                         ← version field removed (T1.2)
 
-~/DEV/thezero/                            (MONOREPO after T3)
+~/PROJEKTY/thezero/                            (MONOREPO after T3)
 ├── .github/workflows/
 │   ├── ci.yml                            ← UPDATED (T3.10)
 │   └── publish.yml                       ← UPDATED (T3.11)
@@ -472,7 +472,7 @@ Nie robię w tej Phase 1:
 ├── package-lock.json / pnpm-lock.yaml    (auto-updated)
 └── tsconfig.json                         (unchanged)
 
-~/DEV/bitfloo-web/                        (thin consumer after T2, T4)
+~/PROJEKTY/bitfloo-web/                        (thin consumer after T2, T4)
 ├── composer.json                         ← MODIFIED (T2.2)
 ├── package.json                          ← MODIFIED (T4.2)
 ├── vite.config.js                        ← MODIFIED (T4.4)
