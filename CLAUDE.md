@@ -57,18 +57,22 @@ Konsument dostaje webfloo przez `type: vcs` w swoim composer.json (ADR-011). Wym
 }
 ```
 
-Dev webfloo który chce testować zmiany lokalnie w bitfloo-web (bez push):
+Dev webfloo który chce testować zmiany lokalnie w konsumencie (bez release) — path override z symlinkiem:
 
 ```bash
-cd ~/PROJEKTY/bitfloo-web
-composer config repositories.webfloo path ../webfloo  # override
-composer update bitfloo/webfloo
-# ...iterate...
-composer config --unset repositories.webfloo         # restore vcs
-composer update bitfloo/webfloo
+cd <konsument>  # bitfloo-web: webfloo to ../webfloo | wcserwis-www: ../../webfloo
+composer config repositories.webfloo '{"type":"path","url":"../webfloo","options":{"versions":{"bitfloo/webfloo":"0.0.999"}}}'
+composer update bitfloo/webfloo   # vendor/bitfloo/webfloo staje się symlinkiem
+# ...iterate — edycje w webfloo widoczne natychmiast...
+git checkout composer.json composer.lock   # restore vcs
+composer update bitfloo/webfloo            # wraca na tag z GitHuba
 ```
 
-**Nie commituj** tego override'u.
+Dlaczego `options.versions`: webfloo nie ma pola `version` w composer.json, więc path repo zgłasza się jako `dev-main` — constraint `0.0.*` przy `minimum-stability: stable` konsumenta odrzuci go bez podszycia wersji.
+
+Dlaczego `git checkout`, nie `composer config --unset`: konsumenci (bitfloo-web, wcserwis-www) trzymają wpis vcs na stałe w composer.json — unset usunąłby go całkiem.
+
+**Nie commituj** tego override'u (composer.json ani composer.lock w stanie path).
 
 ## Structure
 
