@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 use Spatie\Permission\PermissionServiceProvider;
+use Webfloo\Models\Setting;
 use Webfloo\Tests\Models\User;
 use Webfloo\Tests\Providers\TestPanelProvider;
 use Webfloo\WebflooServiceProvider;
@@ -20,6 +21,15 @@ abstract class TestCase extends OrchestraTestCase
     // (e.g. SupportServiceProvider which registers Blade macros like ->grid())
     // are auto-loaded without having to enumerate them manually.
     protected $enablesPackageDiscoveries = true;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Static request cache survives across tests in the same process;
+        // without a flush, settings written in one test leak into the next.
+        Setting::flushRequestCache();
+    }
 
     /**
      * @param  Application  $app

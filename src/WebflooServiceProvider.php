@@ -2,8 +2,11 @@
 
 namespace Webfloo;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Webfloo\Events\LeadCreated;
+use Webfloo\Listeners\SendNewLeadNotification;
 use Webfloo\Services\PluginTranslationRegistry;
 use Webfloo\Services\ThemeService;
 use Webfloo\Support\ModuleRegistry;
@@ -27,6 +30,7 @@ class WebflooServiceProvider extends ServiceProvider
 
         $this->registerBladeComponents();
         $this->registerRoutes();
+        $this->registerEventListeners();
 
         if ($this->app->runningInConsole()) {
             /*
@@ -96,6 +100,13 @@ class WebflooServiceProvider extends ServiceProvider
             Route::prefix('api')
                 ->middleware('api')
                 ->group(__DIR__.'/../routes/api.php');
+        }
+    }
+
+    protected function registerEventListeners(): void
+    {
+        if (ModuleRegistry::isEnabled('crm')) {
+            Event::listen(LeadCreated::class, SendNewLeadNotification::class);
         }
     }
 }

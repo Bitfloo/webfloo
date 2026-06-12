@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use Webfloo\Events\LeadCreated;
 use Webfloo\Models\Lead;
 
 class LeadWebhookController extends Controller
@@ -88,6 +89,8 @@ class LeadWebhookController extends Controller
             'description' => $data['source_name'] ?? 'External source',
             'metadata' => $metadata,
         ]);
+
+        event(new LeadCreated($lead));
 
         return response()->json([
             'success' => true,
