@@ -11,6 +11,8 @@ use Webfloo\Models\Lead;
 
 class LeadConversionChart extends ChartWidget
 {
+    use Concerns\VisibleToCrmUsers;
+
     protected ?string $heading = 'Konwersja w czasie';
 
     protected static ?int $sort = 4;

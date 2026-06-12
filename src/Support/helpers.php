@@ -1,7 +1,23 @@
 <?php
 
 use Illuminate\Foundation\Auth\User as AuthUser;
+use Illuminate\Support\Str;
 use Webfloo\Models\Setting;
+
+if (! function_exists('webfloo_permission')) {
+    /**
+     * Build a Shield v4 permission identifier: {StudlyAction}:{StudlySubject},
+     * e.g. webfloo_permission('view_any', 'post') => "ViewAny:Post".
+     *
+     * Single source of the permission-name format — shared by every
+     * canAccess() gate and ShieldRolesSeeder. Must match what
+     * `shield:generate` creates on the host.
+     */
+    function webfloo_permission(string $action, string $subject): string
+    {
+        return Str::studly($action).':'.Str::studly($subject);
+    }
+}
 
 if (! function_exists('webfloo_fallback_locale')) {
     /**

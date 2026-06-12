@@ -64,7 +64,7 @@ use Webfloo\Models\Testimonial;
 |   - pages           — FQN Filament Pages (non-Resource) optional.
 |   - commands        — FQN Console Commands (optional).
 |   - migrations      — filename pattern w database/migrations/.
-|   - permissions     — lista Shield permissions slug (view_any_*, itd.).
+|   - permissions     — lista Shield v4 permission identifiers (ViewAny:Post, itd.).
 |   - depends_on      — lista innych modułów wymaganych (dependency DAG).
 |
 | Host override: `php artisan vendor:publish --tag=webfloo-modules`.
@@ -95,8 +95,8 @@ return [
             '*_change_pages_status_from_enum_to_string',
         ],
         'permissions' => [
-            'view_any_page', 'view_page', 'create_page', 'update_page', 'delete_page',
-            'view_site_settings', 'view_home_page_settings', 'view_contact_page_settings',
+            'ViewAny:Page', 'View:Page', 'Create:Page', 'Update:Page', 'Delete:Page',
+            'View:SiteSettings', 'View:HomePageSettings', 'View:ContactPageSettings',
         ],
         'depends_on' => [],
     ],
@@ -122,8 +122,8 @@ return [
             '*_make_post_categories_translatable',
         ],
         'permissions' => [
-            'view_any_post', 'view_post', 'create_post', 'update_post', 'delete_post',
-            'view_any_post_category', 'view_post_category', 'create_post_category', 'update_post_category', 'delete_post_category',
+            'ViewAny:Post', 'View:Post', 'Create:Post', 'Update:Post', 'Delete:Post',
+            'ViewAny:PostCategory', 'View:PostCategory', 'Create:PostCategory', 'Update:PostCategory', 'Delete:PostCategory',
         ],
         'depends_on' => [],
     ],
@@ -144,7 +144,7 @@ return [
             '*_add_case_study_fields_to_projects_table',
         ],
         'permissions' => [
-            'view_any_project', 'view_project', 'create_project', 'update_project', 'delete_project',
+            'ViewAny:Project', 'View:Project', 'Create:Project', 'Update:Project', 'Delete:Project',
         ],
         'depends_on' => [],
     ],
@@ -164,7 +164,7 @@ return [
             '*_create_services_table',
         ],
         'permissions' => [
-            'view_any_service', 'view_service', 'create_service', 'update_service', 'delete_service',
+            'ViewAny:Service', 'View:Service', 'Create:Service', 'Update:Service', 'Delete:Service',
         ],
         'depends_on' => [],
     ],
@@ -185,7 +185,7 @@ return [
             '*_add_is_featured_to_services_and_testimonials',
         ],
         'permissions' => [
-            'view_any_testimonial', 'view_testimonial', 'create_testimonial', 'update_testimonial', 'delete_testimonial',
+            'ViewAny:Testimonial', 'View:Testimonial', 'Create:Testimonial', 'Update:Testimonial', 'Delete:Testimonial',
         ],
         'depends_on' => [],
     ],
@@ -206,7 +206,7 @@ return [
             '*_add_icon_to_faqs_table',
         ],
         'permissions' => [
-            'view_any_faq', 'view_faq', 'create_faq', 'update_faq', 'delete_faq',
+            'ViewAny:Faq', 'View:Faq', 'Create:Faq', 'Update:Faq', 'Delete:Faq',
         ],
         'depends_on' => [],
     ],
@@ -231,8 +231,8 @@ return [
          * ShieldRolesSeeder::EDITOR_RESOURCES komentarz.
          */
         'permissions' => [
-            'view_any_newsletter_subscriber', 'view_newsletter_subscriber',
-            'create_newsletter_subscriber', 'update_newsletter_subscriber', 'delete_newsletter_subscriber',
+            'ViewAny:NewsletterSubscriber', 'View:NewsletterSubscriber',
+            'Create:NewsletterSubscriber', 'Update:NewsletterSubscriber', 'Delete:NewsletterSubscriber',
         ],
         'depends_on' => [],
     ],
@@ -272,9 +272,9 @@ return [
             '*_add_converted_at_index_to_leads_table',
         ],
         'permissions' => [
-            'view_any_lead', 'view_lead', 'create_lead', 'update_lead', 'delete_lead',
-            'view_any_lead_tag', 'view_lead_tag', 'create_lead_tag', 'update_lead_tag', 'delete_lead_tag',
-            'view_crm_dashboard',
+            'ViewAny:Lead', 'View:Lead', 'Create:Lead', 'Update:Lead', 'Delete:Lead',
+            'ViewAny:LeadTag', 'View:LeadTag', 'Create:LeadTag', 'Update:LeadTag', 'Delete:LeadTag',
+            'View:CrmDashboard',
         ],
         'depends_on' => [],
     ],
@@ -294,7 +294,7 @@ return [
             '*_create_menu_items_table',
         ],
         'permissions' => [
-            'view_any_menu_item', 'view_menu_item', 'create_menu_item', 'update_menu_item', 'delete_menu_item',
+            'ViewAny:MenuItem', 'View:MenuItem', 'Create:MenuItem', 'Update:MenuItem', 'Delete:MenuItem',
         ],
         'depends_on' => [],
     ],

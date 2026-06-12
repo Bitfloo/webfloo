@@ -57,7 +57,7 @@ class TestimonialResource extends Resource
             return false;
         }
 
-        return auth()->user()?->can('view_any_testimonial') === true;
+        return auth()->user()?->can(webfloo_permission('view_any', 'testimonial')) === true;
     }
 
     public static function shouldRegisterNavigation(): bool

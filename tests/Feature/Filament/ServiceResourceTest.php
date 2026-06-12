@@ -33,7 +33,7 @@ final class ServiceResourceTest extends TestCase
 
     public function test_authorized_user_can_access_index(): void
     {
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         // Use Livewire::test to avoid full panel view rendering (Alpine.js not loaded in tests).
@@ -45,7 +45,7 @@ final class ServiceResourceTest extends TestCase
         // ServiceResource does not define custom canCreate() — Filament defaults
         // to allow when no Laravel Policy is registered for the Service model.
         // Only canAccess() (index) has the spatie permission gate.
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(CreateService::class)->assertOk();
@@ -55,7 +55,7 @@ final class ServiceResourceTest extends TestCase
     {
         // Same reasoning as create: no custom canEdit() policy in this package.
         $service = Service::factory()->create();
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])->assertOk();
@@ -69,7 +69,7 @@ final class ServiceResourceTest extends TestCase
     {
         config(['webfloo.features.services' => false]);
 
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
 
         $this->assertFalse(ServiceResource::canAccess());
 
@@ -82,7 +82,7 @@ final class ServiceResourceTest extends TestCase
     {
         config(['webfloo.features.services' => true]);
 
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
 
         $this->actingAs($user);
 
@@ -96,7 +96,7 @@ final class ServiceResourceTest extends TestCase
     public function test_index_renders_active_service_records(): void
     {
         $services = Service::factory()->active()->count(3)->create();
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
 
         $this->actingAs($user);
 
@@ -107,7 +107,7 @@ final class ServiceResourceTest extends TestCase
     public function test_index_renders_inactive_service_records(): void
     {
         $inactive = Service::factory()->inactive()->create();
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
 
         $this->actingAs($user);
 
@@ -124,7 +124,7 @@ final class ServiceResourceTest extends TestCase
     {
         $active = Service::factory()->active()->create();
         $inactive = Service::factory()->inactive()->create();
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
 
         $this->actingAs($user);
 
@@ -138,7 +138,7 @@ final class ServiceResourceTest extends TestCase
     {
         $active = Service::factory()->active()->create();
         $inactive = Service::factory()->inactive()->create();
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
 
         $this->actingAs($user);
 
@@ -154,7 +154,7 @@ final class ServiceResourceTest extends TestCase
 
     public function test_create_persists_valid_service_with_both_locales(): void
     {
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(CreateService::class)
@@ -182,7 +182,7 @@ final class ServiceResourceTest extends TestCase
 
     public function test_create_requires_title(): void
     {
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         // The form uses a plain TextInput for title (no locale switcher).
@@ -198,7 +198,7 @@ final class ServiceResourceTest extends TestCase
 
     public function test_create_requires_icon(): void
     {
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(CreateService::class)
@@ -212,7 +212,7 @@ final class ServiceResourceTest extends TestCase
 
     public function test_create_defaults_is_active_to_true(): void
     {
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(CreateService::class)
@@ -229,7 +229,7 @@ final class ServiceResourceTest extends TestCase
 
     public function test_create_defaults_sort_order_to_zero(): void
     {
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(CreateService::class)
@@ -256,7 +256,7 @@ final class ServiceResourceTest extends TestCase
             'description' => ['pl' => 'Opis PL', 'en' => 'Desc EN'],
             'icon' => 'server',
         ]);
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])
@@ -273,7 +273,7 @@ final class ServiceResourceTest extends TestCase
             'title' => ['pl' => 'Stary tytuł', 'en' => 'Old title'],
             'icon' => 'server',
         ]);
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])
@@ -293,7 +293,7 @@ final class ServiceResourceTest extends TestCase
     public function test_edit_saves_is_active_toggle(): void
     {
         $service = Service::factory()->active()->create();
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])
@@ -307,7 +307,7 @@ final class ServiceResourceTest extends TestCase
     public function test_edit_saves_is_featured_toggle(): void
     {
         $service = Service::factory()->create(['is_featured' => false]);
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(EditService::class, ['record' => $service->getRouteKey()])
@@ -325,7 +325,7 @@ final class ServiceResourceTest extends TestCase
     public function test_authorized_user_can_delete_service(): void
     {
         $service = Service::factory()->create();
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(ListServices::class)
@@ -338,7 +338,7 @@ final class ServiceResourceTest extends TestCase
     public function test_bulk_delete_removes_selected_services(): void
     {
         $services = Service::factory()->count(3)->create();
-        $user = $this->makeAdmin(['view_any_service']);
+        $user = $this->makeAdmin(['ViewAny:Service']);
         $this->actingAs($user);
 
         Livewire::test(ListServices::class)

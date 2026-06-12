@@ -48,7 +48,7 @@ class SiteSettings extends AbstractPageSettings
 
     protected static function getPermissionName(): string
     {
-        return 'view_site_settings';
+        return webfloo_permission('view', 'site_settings');
     }
 
     /**

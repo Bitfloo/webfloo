@@ -55,7 +55,7 @@ class PostCategoryResource extends Resource
             return false;
         }
 
-        return auth()->user()?->can('view_any_post_category') === true;
+        return auth()->user()?->can(webfloo_permission('view_any', 'post_category')) === true;
     }
 
     public static function shouldRegisterNavigation(): bool

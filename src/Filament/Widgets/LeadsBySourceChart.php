@@ -9,6 +9,8 @@ use Webfloo\Models\Lead;
 
 class LeadsBySourceChart extends ChartWidget
 {
+    use Concerns\VisibleToCrmUsers;
+
     protected ?string $heading = 'Leady wg źródła';
 
     protected static ?int $sort = 3;

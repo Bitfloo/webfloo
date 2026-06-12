@@ -10,6 +10,8 @@ use Webfloo\Models\Lead;
 
 class LeadStatsOverview extends StatsOverviewWidget
 {
+    use Concerns\VisibleToCrmUsers;
+
     protected static ?int $sort = 0;
 
     protected int|string|array $columnSpan = 'full';

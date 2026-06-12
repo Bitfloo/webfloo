@@ -9,6 +9,8 @@ use Webfloo\Models\Lead;
 
 class LeadsByStatusChart extends ChartWidget
 {
+    use Concerns\VisibleToCrmUsers;
+
     protected ?string $heading = 'Leady wg statusu';
 
     protected static ?int $sort = 2;

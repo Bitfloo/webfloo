@@ -65,7 +65,7 @@ class PageResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()?->can('view_any_page') === true;
+        return auth()->user()?->can(webfloo_permission('view_any', 'page')) === true;
     }
 
     public static function shouldRegisterNavigation(): bool

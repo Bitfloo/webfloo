@@ -11,6 +11,8 @@ use Webfloo\Models\LeadReminder;
 
 class UpcomingRemindersWidget extends BaseWidget
 {
+    use Concerns\VisibleToCrmUsers;
+
     protected static ?int $sort = 5;
 
     protected int|string|array $columnSpan = 'full';

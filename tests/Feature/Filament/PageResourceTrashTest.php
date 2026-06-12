@@ -16,7 +16,7 @@ final class PageResourceTrashTest extends TestCase
 
     public function test_trashed_page_hidden_by_default_and_visible_under_trashed_filter(): void
     {
-        $this->actingAs($this->makeAdmin(['view_any_page']));
+        $this->actingAs($this->makeAdmin(['ViewAny:Page']));
 
         $active = Page::factory()->published()->create();
         $trashed = Page::factory()->published()->create();
@@ -32,7 +32,7 @@ final class PageResourceTrashTest extends TestCase
 
     public function test_restore_action_restores_trashed_page(): void
     {
-        $this->actingAs($this->makeAdmin(['view_any_page']));
+        $this->actingAs($this->makeAdmin(['ViewAny:Page']));
 
         $page = Page::factory()->published()->create();
         $page->delete();
@@ -46,7 +46,7 @@ final class PageResourceTrashTest extends TestCase
 
     public function test_force_delete_permanently_removes_page(): void
     {
-        $this->actingAs($this->makeAdmin(['view_any_page']));
+        $this->actingAs($this->makeAdmin(['ViewAny:Page']));
 
         $page = Page::factory()->published()->create();
         $page->delete();

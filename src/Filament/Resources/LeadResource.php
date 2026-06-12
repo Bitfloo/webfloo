@@ -71,7 +71,7 @@ class LeadResource extends Resource
             return false;
         }
 
-        return auth()->user()?->can('view_any_lead') === true;
+        return auth()->user()?->can(webfloo_permission('view_any', 'lead')) === true;
     }
 
     // Ukryj z nawigacji -- dostep tylko przez CRM Dashboard

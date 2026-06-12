@@ -46,8 +46,9 @@ abstract class AbstractPageSettings extends Page implements HasForms
     /**
      * Shield permission name gating access to this settings page.
      *
-     * Implementations return the Shield-style permission string
-     * (e.g. 'view_home_page_settings'). Used by canAccess() below.
+     * Implementations return the Shield v4 identifier via
+     * webfloo_permission('view', 'home_page_settings') => "View:HomePageSettings".
+     * Used by canAccess() below.
      */
     abstract protected static function getPermissionName(): string;
 

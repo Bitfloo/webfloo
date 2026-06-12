@@ -38,7 +38,7 @@ class ContactPageSettings extends AbstractPageSettings
 
     protected static function getPermissionName(): string
     {
-        return 'view_contact_page_settings';
+        return webfloo_permission('view', 'contact_page_settings');
     }
 
     public function mount(): void

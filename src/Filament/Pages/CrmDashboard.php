@@ -55,7 +55,7 @@ class CrmDashboard extends Page implements HasActions, HasForms
             return false;
         }
 
-        return auth()->user()?->can('view_crm_dashboard') === true;
+        return auth()->user()?->can(webfloo_permission('view', 'crm_dashboard')) === true;
     }
 
     public static function shouldRegisterNavigation(): bool

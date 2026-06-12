@@ -54,7 +54,7 @@ class LeadTagResource extends Resource
             return false;
         }
 
-        return auth()->user()?->can('view_any_lead_tag') === true;
+        return auth()->user()?->can(webfloo_permission('view_any', 'lead_tag')) === true;
     }
 
     // Ukryj z nawigacji -- tagi zarzadzane przez CRM Dashboard

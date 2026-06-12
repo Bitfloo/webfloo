@@ -35,7 +35,7 @@ final class ProjectResourceTest extends TestCase
 
     public function test_authorized_user_can_access_index(): void
     {
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         Livewire::test(ListProjects::class)->assertOk();
@@ -43,7 +43,7 @@ final class ProjectResourceTest extends TestCase
 
     public function test_authorized_user_can_access_create_page(): void
     {
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         Livewire::test(CreateProject::class)->assertOk();
@@ -67,7 +67,7 @@ final class ProjectResourceTest extends TestCase
     {
         config(['webfloo.features.portfolio' => false]);
 
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
 
         $this->assertFalse(ProjectResource::canAccess());
 
@@ -80,7 +80,7 @@ final class ProjectResourceTest extends TestCase
     {
         config(['webfloo.features.portfolio' => true]);
 
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         $this->assertTrue(ProjectResource::canAccess());
@@ -93,7 +93,7 @@ final class ProjectResourceTest extends TestCase
     public function test_index_renders_active_project_records(): void
     {
         $projects = Project::factory()->active()->count(3)->create();
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
 
         $this->actingAs($user);
 
@@ -104,7 +104,7 @@ final class ProjectResourceTest extends TestCase
     public function test_index_renders_inactive_project_records(): void
     {
         $inactive = Project::factory()->inactive()->create();
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
 
         $this->actingAs($user);
 
@@ -121,7 +121,7 @@ final class ProjectResourceTest extends TestCase
     {
         $active = Project::factory()->active()->create();
         $inactive = Project::factory()->inactive()->create();
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
 
         $this->actingAs($user);
 
@@ -135,7 +135,7 @@ final class ProjectResourceTest extends TestCase
     {
         $active = Project::factory()->active()->create();
         $inactive = Project::factory()->inactive()->create();
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
 
         $this->actingAs($user);
 
@@ -149,7 +149,7 @@ final class ProjectResourceTest extends TestCase
     {
         $featured = Project::factory()->featured()->create();
         $notFeatured = Project::factory()->create(['is_featured' => false]);
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
 
         $this->actingAs($user);
 
@@ -163,7 +163,7 @@ final class ProjectResourceTest extends TestCase
     {
         $fintech = Project::factory()->create(['industry' => 'fintech']);
         $media = Project::factory()->create(['industry' => 'media']);
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
 
         $this->actingAs($user);
 
@@ -177,7 +177,7 @@ final class ProjectResourceTest extends TestCase
     {
         $web = Project::factory()->create(['category' => 'web']);
         $saas = Project::factory()->create(['category' => 'saas']);
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
 
         $this->actingAs($user);
 
@@ -193,7 +193,7 @@ final class ProjectResourceTest extends TestCase
 
     public function test_create_form_persists_new_project_record(): void
     {
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         // title uses afterStateUpdated with ?string type hint — passing a locale array
@@ -243,7 +243,7 @@ final class ProjectResourceTest extends TestCase
 
     public function test_create_requires_title(): void
     {
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         Livewire::test(CreateProject::class)
@@ -257,7 +257,7 @@ final class ProjectResourceTest extends TestCase
 
     public function test_create_requires_slug(): void
     {
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         Livewire::test(CreateProject::class)
@@ -272,7 +272,7 @@ final class ProjectResourceTest extends TestCase
     public function test_create_rejects_duplicate_slug(): void
     {
         Project::factory()->create(['slug' => 'zajety-slug']);
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         Livewire::test(CreateProject::class)
@@ -286,7 +286,7 @@ final class ProjectResourceTest extends TestCase
 
     public function test_create_defaults_is_active_to_true(): void
     {
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         Livewire::test(CreateProject::class)
@@ -302,7 +302,7 @@ final class ProjectResourceTest extends TestCase
 
     public function test_create_defaults_sort_order_to_zero(): void
     {
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         Livewire::test(CreateProject::class)
@@ -325,7 +325,7 @@ final class ProjectResourceTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         $file = UploadedFile::fake()->image('hero.jpg', 800, 600);
@@ -348,7 +348,7 @@ final class ProjectResourceTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         $avatar = UploadedFile::fake()->image('client.jpg', 100, 100);
@@ -403,7 +403,7 @@ final class ProjectResourceTest extends TestCase
     public function test_authorized_user_can_delete_project(): void
     {
         $project = Project::factory()->create();
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         Livewire::test(ListProjects::class)
@@ -416,7 +416,7 @@ final class ProjectResourceTest extends TestCase
     public function test_bulk_delete_removes_selected_projects(): void
     {
         $projects = Project::factory()->count(3)->create();
-        $user = $this->makeAdmin(['view_any_project']);
+        $user = $this->makeAdmin(['ViewAny:Project']);
         $this->actingAs($user);
 
         Livewire::test(ListProjects::class)

@@ -16,7 +16,7 @@ final class PostResourceTrashTest extends TestCase
 
     public function test_trashed_post_visible_under_trashed_filter_and_restorable(): void
     {
-        $this->actingAs($this->makeAdmin(['view_any_post']));
+        $this->actingAs($this->makeAdmin(['ViewAny:Post']));
 
         $post = Post::factory()->published()->create();
         $post->delete();

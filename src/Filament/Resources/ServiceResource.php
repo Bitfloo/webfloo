@@ -55,7 +55,7 @@ class ServiceResource extends Resource
             return false;
         }
 
-        return auth()->user()?->can('view_any_service') === true;
+        return auth()->user()?->can(webfloo_permission('view_any', 'service')) === true;
     }
 
     public static function shouldRegisterNavigation(): bool

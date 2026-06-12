@@ -35,7 +35,7 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_authorized_user_can_access_index(): void
     {
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(ListTestimonials::class)->assertOk();
@@ -43,7 +43,7 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_authorized_user_can_access_create_page(): void
     {
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(CreateTestimonial::class)->assertOk();
@@ -52,7 +52,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_authorized_user_can_access_edit_page(): void
     {
         $testimonial = Testimonial::factory()->create();
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])->assertOk();
@@ -66,7 +66,7 @@ final class TestimonialResourceTest extends TestCase
     {
         config(['webfloo.features.testimonials' => false]);
 
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
 
         $this->assertFalse(TestimonialResource::canAccess());
 
@@ -79,7 +79,7 @@ final class TestimonialResourceTest extends TestCase
     {
         config(['webfloo.features.testimonials' => true]);
 
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         $this->assertTrue(TestimonialResource::canAccess());
@@ -92,7 +92,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_index_renders_active_testimonial_records(): void
     {
         $testimonials = Testimonial::factory()->active()->count(3)->create();
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
 
         $this->actingAs($user);
 
@@ -103,7 +103,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_index_renders_inactive_testimonial_records(): void
     {
         $inactive = Testimonial::factory()->inactive()->create();
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
 
         $this->actingAs($user);
 
@@ -119,7 +119,7 @@ final class TestimonialResourceTest extends TestCase
     {
         $active = Testimonial::factory()->active()->create();
         $inactive = Testimonial::factory()->inactive()->create();
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
 
         $this->actingAs($user);
 
@@ -133,7 +133,7 @@ final class TestimonialResourceTest extends TestCase
     {
         $active = Testimonial::factory()->active()->create();
         $inactive = Testimonial::factory()->inactive()->create();
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
 
         $this->actingAs($user);
 
@@ -149,7 +149,7 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_create_persists_valid_testimonial_with_both_locales(): void
     {
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(CreateTestimonial::class)
@@ -186,7 +186,7 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_create_requires_content_not_null(): void
     {
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         // The Textarea->required() rule evaluates the raw field value.
@@ -203,7 +203,7 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_create_requires_author(): void
     {
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(CreateTestimonial::class)
@@ -217,7 +217,7 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_create_stores_rating_from_select(): void
     {
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(CreateTestimonial::class)
@@ -234,7 +234,7 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_create_defaults_is_active_to_true(): void
     {
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(CreateTestimonial::class)
@@ -250,7 +250,7 @@ final class TestimonialResourceTest extends TestCase
 
     public function test_create_defaults_rating_to_five(): void
     {
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(CreateTestimonial::class)
@@ -272,7 +272,7 @@ final class TestimonialResourceTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         $file = UploadedFile::fake()->image('avatar.jpg', 100, 100);
@@ -304,7 +304,7 @@ final class TestimonialResourceTest extends TestCase
             'role' => ['pl' => 'Menedżer', 'en' => 'Manager'],
             'rating' => 4,
         ]);
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
@@ -322,7 +322,7 @@ final class TestimonialResourceTest extends TestCase
             'content' => ['pl' => 'Stara opinia', 'en' => 'Old review'],
             'author' => 'Stary Autor',
         ]);
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
@@ -342,7 +342,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_edit_saves_is_active_toggle(): void
     {
         $testimonial = Testimonial::factory()->active()->create();
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
@@ -356,7 +356,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_edit_saves_is_featured_toggle(): void
     {
         $testimonial = Testimonial::factory()->create(['is_featured' => false]);
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
@@ -370,7 +370,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_edit_saves_updated_rating(): void
     {
         $testimonial = Testimonial::factory()->withRating(5)->create();
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(EditTestimonial::class, ['record' => $testimonial->getRouteKey()])
@@ -388,7 +388,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_authorized_user_can_delete_testimonial(): void
     {
         $testimonial = Testimonial::factory()->create();
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(ListTestimonials::class)
@@ -401,7 +401,7 @@ final class TestimonialResourceTest extends TestCase
     public function test_bulk_delete_removes_selected_testimonials(): void
     {
         $testimonials = Testimonial::factory()->count(3)->create();
-        $user = $this->makeAdmin(['view_any_testimonial']);
+        $user = $this->makeAdmin(['ViewAny:Testimonial']);
         $this->actingAs($user);
 
         Livewire::test(ListTestimonials::class)

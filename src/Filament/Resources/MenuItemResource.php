@@ -58,7 +58,7 @@ class MenuItemResource extends Resource
             return false;
         }
 
-        return auth()->user()?->can('view_any_menu_item') === true;
+        return auth()->user()?->can(webfloo_permission('view_any', 'menu_item')) === true;
     }
 
     public static function shouldRegisterNavigation(): bool

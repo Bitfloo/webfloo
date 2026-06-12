@@ -43,7 +43,7 @@ class HomePageSettings extends AbstractPageSettings
 
     protected static function getPermissionName(): string
     {
-        return 'view_home_page_settings';
+        return webfloo_permission('view', 'home_page_settings');
     }
 
     /**

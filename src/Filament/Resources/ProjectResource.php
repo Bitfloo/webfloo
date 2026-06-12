@@ -65,7 +65,7 @@ class ProjectResource extends Resource
             return false;
         }
 
-        return auth()->user()?->can('view_any_project') === true;
+        return auth()->user()?->can(webfloo_permission('view_any', 'project')) === true;
     }
 
     public static function shouldRegisterNavigation(): bool
