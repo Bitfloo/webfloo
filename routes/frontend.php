@@ -14,6 +14,8 @@ Route::get('/robots.txt', [PageController::class, 'robots'])->name('webfloo.robo
 
 if (ModuleRegistry::isEnabled('blog')) {
     Route::get('/blog', [BlogController::class, 'index'])->name('webfloo.blog.index');
+    // Feed BEFORE the {slug} route — otherwise "feed" resolves as a slug.
+    Route::get('/blog/feed', [BlogController::class, 'feed'])->name('webfloo.blog.feed');
     Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('webfloo.blog.show');
 }
 

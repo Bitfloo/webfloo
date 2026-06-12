@@ -18,6 +18,7 @@ class FrontendDisabledTest extends TestCase
         $this->assertFalse(Route::has('webfloo.page.show'));
         $this->assertFalse(Route::has('webfloo.preview.page'));
         $this->assertFalse(Route::has('webfloo.preview.post'));
+        $this->assertFalse(Route::has('webfloo.blog.feed'));
     }
 
     public function test_post_url_falls_back_to_literal_path_without_routes(): void

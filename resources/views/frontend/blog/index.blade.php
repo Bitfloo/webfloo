@@ -1,4 +1,7 @@
 <x-webfloo-layout :seo="['title' => setting('blog.title', 'Blog'), 'description' => setting('blog.description'), 'image' => null, 'no_index' => false]" :canonical="url('/blog')">
+    <x-slot:head>
+        <link rel="alternate" type="application/rss+xml" title="{{ setting('blog.title', 'Blog') }}" href="{{ url(route('webfloo.blog.feed', [], false)) }}">
+    </x-slot:head>
     <div class="container mx-auto px-4 py-16">
         <div class="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>

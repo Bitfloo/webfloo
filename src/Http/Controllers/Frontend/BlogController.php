@@ -7,6 +7,7 @@ namespace Webfloo\Http\Controllers\Frontend;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Webfloo\Models\Post;
 use Webfloo\Models\PostCategory;
 
@@ -15,6 +16,8 @@ class BlogController extends FrontendController
     private const PER_PAGE = 12;
 
     private const MIN_SEARCH_LENGTH = 3;
+
+    private const FEED_SIZE = 20;
 
     public function index(Request $request): View
     {
@@ -40,6 +43,20 @@ class BlogController extends FrontendController
             'categories' => PostCategory::query()->active()->orderBy('sort_order')->get(),
             'search' => $search,
         ]);
+    }
+
+    public function feed(): Response
+    {
+        $posts = Post::query()
+            ->published()
+            ->with('category')
+            ->orderByDesc('published_at')
+            ->limit(self::FEED_SIZE)
+            ->get();
+
+        $xml = view('webfloo::frontend.blog.feed', ['posts' => $posts])->render();
+
+        return response($xml, 200, ['Content-Type' => 'application/rss+xml; charset=UTF-8']);
     }
 
     public function show(string $slug): View
