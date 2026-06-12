@@ -2,6 +2,7 @@
 
 namespace Webfloo;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -31,6 +32,7 @@ class WebflooServiceProvider extends ServiceProvider
         $this->registerBladeComponents();
         $this->registerRoutes();
         $this->registerEventListeners();
+        $this->registerSchedule();
 
         if ($this->app->runningInConsole()) {
             /*
@@ -109,5 +111,22 @@ class WebflooServiceProvider extends ServiceProvider
         if (ModuleRegistry::isEnabled('crm')) {
             Event::listen(LeadCreated::class, SendNewLeadNotification::class);
         }
+    }
+
+    protected function registerSchedule(): void
+    {
+        $this->callAfterResolving(Schedule::class, function (Schedule $schedule): void {
+            if (! config('webfloo.schedule.enabled', true)) {
+                return;
+            }
+
+            if (ModuleRegistry::isEnabled('seo')) {
+                $schedule->command('sitemap:generate')->weekly();
+            }
+
+            if (ModuleRegistry::isEnabled('crm')) {
+                $schedule->command('leads:send-reminders')->dailyAt('08:00');
+            }
+        });
     }
 }

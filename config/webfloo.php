@@ -68,6 +68,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Scheduler
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, the package registers its recurring commands
+    | (sitemap:generate, leads:send-reminders) on Laravel's scheduler.
+    | Set to false if the host app manages scheduling itself.
+    |
+    */
+    'schedule' => [
+        'enabled' => true,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Theme Configuration (SSOT)
     |--------------------------------------------------------------------------
     |
