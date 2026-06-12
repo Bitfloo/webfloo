@@ -58,6 +58,10 @@ class WebflooServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../lang' => lang_path('vendor/webfloo'),
             ], 'webfloo-lang');
+
+            $this->publishes([
+                __DIR__.'/../resources/views/errors' => resource_path('views/errors'),
+            ], 'webfloo-error-pages');
         }
     }
 

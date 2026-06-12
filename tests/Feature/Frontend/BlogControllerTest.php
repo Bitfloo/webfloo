@@ -52,11 +52,13 @@ class BlogControllerTest extends TestCase
         $this->assertSame(6, $post->fresh()?->views_count);
     }
 
-    public function test_blog_show_returns_404_for_draft(): void
+    public function test_blog_show_returns_branded_404_for_draft(): void
     {
         $post = Post::factory()->draft()->create();
 
-        $this->get('/blog/'.$post->slug)->assertNotFound();
+        $this->get('/blog/'.$post->slug)
+            ->assertNotFound()
+            ->assertSee('Strona nie znaleziona');
     }
 
     public function test_blog_index_search_filters_by_title(): void

@@ -78,9 +78,11 @@ class PageControllerTest extends TestCase
         $this->get('/web-development')->assertNotFound();
     }
 
-    public function test_unknown_path_returns_404(): void
+    public function test_unknown_path_returns_branded_404(): void
     {
-        $this->get('/does-not-exist')->assertNotFound();
+        $this->get('/does-not-exist')
+            ->assertNotFound()
+            ->assertSee('Strona nie znaleziona');
     }
 
     public function test_home_route_renders_home_template_page(): void

@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Webfloo\Http\Controllers\Frontend;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Webfloo\Models\Project;
 
-class PortfolioController extends Controller
+class PortfolioController extends FrontendController
 {
     public function index(): View
     {
@@ -20,8 +19,12 @@ class PortfolioController extends Controller
 
     public function show(string $slug): View
     {
-        /** @var Project $project */
-        $project = Project::query()->active()->where('slug', $slug)->firstOrFail();
+        /** @var Project|null $project */
+        $project = Project::query()->active()->where('slug', $slug)->first();
+
+        if ($project === null) {
+            $this->abortNotFound();
+        }
 
         // Project does not use HasSeo — build the seo array from its fields.
         return view('webfloo::frontend.portfolio.show', [

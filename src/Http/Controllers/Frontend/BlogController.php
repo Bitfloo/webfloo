@@ -7,11 +7,10 @@ namespace Webfloo\Http\Controllers\Frontend;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Webfloo\Models\Post;
 use Webfloo\Models\PostCategory;
 
-class BlogController extends Controller
+class BlogController extends FrontendController
 {
     private const PER_PAGE = 12;
 
@@ -45,8 +44,12 @@ class BlogController extends Controller
 
     public function show(string $slug): View
     {
-        /** @var Post $post */
-        $post = Post::query()->published()->with(['category'])->where('slug', $slug)->firstOrFail();
+        /** @var Post|null $post */
+        $post = Post::query()->published()->with(['category'])->where('slug', $slug)->first();
+
+        if ($post === null) {
+            $this->abortNotFound();
+        }
 
         $post->incrementViews();
 

@@ -7,7 +7,6 @@ namespace Webfloo\Http\Controllers\Frontend;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Webfloo\Models\Faq;
 use Webfloo\Models\Page;
 use Webfloo\Models\Project;
@@ -15,7 +14,7 @@ use Webfloo\Models\Service;
 use Webfloo\Models\Testimonial;
 use Webfloo\Support\ModuleRegistry;
 
-class PageController extends Controller
+class PageController extends FrontendController
 {
     public function home(): View
     {
@@ -23,7 +22,9 @@ class PageController extends Controller
         $page = Page::query()->published()->withParentChain()->byTemplate('home')->first()
             ?? Page::query()->published()->withParentChain()->where('slug', 'home')->first();
 
-        abort_if($page === null, 404);
+        if ($page === null) {
+            $this->abortNotFound();
+        }
 
         return $this->renderPage($page);
     }
@@ -35,7 +36,9 @@ class PageController extends Controller
     {
         $path = trim($request->path(), '/');
 
-        abort_if($path === '', 404);
+        if ($path === '') {
+            $this->abortNotFound();
+        }
 
         $segments = explode('/', $path);
         $slug = (string) end($segments);
@@ -45,7 +48,9 @@ class PageController extends Controller
 
         // Slug must resolve AND the requested path must match the page's
         // canonical URL (a nested page is not served at its bare slug).
-        abort_if($page === null || trim($page->url, '/') !== $path, 404);
+        if ($page === null || trim($page->url, '/') !== $path) {
+            $this->abortNotFound();
+        }
 
         return $this->renderPage($page);
     }
