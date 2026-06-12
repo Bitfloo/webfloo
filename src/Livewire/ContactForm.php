@@ -12,6 +12,9 @@ use Webfloo\Models\Lead;
 
 class ContactForm extends Component
 {
+    /** Public so tests can target the limiter without re-stating the key. */
+    public const RATE_LIMITER_PREFIX = 'webfloo-contact:';
+
     private const MAX_ATTEMPTS_PER_MINUTE = 3;
 
     public string $name = '';
@@ -64,7 +67,7 @@ class ContactForm extends Component
             return;
         }
 
-        $key = 'webfloo-contact:'.request()->ip();
+        $key = self::RATE_LIMITER_PREFIX.request()->ip();
 
         if (RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS_PER_MINUTE)) {
             $this->addError('form', __('Zbyt wiele prob. Sprobuj ponownie za chwile.'));

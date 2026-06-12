@@ -32,7 +32,7 @@ class ContactFormTest extends TestCase
     {
         parent::setUp();
 
-        RateLimiter::clear('webfloo-contact:127.0.0.1');
+        RateLimiter::clear(ContactForm::RATE_LIMITER_PREFIX.'127.0.0.1');
     }
 
     public function test_valid_submission_creates_lead_with_consent(): void
