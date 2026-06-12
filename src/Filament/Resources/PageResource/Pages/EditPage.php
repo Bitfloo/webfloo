@@ -4,6 +4,7 @@ namespace Webfloo\Filament\Resources\PageResource\Pages;
 
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Webfloo\Filament\Actions\PreviewAction;
 use Webfloo\Filament\Resources\PageResource;
 
 class EditPage extends EditRecord
@@ -13,6 +14,7 @@ class EditPage extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            PreviewAction::make('webfloo.preview.page', 'page'),
             DeleteAction::make(),
         ];
     }

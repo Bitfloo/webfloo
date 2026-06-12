@@ -4,6 +4,7 @@ namespace Webfloo\Filament\Resources\PostResource\Pages;
 
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Webfloo\Filament\Actions\PreviewAction;
 use Webfloo\Filament\Resources\PostResource;
 
 class EditPost extends EditRecord
@@ -13,6 +14,7 @@ class EditPost extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            PreviewAction::make('webfloo.preview.post', 'post'),
             DeleteAction::make(),
         ];
     }
