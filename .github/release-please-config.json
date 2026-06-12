@@ -3,7 +3,6 @@
   "release-type": "php",
   "packages": {
     ".": {
-      "package-name": "bitfloo/webfloo",
       "changelog-path": "CHANGELOG.md",
       "include-component-in-tag": false,
       "tag-separator": "",
