@@ -115,6 +115,34 @@ class BlogControllerTest extends TestCase
             ->assertDontSee('Italian cooking');
     }
 
+    public function test_scheduled_post_returns_404_before_publish_date(): void
+    {
+        Post::factory()->create([
+            'slug' => 'future-post',
+            'status' => 'published',
+            'published_at' => now()->addDay(),
+        ]);
+
+        $this->get('/blog/future-post')->assertNotFound();
+    }
+
+    public function test_blog_index_excludes_scheduled_posts(): void
+    {
+        Post::factory()->published()->create([
+            'title' => ['pl' => 'Na zywo', 'en' => 'Live post'],
+        ]);
+        Post::factory()->create([
+            'status' => 'published',
+            'published_at' => now()->addDay(),
+            'title' => ['pl' => 'Przyszly', 'en' => 'Scheduled future post'],
+        ]);
+
+        $this->get('/blog')
+            ->assertOk()
+            ->assertSee('Live post')
+            ->assertDontSee('Scheduled future post');
+    }
+
     public function test_post_url_uses_named_route(): void
     {
         $post = Post::factory()->published()->create(['slug' => 'my-post']);
