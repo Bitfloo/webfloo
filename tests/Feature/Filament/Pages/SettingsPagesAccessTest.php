@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webfloo\Tests\Feature\Filament\Pages;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Webfloo\Filament\Pages\PageSettings\ContactPageSettings;
 use Webfloo\Filament\Pages\PageSettings\HomePageSettings;
 use Webfloo\Filament\Pages\SiteSettings;
@@ -51,5 +52,35 @@ class SettingsPagesAccessTest extends TestCase
         $this->actingAs($this->makeAdmin([webfloo_permission('view', 'site_settings')]));
 
         $this->assertTrue(SiteSettings::canAccess());
+    }
+
+    public function test_user_without_permission_cannot_access_any_settings_page(): void
+    {
+        $this->actingAs($this->makeAdmin());
+
+        $this->get(SiteSettings::getUrl())->assertForbidden();
+        $this->get(HomePageSettings::getUrl())->assertForbidden();
+        $this->get(ContactPageSettings::getUrl())->assertForbidden();
+    }
+
+    public function test_user_with_view_permission_can_mount_site_settings(): void
+    {
+        $this->actingAs($this->makeAdmin([webfloo_permission('view', 'site_settings')]));
+
+        Livewire::test(SiteSettings::class)->assertOk();
+    }
+
+    public function test_user_with_view_permission_can_mount_home_page_settings(): void
+    {
+        $this->actingAs($this->makeAdmin([webfloo_permission('view', 'home_page_settings')]));
+
+        Livewire::test(HomePageSettings::class)->assertOk();
+    }
+
+    public function test_user_with_view_permission_can_mount_contact_page_settings(): void
+    {
+        $this->actingAs($this->makeAdmin([webfloo_permission('view', 'contact_page_settings')]));
+
+        Livewire::test(ContactPageSettings::class)->assertOk();
     }
 }
