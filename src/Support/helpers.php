@@ -52,6 +52,12 @@ if (! function_exists('webfloo_user_model')) {
     {
         $model = config('webfloo.user_model');
 
+        // Fall back to the host's auth provider model so fresh installs
+        // (webfloo:install) work before config/webfloo.php is customized.
+        if ($model === null) {
+            $model = config('auth.providers.users.model');
+        }
+
         if (! is_string($model) || ! class_exists($model)) {
             throw new RuntimeException(
                 'webfloo.user_model must be a class-string of an Eloquent User model. '

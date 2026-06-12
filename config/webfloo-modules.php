@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 use Webfloo\Console\Commands\GenerateSitemap;
+use Webfloo\Console\Commands\Install;
 use Webfloo\Console\Commands\SendLeadReminders;
 use Webfloo\Filament\Pages\CrmDashboard;
 use Webfloo\Filament\Pages\PageSettings\ContactPageSettings;
@@ -85,7 +86,9 @@ return [
             HomePageSettings::class,
             ContactPageSettings::class,
         ],
-        'commands' => [],
+        'commands' => [
+            Install::class,
+        ],
         'migrations' => [
             '*_create_pages_table',
             '*_add_published_at_index_to_pages_table',

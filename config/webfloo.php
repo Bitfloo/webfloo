@@ -7,11 +7,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | The fully qualified class name of the User model used by your
-    | application. Every host project MUST override this in its own
-    | config/webfloo.php (published via `php artisan vendor:publish
-    | --tag=webfloo-config`) — the package cannot ship a host-specific
-    | namespace. webfloo_user_model() helper throws a RuntimeException
-    | if left null.
+    | application. When left null, webfloo_user_model() falls back to
+    | the auth provider model (config auth.providers.users.model).
+    | Override here when your User model differs from the auth default.
     |
     */
     'user_model' => null,
