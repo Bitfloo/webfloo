@@ -80,14 +80,15 @@ Dlaczego `git checkout`, nie `composer config --unset`: konsumenci (bitfloo-web,
 src/
   Components/     Blade (Atomic Design: Atoms, Molecules, Organisms, Sections, Layouts)
   Filament/       Resources, Pages (SiteSettings, ThemeSettings, CrmDashboard, PageSettings)
-  Models/         Setting, Lead, LeadActivity, LeadReminder, LeadTag, Page, Service, Project, Testimonial, Faq, Post, PostCategory, MenuItem, NewsletterSubscriber
+  Models/         Setting, Lead, LeadActivity, LeadReminder, LeadTag, Page, Service, Project, Testimonial, Faq, Post, PostCategory, MenuItem, NewsletterSubscriber, Redirect
   Traits/         HasActive, HasFeatured, HasSlug, HasSeo, Publishable, Sortable
   Services/       ThemeService (HEX to OKLCH, CSS variables)
-  Http/           LeadWebhookController (API) + Controllers/Frontend (opt-in public frontend module)
+  Http/           LeadWebhookController (API) + Controllers/Frontend (opt-in frontend module) + Middleware/HandleRedirects (404-only, redirects module)
+  Observers/      SlugChangeObserver (auto-301 on slug rename; redirects module)
   Livewire/       ContactForm (frontend module)
   Events/         LeadCreated; Listeners/ SendNewLeadNotification
   Console/        webfloo:install, sitemap:generate, leads:send-reminders
-  Support/        helpers.php (setting(), webfloo_fallback_locale(), webfloo_user_model())
+  Support/        helpers.php (setting(), webfloo_currency(), webfloo_fallback_locale(), webfloo_user_model())
 ```
 
 ## Frontend module (opt-in)

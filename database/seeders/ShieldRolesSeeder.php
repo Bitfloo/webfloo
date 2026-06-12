@@ -43,6 +43,10 @@ class ShieldRolesSeeder extends Seeder
         'testimonial',
         'faq',
         'menu_item',
+        // Content-adjacent ops tool (no PII): editors rename slugs, so they
+        // manage the redirects those renames create. Permissions exist only
+        // on hosts with the redirects module enabled (shield:generate).
+        'redirect',
     ];
 
     /**

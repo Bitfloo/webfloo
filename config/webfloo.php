@@ -38,6 +38,10 @@ return [
         // keep this off; turnkey client sites opt in.
         'frontend' => false,
 
+        // 301/302 redirects: admin-managed rules served by a 404-only
+        // middleware plus automatic redirects on slug renames. Opt-in.
+        'redirects' => false,
+
         // Admin-editable inline JS injected on every public page. Disabled
         // by default — stored-XSS surface (admin-authored script runs for
         // all visitors). Enable in host config only if operationally required

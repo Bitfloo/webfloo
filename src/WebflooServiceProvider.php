@@ -3,6 +3,7 @@
 namespace Webfloo;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -61,6 +62,7 @@ class WebflooServiceProvider extends ServiceProvider
         $this->registerRoutes();
         $this->registerEventListeners();
         $this->registerSchedule();
+        $this->registerRedirects();
 
         if ($this->app->runningInConsole()) {
             /*
@@ -162,6 +164,27 @@ class WebflooServiceProvider extends ServiceProvider
         if (ModuleRegistry::isEnabled('crm')) {
             Event::listen(LeadCreated::class, SendNewLeadNotification::class);
         }
+    }
+
+    /**
+     * 404-rescue middleware + slug-change observers for the redirects module.
+     * Middleware is pushed after the app boots so the host's web group is
+     * fully configured first.
+     */
+    protected function registerRedirects(): void
+    {
+        if (! ModuleRegistry::isEnabled('redirects')) {
+            return;
+        }
+
+        $this->app->booted(function (): void {
+            $this->app->make(Router::class)
+                ->pushMiddlewareToGroup('web', Http\Middleware\HandleRedirects::class);
+        });
+
+        Models\Page::observe(Observers\SlugChangeObserver::class);
+        Models\Post::observe(Observers\SlugChangeObserver::class);
+        Models\Project::observe(Observers\SlugChangeObserver::class);
     }
 
     protected function registerSchedule(): void

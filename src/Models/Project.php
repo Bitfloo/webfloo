@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 use Webfloo\Database\Factories\ProjectFactory;
@@ -37,6 +38,7 @@ use Webfloo\Traits\Sortable;
  * @property string|null $testimonial_avatar
  * @property string|null $client
  * @property string|null $url
+ * @property-read string $public_url
  * @property string|null $video_url
  * @property string|null $duration
  * @property string|null $team_size
@@ -122,6 +124,21 @@ class Project extends Model
     public function scopeByIndustry(Builder $query, string $industry): Builder
     {
         return $query->where('industry', $industry);
+    }
+
+    /**
+     * Public portfolio path — named route when the frontend module is
+     * active, literal path otherwise (mirrors Post::getUrlAttribute()).
+     * Named public_url because the `url` column already stores the
+     * external link to the client's live site.
+     */
+    public function getPublicUrlAttribute(): string
+    {
+        if (Route::has('webfloo.portfolio.show')) {
+            return route('webfloo.portfolio.show', $this->slug, false);
+        }
+
+        return "/portfolio/{$this->slug}";
     }
 
     /**

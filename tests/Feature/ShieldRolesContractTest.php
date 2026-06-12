@@ -32,7 +32,7 @@ class ShieldRolesContractTest extends TestCase
     {
         $resources = [
             'post', 'post_category', 'page', 'project',
-            'service', 'testimonial', 'faq', 'menu_item', 'newsletter_subscriber',
+            'service', 'testimonial', 'faq', 'menu_item', 'newsletter_subscriber', 'redirect',
         ];
         $actions = [
             'view_any', 'view', 'create', 'update', 'delete',

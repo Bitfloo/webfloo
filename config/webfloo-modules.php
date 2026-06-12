@@ -17,6 +17,7 @@ use Webfloo\Filament\Resources\PageResource;
 use Webfloo\Filament\Resources\PostCategoryResource;
 use Webfloo\Filament\Resources\PostResource;
 use Webfloo\Filament\Resources\ProjectResource;
+use Webfloo\Filament\Resources\RedirectResource;
 use Webfloo\Filament\Resources\ServiceResource;
 use Webfloo\Filament\Resources\TestimonialResource;
 use Webfloo\Filament\Widgets\LeadConversionChart;
@@ -35,6 +36,7 @@ use Webfloo\Models\Page;
 use Webfloo\Models\Post;
 use Webfloo\Models\PostCategory;
 use Webfloo\Models\Project;
+use Webfloo\Models\Redirect;
 use Webfloo\Models\Service;
 use Webfloo\Models\Testimonial;
 
@@ -317,6 +319,26 @@ return [
         'migrations' => [],
         'permissions' => [],
         'depends_on' => ['pages'],
+    ],
+
+    'redirects' => [
+        'feature_flag' => 'redirects',
+        'resources' => [
+            RedirectResource::class,
+        ],
+        'models' => [
+            Redirect::class,
+        ],
+        'widgets' => [],
+        'pages' => [],
+        'commands' => [],
+        'migrations' => [
+            '*_create_redirects_table',
+        ],
+        'permissions' => [
+            'ViewAny:Redirect', 'View:Redirect', 'Create:Redirect', 'Update:Redirect', 'Delete:Redirect',
+        ],
+        'depends_on' => [],
     ],
 
     /*
