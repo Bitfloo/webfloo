@@ -21,9 +21,9 @@ class ContactPageSettings extends AbstractPageSettings
 
     protected static ?string $slug = 'pages/contact';
 
-    public static function shouldRegisterNavigation(): bool
+    protected static function featureFlag(): ?string
     {
-        return (bool) config('webfloo.pages.contact', true);
+        return 'pages.contact';
     }
 
     protected function settingsPrefix(): string

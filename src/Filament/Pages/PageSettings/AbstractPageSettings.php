@@ -53,13 +53,31 @@ abstract class AbstractPageSettings extends Page implements HasForms
     abstract protected static function getPermissionName(): string;
 
     /**
+     * Config key (under "webfloo.") gating this page, e.g. "pages.home".
+     * Null means the page has no flag and is governed by permission alone.
+     * A disabled flag blocks BOTH navigation and direct URL access —
+     * consistent with how Resources fold feature flags into canAccess().
+     */
+    protected static function featureFlag(): ?string
+    {
+        return null;
+    }
+
+    /**
      * SSOT permission check for every settings page.
      *
      * Subclasses must NOT override canAccess(); override getPermissionName()
-     * instead. This ensures a single, audited gate across all settings pages.
+     * and featureFlag() instead. This ensures a single, audited gate across
+     * all settings pages.
      */
     public static function canAccess(): bool
     {
+        $flag = static::featureFlag();
+
+        if ($flag !== null && (bool) config("webfloo.{$flag}", true) === false) {
+            return false;
+        }
+
         return auth()->user()?->can(static::getPermissionName()) === true;
     }
 

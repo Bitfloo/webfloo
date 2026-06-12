@@ -26,9 +26,11 @@ class HomePageSettings extends AbstractPageSettings
 
     protected static ?string $slug = 'pages/home';
 
-    public static function shouldRegisterNavigation(): bool
+    protected static function featureFlag(): ?string
     {
-        return (bool) config('webfloo.pages.home', true);
+        // Navigation follows automatically: Filament skips nav registration
+        // when canAccess() is false, so no shouldRegisterNavigation override.
+        return 'pages.home';
     }
 
     protected function settingsPrefix(): string
