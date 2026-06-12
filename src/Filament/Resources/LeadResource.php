@@ -157,17 +157,17 @@ class LeadResource extends Resource
                     TextInput::make('estimated_value')
                         ->label(__('Szacowana wartość'))
                         ->numeric()
-                        ->prefix('PLN')
+                        ->prefix(webfloo_currency())
                         ->step(0.01),
 
                     Select::make('currency')
                         ->label(__('Waluta'))
-                        ->options([
-                            'PLN' => 'PLN',
-                            'EUR' => 'EUR',
-                            'USD' => 'USD',
-                        ])
-                        ->default('PLN')
+                        ->options(function (): array {
+                            $currencies = array_unique([webfloo_currency(), 'PLN', 'EUR', 'USD']);
+
+                            return array_combine($currencies, $currencies);
+                        })
+                        ->default(webfloo_currency())
                         ->native(false),
                 ]),
 
@@ -223,7 +223,7 @@ class LeadResource extends Resource
 
                 TextColumn::make('estimated_value')
                     ->label(__('Wartość'))
-                    ->money('PLN')
+                    ->money(webfloo_currency())
                     ->sortable()
                     ->toggleable(),
 

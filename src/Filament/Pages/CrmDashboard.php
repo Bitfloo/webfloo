@@ -165,7 +165,7 @@ class CrmDashboard extends Page implements HasActions, HasForms
                     TextInput::make('estimated_value')
                         ->label('Szacowana wartość')
                         ->numeric()
-                        ->prefix('PLN'),
+                        ->prefix(webfloo_currency()),
                 ]),
 
                 Textarea::make('message')
@@ -182,7 +182,7 @@ class CrmDashboard extends Page implements HasActions, HasForms
                     'source' => $data['source'],
                     'status' => Lead::STATUS_NEW,
                     'estimated_value' => $data['estimated_value'] ?? null,
-                    'currency' => 'PLN',
+                    'currency' => webfloo_currency(),
                 ]);
 
                 $lead->activities()->create([
@@ -383,7 +383,7 @@ class CrmDashboard extends Page implements HasActions, HasForms
                 TextInput::make('estimated_value')
                     ->label('Szacowana wartość')
                     ->numeric()
-                    ->prefix('PLN'),
+                    ->prefix(webfloo_currency()),
 
                 Select::make('tags')
                     ->label('Tagi')

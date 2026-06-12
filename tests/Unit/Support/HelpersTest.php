@@ -24,6 +24,20 @@ class HelpersTest extends TestCase
         $this->assertSame('pl', webfloo_fallback_locale());
     }
 
+    public function test_webfloo_currency_returns_configured_currency(): void
+    {
+        config()->set('webfloo.crm.currency', 'EUR');
+
+        $this->assertSame('EUR', webfloo_currency());
+    }
+
+    public function test_webfloo_currency_defaults_to_pln_when_config_not_string(): void
+    {
+        config()->set('webfloo.crm.currency', null);
+
+        $this->assertSame('PLN', webfloo_currency());
+    }
+
     public function test_frontend_feature_flag_defaults_to_disabled(): void
     {
         $this->assertFalse(config('webfloo.features.frontend'));

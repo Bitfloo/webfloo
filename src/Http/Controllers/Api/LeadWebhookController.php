@@ -74,7 +74,7 @@ class LeadWebhookController extends Controller
             'status' => Lead::STATUS_NEW,
             'external_id' => $data['external_id'] ?? null,
             'estimated_value' => $data['estimated_value'] ?? null,
-            'currency' => 'PLN',
+            'currency' => webfloo_currency(),
         ]);
 
         // Log the webhook activity with metadata

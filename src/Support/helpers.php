@@ -35,6 +35,21 @@ if (! function_exists('webfloo_fallback_locale')) {
     }
 }
 
+if (! function_exists('webfloo_currency')) {
+    /**
+     * Single source of the CRM currency code (lead values, exports, stats).
+     *
+     * Reads webfloo.crm.currency so client projects are not locked to the
+     * PLN default; PLN remains the fallback for backwards compatibility.
+     */
+    function webfloo_currency(): string
+    {
+        $currency = config('webfloo.crm.currency');
+
+        return is_string($currency) && $currency !== '' ? $currency : 'PLN';
+    }
+}
+
 if (! function_exists('setting')) {
     function setting(string $key, mixed $default = null): mixed
     {

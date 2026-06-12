@@ -56,7 +56,7 @@ class LeadStatsOverview extends StatsOverviewWidget
                 ->descriptionIcon('heroicon-m-check-circle')
                 ->color('success'),
 
-            Stat::make('Wartość Pipeline', number_format((float) $pipelineValue, 0, ',', ' ').' PLN')
+            Stat::make('Wartość Pipeline', number_format((float) $pipelineValue, 0, ',', ' ').' '.webfloo_currency())
                 ->description(Lead::inPipeline()->count().' leadów w pipeline')
                 ->descriptionIcon('heroicon-m-currency-dollar')
                 ->color('primary'),
