@@ -51,6 +51,15 @@ class InstallCommandTest extends TestCase
         $this->assertTrue($user->hasRole('super_admin'));
     }
 
+    public function test_install_skips_admin_creation_when_not_interactive(): void
+    {
+        $this->artisan('webfloo:install', ['--no-interaction' => true])
+            ->expectsOutputToContain('Non-interactive mode')
+            ->assertSuccessful();
+
+        $this->assertSame(0, User::count());
+    }
+
     public function test_install_with_demo_seeds_content(): void
     {
         User::factory()->create();

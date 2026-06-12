@@ -84,6 +84,17 @@ class Install extends Command
             return;
         }
 
+        // ask()/secret() return null without a TTY, so the validation loops
+        // below would spin forever in CI / deploy scripts.
+        if (! $this->input->isInteractive()) {
+            $this->warn(
+                'Non-interactive mode: skipping first-admin creation. '
+                .'Run webfloo:install again in an interactive terminal to create one.'
+            );
+
+            return;
+        }
+
         $name = $this->askString('Admin name');
 
         $email = $this->askString('Admin e-mail');
