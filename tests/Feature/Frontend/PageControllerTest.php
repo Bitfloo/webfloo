@@ -129,6 +129,33 @@ class PageControllerTest extends TestCase
             ->assertSee('Unique paragraph marker');
     }
 
+    public function test_page_content_strips_javascript_links(): void
+    {
+        Page::factory()->published()->create([
+            'slug' => 'xss-page',
+            'content' => [
+                'type' => 'doc',
+                'content' => [
+                    [
+                        'type' => 'paragraph',
+                        'content' => [
+                            [
+                                'type' => 'text',
+                                'text' => 'Click me',
+                                'marks' => [['type' => 'link', 'attrs' => ['href' => 'javascript:alert(1)']]],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->get('/xss-page')
+            ->assertOk()
+            ->assertSee('Click me')
+            ->assertDontSee('javascript:alert', false);
+    }
+
     public function test_unknown_template_falls_back_to_default_view(): void
     {
         Page::factory()->published()->create([

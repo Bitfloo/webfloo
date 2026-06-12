@@ -24,7 +24,7 @@
         @endif
 
         <div class="prose prose-lg mt-8 max-w-none">
-            {!! clean($post->content) !!}
+            {!! clean($post->content, 'webfloo') !!}
         </div>
 
         <footer class="mt-12">

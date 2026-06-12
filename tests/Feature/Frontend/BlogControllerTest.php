@@ -69,6 +69,37 @@ class BlogControllerTest extends TestCase
         $this->get('/blog/trashed-post')->assertNotFound();
     }
 
+    public function test_blog_show_preserves_rich_text_markup(): void
+    {
+        $post = Post::factory()->published()->create([
+            'content' => [
+                'pl' => '<h2>Naglowek</h2>',
+                'en' => '<h2>Section heading</h2><blockquote><p>Quoted wisdom</p></blockquote><pre><code>echo 1;</code></pre>',
+            ],
+        ]);
+
+        $this->get($post->url)
+            ->assertOk()
+            ->assertSee('<h2>Section heading</h2>', false)
+            ->assertSee('<blockquote>', false)
+            ->assertSee('<code>', false);
+    }
+
+    public function test_blog_show_strips_script_tags(): void
+    {
+        $post = Post::factory()->published()->create([
+            'content' => [
+                'pl' => 'tresc',
+                'en' => '<p>Safe paragraph</p><script>alert(1)</script>',
+            ],
+        ]);
+
+        $this->get($post->url)
+            ->assertOk()
+            ->assertSee('Safe paragraph')
+            ->assertDontSee('alert(1)', false);
+    }
+
     public function test_blog_index_search_filters_by_title(): void
     {
         Post::factory()->published()->create([

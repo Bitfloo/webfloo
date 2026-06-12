@@ -237,7 +237,7 @@ class Post extends Model
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
-            'content' => is_string($c = clean($this->content ?? '')) ? $c : '',
+            'content' => is_string($c = clean($this->content ?? '', 'webfloo')) ? $c : '',
             'image' => $this->featured_image ? Storage::url($this->featured_image) : null,
             'category' => $this->category ? ['name' => $this->category->name, 'slug' => $this->category->slug] : null,
             'author' => $this->author ? ['name' => $this->author->name] : null,

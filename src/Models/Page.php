@@ -291,7 +291,9 @@ class Page extends Model
      * Render the rich-editor content (TipTap JSON document) to sanitized HTML.
      *
      * Single source of content rendering — frontend templates must use this
-     * instead of touching the raw array.
+     * instead of touching the raw array. RichContentRenderer sanitizes its
+     * own output; clean() is defense-in-depth so a host swapping the editor
+     * (raw HTML strings in content) cannot bypass sanitization.
      */
     public function contentHtml(): string
     {
@@ -301,7 +303,9 @@ class Page extends Model
             return '';
         }
 
-        return RichContentRenderer::make($content)->toHtml();
+        $html = clean(RichContentRenderer::make($content)->toHtml(), 'webfloo');
+
+        return is_string($html) ? $html : '';
     }
 
     /**

@@ -21,6 +21,33 @@ class WebflooServiceProvider extends ServiceProvider
 
         $this->app->singleton(ThemeService::class, fn () => new ThemeService);
         $this->app->singleton(PluginTranslationRegistry::class);
+
+        $this->registerPurifierProfile();
+    }
+
+    /**
+     * Register the "webfloo" purifier profile used by every clean() call in
+     * the package. The mews/purifier "default" profile strips rich-text
+     * markup the admin RichEditor produces (h1-h6, blockquote, pre/code,
+     * tables), so sanitizing with it silently butchers published content.
+     * Hosts override by defining purifier.settings.webfloo themselves.
+     */
+    protected function registerPurifierProfile(): void
+    {
+        if (config('purifier.settings.webfloo') !== null) {
+            return;
+        }
+
+        config(['purifier.settings.webfloo' => [
+            'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,p[style],br,hr,b,strong,i,em,u,s,del,ins,sub,sup,'
+                .'a[href|title|rel|target],ul,ol[start],li,blockquote,pre,code,span[style],div,'
+                .'img[src|alt|width|height|title],figure,figcaption,'
+                .'table,thead,tbody,tfoot,tr,th[colspan|rowspan|style],td[colspan|rowspan|style]',
+            'CSS.AllowedProperties' => 'text-align,color,background-color,'
+                .'font-weight,font-style,text-decoration,padding-left',
+            'Attr.AllowedFrameTargets' => ['_blank'],
+            'AutoFormat.RemoveEmpty' => false,
+        ]]);
     }
 
     public function boot(): void
