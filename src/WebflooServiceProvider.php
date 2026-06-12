@@ -66,6 +66,7 @@ class WebflooServiceProvider extends ServiceProvider
             Components\Atoms\Badge::class,
             Components\Atoms\Icon::class,
             Components\Atoms\Heading::class,
+            Components\Atoms\Seo::class,
             Components\Atoms\Text::class,
 
             // Molecules
