@@ -120,7 +120,7 @@
                     </div>
                     {{-- Tech tags --}}
                     <div class="flex flex-wrap gap-2">
-                        @foreach(['PHP 8.4', 'Laravel 12', 'Filament v5', 'Livewire 3'] as $tech)
+                        @foreach(['PHP 8.4', 'Laravel 13', 'Filament v5', 'Livewire 3'] as $tech)
                             <span class="badge badge-outline badge-sm">{{ $tech }}</span>
                         @endforeach
                     </div>

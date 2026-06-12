@@ -1,6 +1,6 @@
 # Testing Standards — webfloo
 
-> SSOT for test quality in this package. Read this before writing or reviewing any test. Applies to Laravel 12 + Filament v5 + PHPUnit 11/12 + spatie/laravel-translatable v6 + Orchestra Testbench.
+> SSOT for test quality in this package. Read this before writing or reviewing any test. Applies to Laravel 13 + Filament v5 + PHPUnit 12 + spatie/laravel-translatable v6 + Orchestra Testbench.
 
 ## Test taxonomy
 

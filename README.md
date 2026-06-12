@@ -2,7 +2,7 @@
 
 **Reusable Laravel + Filament CMS foundation by [Bitfloo](https://bitfloo.com).**
 
-Laravel 12 + Filament v5 package dostarczający gotowy backend: **14 modeli, 11 Filament Resources, 5 Pages** (SiteSettings, ThemeSettings, CrmDashboard, HomePageSettings, ContactPageSettings), **5 Widgets**, CRM lead pipeline, i18n infra, Shield RBAC. Skin layer (theme, public frontend) — host responsibility.
+Laravel 13 + Filament v5 package dostarczający gotowy backend: **14 modeli, 11 Filament Resources, 5 Pages** (SiteSettings, ThemeSettings, CrmDashboard, HomePageSettings, ContactPageSettings), **5 Widgets**, CRM lead pipeline, i18n infra, Shield RBAC. Skin layer (theme, public frontend) — host responsibility.
 
 > Produkt używany w produkcji przez `bitfloo-web` (strona firmowa Bitfloo) od 2026-04. Target consumers: agency MVPs, corporate sites, SaaS CMS foundations.
 
@@ -52,8 +52,8 @@ Krótka reguła: logika PHP / Model / Filament / Blade admin → tu. Vue UI → 
 
 | Component | Version | Note |
 |---|---|---|
-| PHP | `^8.2` | Readonly props, enums, first-class callable |
-| Laravel | `^11.0 \|\| ^12.0` | Tested on L12 |
+| PHP | `^8.3` | Readonly props, enums, first-class callable |
+| Laravel | `^13.0` | Tested on L13 |
 | Filament | `^5.0` | Schema API, Heroicon enum |
 | MySQL | `8.0+` | JSON columns, `SHOW INDEX` guards w 4 migracjach |
 | `bezhansalleh/filament-shield` | `^4.0` | Host installs separately — patrz Installation |
