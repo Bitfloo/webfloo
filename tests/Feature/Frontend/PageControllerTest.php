@@ -78,6 +78,14 @@ class PageControllerTest extends TestCase
         $this->get('/web-development')->assertNotFound();
     }
 
+    public function test_soft_deleted_page_returns_404(): void
+    {
+        $page = Page::factory()->published()->create(['slug' => 'trashed-page']);
+        $page->delete();
+
+        $this->get('/trashed-page')->assertNotFound();
+    }
+
     public function test_unknown_path_returns_branded_404(): void
     {
         $this->get('/does-not-exist')

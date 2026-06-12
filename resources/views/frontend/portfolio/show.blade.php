@@ -20,7 +20,7 @@
 
         @if ($project->description)
             <div class="prose prose-lg mt-8 max-w-none">
-                {!! $project->description !!}
+                {!! clean($project->description) !!}
             </div>
         @endif
 
@@ -31,7 +31,7 @@
                         <div class="card bg-base-200">
                             <div class="card-body">
                                 <h2 class="card-title">{{ $label }}</h2>
-                                <p>{{ $project->{$field} }}</p>
+                                <div class="prose prose-sm">{!! clean($project->{$field}) !!}</div>
                             </div>
                         </div>
                     @endif

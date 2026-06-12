@@ -61,6 +61,14 @@ class BlogControllerTest extends TestCase
             ->assertSee('Strona nie znaleziona');
     }
 
+    public function test_soft_deleted_post_returns_404(): void
+    {
+        $post = Post::factory()->published()->create(['slug' => 'trashed-post']);
+        $post->delete();
+
+        $this->get('/blog/trashed-post')->assertNotFound();
+    }
+
     public function test_blog_index_search_filters_by_title(): void
     {
         Post::factory()->published()->create([

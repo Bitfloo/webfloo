@@ -37,7 +37,7 @@ class BlogController extends FrontendController
 
         return view('webfloo::frontend.blog.index', [
             'posts' => $query->paginate(self::PER_PAGE)->withQueryString(),
-            'categories' => PostCategory::query()->orderBy('sort_order')->get(),
+            'categories' => PostCategory::query()->active()->orderBy('sort_order')->get(),
             'search' => $search,
         ]);
     }

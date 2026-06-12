@@ -85,9 +85,20 @@ class Install extends Command
         }
 
         $name = $this->askString('Admin name');
+
         $email = $this->askString('Admin e-mail');
+        while (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            $this->error('Invalid e-mail address.');
+            $email = $this->askString('Admin e-mail');
+        }
+
         $password = $this->secret('Admin password');
         $password = is_string($password) ? $password : '';
+        while ($password === '') {
+            $this->error('Password cannot be empty.');
+            $password = $this->secret('Admin password');
+            $password = is_string($password) ? $password : '';
+        }
 
         /** @var User $user */
         $user = $userModel::query()->create([
