@@ -34,6 +34,13 @@ class HandleRedirects
 
         $redirect->increment('hits_count');
 
-        return redirect($redirect->to_path, $redirect->status_code);
+        $target = $redirect->to_path;
+
+        // Carry the query string over (pagination, UTM tags).
+        if (is_string($request->getQueryString()) && $request->getQueryString() !== '') {
+            $target .= (str_contains($target, '?') ? '&' : '?').$request->getQueryString();
+        }
+
+        return redirect($target, $redirect->status_code);
     }
 }

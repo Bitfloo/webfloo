@@ -115,6 +115,19 @@ class SlugChangeObserverTest extends TestCase
         $this->assertDatabaseMissing('redirects', ['from_path' => '/alpha']);
     }
 
+    public function test_simultaneous_reparent_and_rename_skips_redirect(): void
+    {
+        // The old path cannot be derived from post-save state when the
+        // parent changed in the same update — no redirect beats a wrong one.
+        $oldParent = Page::factory()->published()->create(['slug' => 'services']);
+        $newParent = Page::factory()->published()->create(['slug' => 'products']);
+        $child = Page::factory()->published()->create(['slug' => 'web', 'parent_id' => $oldParent->id]);
+
+        $child->update(['slug' => 'sites', 'parent_id' => $newParent->id]);
+
+        $this->assertDatabaseCount('redirects', 0);
+    }
+
     public function test_repeated_rename_updates_existing_rule(): void
     {
         $page = Page::factory()->published()->create(['slug' => 'first']);

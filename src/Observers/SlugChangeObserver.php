@@ -21,6 +21,13 @@ class SlugChangeObserver
             return;
         }
 
+        // Reparented in the same save: the old path ran through a parent
+        // chain that no longer exists on this instance — a wrong redirect
+        // is worse than none, so skip.
+        if ($model->wasChanged('parent_id')) {
+            return;
+        }
+
         $oldSlug = $model->getOriginal('slug');
         // public_url first: Project's `url` column stores the external
         // client-site link, its public path lives under public_url.

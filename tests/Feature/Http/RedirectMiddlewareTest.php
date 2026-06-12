@@ -72,4 +72,22 @@ class RedirectMiddlewareTest extends TestCase
 
         $this->get('/off')->assertNotFound();
     }
+
+    public function test_non_get_request_is_never_redirected(): void
+    {
+        Redirect::create(['from_path' => '/old-page', 'to_path' => '/new-page']);
+
+        // GET-only fallback route answers 405 for POST; the point pinned
+        // here is that the middleware does not turn it into a redirect.
+        $this->post('/old-page')->assertStatus(405);
+    }
+
+    public function test_redirect_preserves_query_string(): void
+    {
+        Redirect::create(['from_path' => '/old-page', 'to_path' => '/new-page']);
+
+        // Symfony normalizes query parameter order alphabetically.
+        $this->get('/old-page?utm_source=newsletter&page=2')
+            ->assertRedirect('/new-page?page=2&utm_source=newsletter');
+    }
 }

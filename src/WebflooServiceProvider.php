@@ -177,10 +177,14 @@ class WebflooServiceProvider extends ServiceProvider
      * 404-rescue middleware + slug-change observers for the redirects module.
      * Middleware is pushed after the app boots so the host's web group is
      * fully configured first.
+     *
+     * Direct config read with a false default — NOT ModuleRegistry, whose
+     * missing-key fallback is true: a stale published config/webfloo.php
+     * (features array predating this module) must keep an opt-in module off.
      */
     protected function registerRedirects(): void
     {
-        if (! ModuleRegistry::isEnabled('redirects')) {
+        if ((bool) config('webfloo.features.redirects', false) === false) {
             return;
         }
 

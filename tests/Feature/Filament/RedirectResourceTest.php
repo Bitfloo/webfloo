@@ -110,6 +110,17 @@ final class RedirectResourceTest extends TestCase
             ->assertHasFormErrors(['from_path' => 'required', 'to_path' => 'required']);
     }
 
+    public function test_create_rejects_external_url_target(): void
+    {
+        // Open-redirect guard: targets must be site-relative paths.
+        $this->actingAs($this->makeAdmin([webfloo_permission('view_any', 'redirect')]));
+
+        Livewire::test(CreateRedirect::class)
+            ->fillForm(['from_path' => '/old', 'to_path' => 'https://evil.example'])
+            ->call('create')
+            ->assertHasFormErrors(['to_path']);
+    }
+
     public function test_create_rejects_duplicate_from_path(): void
     {
         Redirect::create(['from_path' => '/taken', 'to_path' => '/x']);

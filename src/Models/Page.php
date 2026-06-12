@@ -28,6 +28,7 @@ use Webfloo\Traits\Sortable;
  * @property string|null $meta_title
  * @property string|null $meta_description
  * @property string|null $meta_image
+ * @property bool $no_index
  * @property string $status
  * @property Carbon|null $published_at
  * @property int $sort_order

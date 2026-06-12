@@ -80,8 +80,10 @@ class RedirectResource extends Resource
                     TextInput::make('to_path')
                         ->label(__('Na ścieżkę'))
                         ->placeholder('/nowa-strona')
+                        ->helperText(__('Tylko ścieżki w obrębie witryny (open-redirect guard).'))
                         ->required()
-                        ->maxLength(255),
+                        ->maxLength(255)
+                        ->rules(['regex:/^\//']),
 
                     Select::make('status_code')
                         ->label(__('Kod HTTP'))

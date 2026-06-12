@@ -35,6 +35,7 @@ class Redirect extends Model
         return [
             'status_code' => 'integer',
             'is_active' => 'boolean',
+            'hits_count' => 'integer',
         ];
     }
 
