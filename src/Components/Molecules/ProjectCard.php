@@ -3,6 +3,7 @@
 namespace Webfloo\Components\Molecules;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\Component;
 
 class ProjectCard extends Component
@@ -20,9 +21,12 @@ class ProjectCard extends Component
         public ?string $url = null,
         public string $linkText = 'Zobacz projekt',
     ) {
-        // Build URL from slug if not explicitly provided
+        // Build URL from slug if not explicitly provided; prefer the named
+        // frontend route so the portfolio path has a single source of truth.
         if ($this->url === null && $this->slug !== null) {
-            $this->url = '/portfolio/'.$this->slug;
+            $this->url = Route::has('webfloo.portfolio.show')
+                ? route('webfloo.portfolio.show', $this->slug, false)
+                : '/portfolio/'.$this->slug;
         }
     }
 

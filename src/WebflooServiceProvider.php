@@ -102,10 +102,15 @@ class WebflooServiceProvider extends ServiceProvider
 
     protected function registerRoutes(): void
     {
-        if (config('webfloo.features.crm', true)) {
+        if (ModuleRegistry::isEnabled('crm')) {
             Route::prefix('api')
                 ->middleware('api')
                 ->group(__DIR__.'/../routes/api.php');
+        }
+
+        if (ModuleRegistry::isEnabled('frontend')) {
+            Route::middleware('web')
+                ->group(__DIR__.'/../routes/frontend.php');
         }
     }
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 use Webfloo\Database\Factories\PostFactory;
@@ -166,9 +167,17 @@ class Post extends Model
 
     /**
      * Get the URL for this post.
+     *
+     * Uses the named frontend route when registered so the path prefix has
+     * a single source of truth; the literal is the fallback for hosts that
+     * serve the blog themselves.
      */
     public function getUrlAttribute(): string
     {
+        if (Route::has('webfloo.blog.show')) {
+            return route('webfloo.blog.show', $this->slug, false);
+        }
+
         return "/blog/{$this->slug}";
     }
 

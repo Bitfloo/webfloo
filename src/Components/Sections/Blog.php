@@ -4,6 +4,7 @@ namespace Webfloo\Components\Sections;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\Component;
 use Webfloo\Models\Post;
 
@@ -24,9 +25,15 @@ class Blog extends Component
         ?Collection $posts = null,
         public int $limit = 3,
         public int $columns = 3,
-        public ?string $viewAllUrl = '/blog',
+        public ?string $viewAllUrl = null,
         public string $viewAllText = 'Zobacz wszystkie wpisy',
     ) {
+        // Default to the named frontend route when registered (single source
+        // of the blog path), literal /blog otherwise.
+        $this->viewAllUrl ??= Route::has('webfloo.blog.index')
+            ? route('webfloo.blog.index', [], false)
+            : '/blog';
+
         // Fetch posts if not provided
         if ($posts === null) {
             $this->posts = Post::query()

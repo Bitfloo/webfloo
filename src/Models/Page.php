@@ -3,6 +3,7 @@
 namespace Webfloo\Models;
 
 use Carbon\Carbon;
+use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -284,6 +285,23 @@ class Page extends Model
     public static function getTemplateOptions(): array
     {
         return self::TEMPLATES;
+    }
+
+    /**
+     * Render the rich-editor content (TipTap JSON document) to sanitized HTML.
+     *
+     * Single source of content rendering — frontend templates must use this
+     * instead of touching the raw array.
+     */
+    public function contentHtml(): string
+    {
+        $content = $this->content;
+
+        if ($content === null || $content === []) {
+            return '';
+        }
+
+        return RichContentRenderer::make($content)->toHtml();
     }
 
     /**

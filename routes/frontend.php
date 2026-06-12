@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Support\Facades\Route;
+use Webfloo\Http\Controllers\Frontend\BlogController;
+use Webfloo\Http\Controllers\Frontend\PageController;
+use Webfloo\Http\Controllers\Frontend\PortfolioController;
+use Webfloo\Support\ModuleRegistry;
+
+Route::get('/', [PageController::class, 'home'])->name('webfloo.home');
+Route::get('/robots.txt', [PageController::class, 'robots'])->name('webfloo.robots');
+
+if (ModuleRegistry::isEnabled('blog')) {
+    Route::get('/blog', [BlogController::class, 'index'])->name('webfloo.blog.index');
+    Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('webfloo.blog.show');
+}
+
+if (ModuleRegistry::isEnabled('portfolio')) {
+    Route::get('/portfolio', [PortfolioController::class, 'index'])->name('webfloo.portfolio.index');
+    Route::get('/portfolio/{slug}', [PortfolioController::class, 'show'])->name('webfloo.portfolio.show');
+}
+
+/*
+ * Nested CMS pages (/about, /services/web-development, ...).
+ *
+ * Route::fallback — NOT a catch-all GET /{path} — because package routes
+ * register during boot(), BEFORE the host app's withRouting() routes load
+ * (they load in a booted callback). A regular catch-all registered first
+ * would shadow every host route; fallback() is matched only when nothing
+ * else (host or package) matched.
+ */
+Route::fallback([PageController::class, 'show'])->name('webfloo.page.show');
