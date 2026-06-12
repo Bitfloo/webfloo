@@ -49,6 +49,7 @@ class BlogController extends FrontendController
     {
         $posts = Post::query()
             ->published()
+            ->where('no_index', false)
             ->with('category')
             ->orderByDesc('published_at')
             ->limit(self::FEED_SIZE)

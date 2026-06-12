@@ -62,6 +62,20 @@ class BlogFeedTest extends TestCase
             ->assertDontSee('Scheduled future entry');
     }
 
+    public function test_feed_excludes_no_index_posts(): void
+    {
+        // no_index means "keep out of search/syndication" — the feed is
+        // syndication, so it matches the sitemap's filter.
+        Post::factory()->published()->create([
+            'title' => ['pl' => 'Ukryty', 'en' => 'Unindexed entry'],
+            'no_index' => true,
+        ]);
+
+        $this->get('/blog/feed')
+            ->assertOk()
+            ->assertDontSee('Unindexed entry');
+    }
+
     public function test_feed_escapes_xml_special_characters_in_titles(): void
     {
         Post::factory()->published()->create([
