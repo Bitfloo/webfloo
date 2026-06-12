@@ -131,7 +131,7 @@ abstract class AbstractPageSettings extends Page implements HasForms
         }
 
         $locale = app()->getLocale();
-        $fallback = is_string($fb = config('app.fallback_locale')) ? $fb : 'pl';
+        $fallback = webfloo_fallback_locale();
 
         if ($locale !== $fallback) {
             return Setting::get("{$key}.{$locale}", $default);
@@ -152,7 +152,7 @@ abstract class AbstractPageSettings extends Page implements HasForms
         $data = $this->form->getState();
 
         $locale = app()->getLocale();
-        $fallback = is_string($fb = config('app.fallback_locale')) ? $fb : 'pl';
+        $fallback = webfloo_fallback_locale();
 
         /**
          * @var string $key

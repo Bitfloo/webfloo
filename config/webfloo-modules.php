@@ -297,6 +297,24 @@ return [
     ],
 
     /*
+     * Public Blade frontend — routes, controllers, page templates, layout.
+     * Nie ma Resources ani tables; WebflooServiceProvider laduje
+     * routes/frontend.php gdy modul enabled. Disabled by default —
+     * hosty z wlasnym frontendem (Inertia) zostawiaja off.
+     */
+    'frontend' => [
+        'feature_flag' => 'frontend',
+        'resources' => [],
+        'models' => [],
+        'widgets' => [],
+        'pages' => [],
+        'commands' => [],
+        'migrations' => [],
+        'permissions' => [],
+        'depends_on' => ['pages'],
+    ],
+
+    /*
      * SEO jest cross-cutting concern — nie ma dedicated Resources ani
      * tables. Trait HasSeo aplikuje SEO fields na dowolny Model, Command
      * GenerateSitemap czyta published Post+Project+Page. Rejestrowany

@@ -3,11 +3,27 @@
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Webfloo\Models\Setting;
 
+if (! function_exists('webfloo_fallback_locale')) {
+    /**
+     * Single source of truth for the package's fallback locale.
+     *
+     * Translatable settings store the fallback-locale value under the base
+     * key and other locales under "{key}.{locale}" — every reader/writer
+     * (setting() helper, AbstractPageSettings) must agree on this locale.
+     */
+    function webfloo_fallback_locale(): string
+    {
+        $fallback = config('app.fallback_locale');
+
+        return is_string($fallback) && $fallback !== '' ? $fallback : 'pl';
+    }
+}
+
 if (! function_exists('setting')) {
     function setting(string $key, mixed $default = null): mixed
     {
         $locale = app()->getLocale();
-        $fallback = config('app.fallback_locale', 'pl');
+        $fallback = webfloo_fallback_locale();
 
         // Try locale-specific key first (e.g. home.hero_title.en)
         if ($locale !== $fallback) {

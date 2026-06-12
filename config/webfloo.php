@@ -35,6 +35,11 @@ return [
         'crm' => true,
         'menu' => true,
 
+        // Public Blade frontend (routes, controllers, page templates).
+        // Disabled by default — hosts with their own frontend (e.g. Inertia)
+        // keep this off; turnkey client sites opt in.
+        'frontend' => false,
+
         // Admin-editable inline JS injected on every public page. Disabled
         // by default — stored-XSS surface (admin-authored script runs for
         // all visitors). Enable in host config only if operationally required
