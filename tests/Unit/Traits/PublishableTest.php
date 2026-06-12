@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webfloo\Tests\Unit\Traits;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Webfloo\Models\Post;
 use Webfloo\Tests\TestCase;
 
@@ -16,6 +17,13 @@ use Webfloo\Tests\TestCase;
 final class PublishableTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Carbon::setTestNow('2026-06-12 12:00:00');
+    }
 
     public function test_scope_published_includes_past_and_null_published_at(): void
     {
@@ -71,7 +79,7 @@ final class PublishableTest extends TestCase
         $this->assertSame('published', $fresh->refresh()->status);
         $this->assertNotNull($fresh->published_at);
 
-        $original = now()->subWeek()->startOfSecond();
+        $original = now()->subWeek();
         $dated = Post::factory()->create(['status' => 'draft', 'published_at' => $original]);
         $dated->publish();
         $this->assertTrue($original->equalTo($dated->refresh()->published_at));

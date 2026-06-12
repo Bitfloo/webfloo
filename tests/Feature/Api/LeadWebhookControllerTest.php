@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webfloo\Tests\Feature\Api;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Testing\TestResponse;
 use Webfloo\Models\Lead;
@@ -14,20 +15,30 @@ class LeadWebhookControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    private const SECRET = 'test-secret';
+
     protected function setUp(): void
     {
         parent::setUp();
 
         Mail::fake();
-        config()->set('webfloo.webhook_secret', 'test-secret');
+        config()->set('webfloo.webhook_secret', self::SECRET);
     }
 
     /**
      * @param  array<string, mixed>  $payload
      */
-    protected function postWebhook(array $payload, string $secret = 'test-secret'): TestResponse
+    protected function postWebhook(array $payload, string $secret = self::SECRET): TestResponse
     {
         return $this->postJson('/api/leads/webhook', $payload, ['X-Webhook-Secret' => $secret]);
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     */
+    protected function patchWebhook(string $externalId, array $payload, string $secret = self::SECRET): TestResponse
+    {
+        return $this->patchJson("/api/leads/webhook/{$externalId}", $payload, ['X-Webhook-Secret' => $secret]);
     }
 
     /**
@@ -76,7 +87,8 @@ class LeadWebhookControllerTest extends TestCase
     {
         $this->postWebhook(['name' => 'Jan Kowalski'])
             ->assertStatus(422)
-            ->assertJsonPath('error', 'Validation failed');
+            ->assertJsonPath('error', 'Validation failed')
+            ->assertJsonStructure(['details' => ['email']]);
     }
 
     public function test_store_creates_lead_with_webhook_source_and_logs_activity(): void
@@ -131,10 +143,12 @@ class LeadWebhookControllerTest extends TestCase
 
     public function test_store_returns_409_for_same_email_within_24_hours(): void
     {
+        Carbon::setTestNow('2026-06-12 12:00:00');
+
         $existing = Lead::factory()->create([
             'email' => 'jan@example.com',
             'source' => Lead::SOURCE_WEBHOOK,
-            'created_at' => now()->subHours(2),
+            'created_at' => '2026-06-12 10:00:00',
         ]);
 
         $this->postWebhook($this->validPayload())
@@ -146,10 +160,12 @@ class LeadWebhookControllerTest extends TestCase
 
     public function test_store_accepts_same_email_after_24_hours(): void
     {
+        Carbon::setTestNow('2026-06-12 12:00:00');
+
         Lead::factory()->create([
             'email' => 'jan@example.com',
             'source' => Lead::SOURCE_WEBHOOK,
-            'created_at' => now()->subHours(25),
+            'created_at' => '2026-06-11 11:00:00',
         ]);
 
         $this->postWebhook($this->validPayload())->assertCreated();
@@ -161,27 +177,24 @@ class LeadWebhookControllerTest extends TestCase
     {
         Lead::factory()->create(['external_id' => 'ext-123', 'status' => Lead::STATUS_NEW]);
 
-        $this->patchJson('/api/leads/webhook/ext-123', ['status' => 'contacted'], [
-            'X-Webhook-Secret' => 'wrong-secret',
-        ])->assertUnauthorized();
+        $this->patchWebhook('ext-123', ['status' => 'contacted'], 'wrong-secret')
+            ->assertUnauthorized();
 
         $this->assertDatabaseHas('leads', ['external_id' => 'ext-123', 'status' => Lead::STATUS_NEW]);
     }
 
     public function test_update_returns_404_for_unknown_external_id(): void
     {
-        $this->patchJson('/api/leads/webhook/nope', ['status' => 'contacted'], [
-            'X-Webhook-Secret' => 'test-secret',
-        ])->assertNotFound();
+        $this->patchWebhook('nope', ['status' => 'contacted'])->assertNotFound();
     }
 
     public function test_update_returns_422_for_invalid_status(): void
     {
         Lead::factory()->create(['external_id' => 'ext-123']);
 
-        $this->patchJson('/api/leads/webhook/ext-123', ['status' => 'exploded'], [
-            'X-Webhook-Secret' => 'test-secret',
-        ])->assertStatus(422);
+        $this->patchWebhook('ext-123', ['status' => 'exploded'])
+            ->assertStatus(422)
+            ->assertJsonStructure(['details' => ['status']]);
     }
 
     public function test_update_transitions_status_adds_note_and_updates_estimated_value(): void
@@ -191,11 +204,11 @@ class LeadWebhookControllerTest extends TestCase
             'status' => Lead::STATUS_NEW,
         ]);
 
-        $this->patchJson('/api/leads/webhook/ext-123', [
+        $this->patchWebhook('ext-123', [
             'status' => 'contacted',
             'note' => 'Called back via integration',
             'estimated_value' => 2500,
-        ], ['X-Webhook-Secret' => 'test-secret'])
+        ])
             ->assertOk()
             ->assertJsonPath('success', true);
 

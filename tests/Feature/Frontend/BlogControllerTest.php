@@ -6,6 +6,7 @@ namespace Webfloo\Tests\Feature\Frontend;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Webfloo\Models\Post;
 use Webfloo\Tests\TestCase;
 
@@ -117,10 +118,12 @@ class BlogControllerTest extends TestCase
 
     public function test_scheduled_post_returns_404_before_publish_date(): void
     {
+        Carbon::setTestNow('2026-06-12 12:00:00');
+
         Post::factory()->create([
             'slug' => 'future-post',
             'status' => 'published',
-            'published_at' => now()->addDay(),
+            'published_at' => '2026-06-13 12:00:00',
         ]);
 
         $this->get('/blog/future-post')->assertNotFound();
@@ -128,12 +131,14 @@ class BlogControllerTest extends TestCase
 
     public function test_blog_index_excludes_scheduled_posts(): void
     {
+        Carbon::setTestNow('2026-06-12 12:00:00');
+
         Post::factory()->published()->create([
             'title' => ['pl' => 'Na zywo', 'en' => 'Live post'],
         ]);
         Post::factory()->create([
             'status' => 'published',
-            'published_at' => now()->addDay(),
+            'published_at' => '2026-06-13 12:00:00',
             'title' => ['pl' => 'Przyszly', 'en' => 'Scheduled future post'],
         ]);
 
