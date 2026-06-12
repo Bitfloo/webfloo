@@ -12,6 +12,7 @@ use Webfloo\Filament\Resources\LeadResource\Pages\ListLeads;
 use Webfloo\Mail\LeadEmail;
 use Webfloo\Models\Lead;
 use Webfloo\Models\LeadActivity;
+use Webfloo\Models\LeadReminder;
 use Webfloo\Tests\TestCase;
 
 final class LeadResourceActionsTest extends TestCase
@@ -273,5 +274,28 @@ final class LeadResourceActionsTest extends TestCase
             $lead = Lead::factory()->make(['status' => $status]);
             $this->assertTrue($lead->isInPipeline(), "Expected {$status} to be in pipeline");
         }
+    }
+
+    public function test_schedule_reminder_action_creates_reminder(): void
+    {
+        Carbon::setTestNow('2026-06-12 12:00:00');
+
+        $lead = Lead::factory()->create();
+        $this->actingAs($this->makeAdmin([webfloo_permission('view_any', 'lead')]));
+
+        Livewire::test(ListLeads::class)
+            ->callTableAction('scheduleReminder', $lead, data: [
+                'title' => 'Oddzwonic do klienta',
+                'due_at' => '2026-06-13 09:00:00',
+                'priority' => LeadReminder::PRIORITY_HIGH,
+            ])
+            ->assertOk();
+
+        $this->assertDatabaseHas('lead_reminders', [
+            'lead_id' => $lead->id,
+            'title' => 'Oddzwonic do klienta',
+            'priority' => LeadReminder::PRIORITY_HIGH,
+            'due_at' => '2026-06-13 09:00:00',
+        ]);
     }
 }

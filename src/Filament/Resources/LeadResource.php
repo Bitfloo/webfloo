@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Webfloo\Filament\Resources;
 
 use BackedEnum;
+use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -373,8 +374,12 @@ class LeadResource extends Resource
                         ->action(function (Lead $record, array $data): void {
                             /** @var string $title */
                             $title = $data['title'];
-                            /** @var \DateTimeInterface $dueAt */
+                            // DateTimePicker state arrives as a "Y-m-d H:i:s" string,
+                            // not DateTimeInterface — passing it straight through threw
+                            // a TypeError that Livewire surfaced as an opaque 419.
+                            /** @var string|\DateTimeInterface $dueAt */
                             $dueAt = $data['due_at'];
+                            $dueAt = $dueAt instanceof \DateTimeInterface ? $dueAt : Carbon::parse($dueAt);
                             /** @var string|null $description */
                             $description = $data['description'] ?? null;
                             /** @var string $priority */
