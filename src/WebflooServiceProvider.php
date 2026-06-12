@@ -118,6 +118,7 @@ class WebflooServiceProvider extends ServiceProvider
             // Organisms
             Components\Organisms\Header::class,
             Components\Organisms\Footer::class,
+            Components\Organisms\CookieConsent::class,
 
             // Layouts
             'layout' => Components\Layouts\Frontend::class,

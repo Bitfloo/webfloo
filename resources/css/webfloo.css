@@ -21,6 +21,11 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Hide Alpine-controlled elements until Alpine initializes (cookie banner). */
+[x-cloak] {
+    display: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;

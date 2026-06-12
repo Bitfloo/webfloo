@@ -46,6 +46,11 @@ return [
         // middleware plus automatic redirects on slug renames. Opt-in.
         'redirects' => false,
 
+        // GDPR cookie banner rendered by the frontend layout. Texts come
+        // from settings (cookie_consent.* keys); the visitor's decision
+        // lands in localStorage("webfloo-cookie-consent"). Opt-in.
+        'cookie_consent' => false,
+
         // Admin-editable inline JS injected on every public page. Disabled
         // by default — stored-XSS surface (admin-authored script runs for
         // all visitors). Enable in host config only if operationally required

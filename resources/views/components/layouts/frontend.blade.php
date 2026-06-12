@@ -22,6 +22,9 @@
         {{ $slot }}
     </main>
     <x-webfloo-footer />
+    @if (config('webfloo.features.cookie_consent'))
+    <x-webfloo-cookie-consent />
+    @endif
     @if (file_exists(public_path('vendor/webfloo/webfloo.js')))
     <script defer src="{{ asset('vendor/webfloo/webfloo.js') }}"></script>
     @endif
