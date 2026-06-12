@@ -27,6 +27,9 @@ konsumujących webfloo (np. strona firmowa bitfloo-web) siedzą w ich własnych 
 | 007 | Feature flag matrix (ModuleRegistry) | ACCEPTED |
 | 008 | Migration consolidation strategy | ACCEPTED |
 | 010 | CrmDashboard kanban pagination strategy | ACCEPTED |
+| 011 | Distribution strategy (vcs + release-please) | ACCEPTED |
+| 012 | Layered skin model (thezero: core + template split) | ACCEPTED |
+| 013 | Recommended host packages (suggest, not require) | ACCEPTED |
 
 Numeracja zachowana z historii pre-extraction (bitfloo-web ADRs 001-002 zostały
 w bitfloo-web bo dotyczą warstwy aplikacji; 009 pominięte w oryginalnej sekwencji).
