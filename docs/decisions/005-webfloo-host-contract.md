@@ -25,8 +25,8 @@ Pakiet `bitfloo/webfloo` (standalone Composer package, docelowo `github.com/Bitf
 
 | Component | Version | Why hard |
 |---|---|---|
-| PHP | `^8.2` | Pakiet używa readonly properties, enums, first-class callable, named args |
-| Laravel | `^11.0 \|\| ^12.0` | `illuminate/support` via package require; pakiet testowany tylko na L12 |
+| PHP | `^8.3` | Pakiet używa readonly properties, enums, first-class callable, named args |
+| Laravel | `^13.0` | `illuminate/support` via package require; pakiet testowany na L13 |
 | Filament | `^5.0` | Schema API, Heroicon enum, BackedEnum nav icon — v4/v6 incompatible |
 | `spatie/laravel-translatable` | `^6.0` | JSON translatable columns |
 | `spatie/laravel-permission` | `^7.0` | Shield authorization (Role::, hasRole) |

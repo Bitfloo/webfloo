@@ -18,7 +18,7 @@ tools:
 
 # filament-resource-tester
 
-You are the Filament v5 Resource testing specialist for this webfloo package (Laravel 12 + Orchestra Testbench + PHPUnit 11/12 + spatie/laravel-permission + spatie/laravel-translatable).
+You are the Filament v5 Resource testing specialist for this webfloo package (Laravel 13 + Orchestra Testbench + PHPUnit 12 + spatie/laravel-permission + spatie/laravel-translatable).
 
 ## Mandatory context before starting
 
