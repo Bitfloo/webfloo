@@ -13,6 +13,45 @@ na podstawie [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.
 
 <!-- release-please inserts new entries here -->
 
+## [0.2.1](https://github.com/Bitfloo/webfloo/compare/v0.2.0...v0.2.1) (2026-06-12)
+
+
+### Features
+
+* add branded 404/500 error pages for the frontend module ([91ca9aa](https://github.com/Bitfloo/webfloo/commit/91ca9aa72aba4c9ff262baafeff1603c4e7c6848))
+* add draft preview via temporary signed URLs (PreviewAction) ([6ebf405](https://github.com/Bitfloo/webfloo/commit/6ebf4054e22366c76e7015f92b70a0875620c802))
+* add frontend module flag and consolidate fallback locale into webfloo_fallback_locale() ([e7cfc4d](https://github.com/Bitfloo/webfloo/commit/e7cfc4d2b98148b8b690847b45097950645d0fed))
+* add MediaService with GD-based WebP variants (stage 1) ([6234c3b](https://github.com/Bitfloo/webfloo/commit/6234c3b1807d4bcee3e67cac427b21b658e32cee))
+* add opt-in GDPR cookie consent banner ([985f034](https://github.com/Bitfloo/webfloo/commit/985f034f3d76a380181703443ec7e07c7b4249a0))
+* add public Blade frontend module (routes, controllers, templates) ([9ece1c1](https://github.com/Bitfloo/webfloo/commit/9ece1c1dff278503251364630dda582e0b15e073))
+* add public newsletter signup Livewire component ([b7afb7b](https://github.com/Bitfloo/webfloo/commit/b7afb7b98590b4dfbbe61984d77c025c753c7db3))
+* add redirects module (404 middleware, slug-change auto-301, RedirectResource) ([a728271](https://github.com/Bitfloo/webfloo/commit/a728271cc30d9f157e939861bd8279bd609d92dd))
+* add RSS feed for the blog module ([3113e4c](https://github.com/Bitfloo/webfloo/commit/3113e4c73e5fc37be411697dbaa886a798999035))
+* add trash filter with restore and force-delete to Page and Post resources ([5b6af49](https://github.com/Bitfloo/webfloo/commit/5b6af49ceef59eb5e574a5b69f99698946e58864))
+* add webfloo-contact-form Livewire component with honeypot and rate limit ([ce821dc](https://github.com/Bitfloo/webfloo/commit/ce821dc9ddf8427f90449f361569dc69cce7cb95))
+* add webfloo:install command with demo seeder ([5c69af6](https://github.com/Bitfloo/webfloo/commit/5c69af6825eb5bf2e724e94be2332045c076b08d))
+* add x-webfloo-layout frontend base layout component ([6774c75](https://github.com/Bitfloo/webfloo/commit/6774c75c590e8b47f1de253818edfb33fbe3f5ba))
+* add x-webfloo-seo component rendering meta/OG/canonical head block ([df5c72b](https://github.com/Bitfloo/webfloo/commit/df5c72bf8320de9f0747f16f3eb177a5ecdb845a))
+* auto-register package commands on the scheduler ([b79e5d5](https://github.com/Bitfloo/webfloo/commit/b79e5d51da7dd63e8b768703fc7c4c549de4b8ef))
+* dispatch LeadCreated event and email admin via SendNewLeadNotification ([1f6cf83](https://github.com/Bitfloo/webfloo/commit/1f6cf83bf51ed3bd33236202e665f99972eaa1a8))
+* make sitemap generation source-driven and host-extensible ([aa512cb](https://github.com/Bitfloo/webfloo/commit/aa512cb992c0e42be83f672b477e74462de1ec57))
+* ship precompiled frontend assets (webfloo.css + bundled Alpine) ([bb232ff](https://github.com/Bitfloo/webfloo/commit/bb232ff1300c50969b0f26def804918eba23ecaf))
+
+
+### Bug Fixes
+
+* align permission gates with Shield v4 identifiers seeded by ShieldRolesSeeder ([2e67d92](https://github.com/Bitfloo/webfloo/commit/2e67d924bb952a2bf5e6a8fbeeca2b9049e305ee))
+* exclude no_index posts from the RSS feed ([4f642df](https://github.com/Bitfloo/webfloo/commit/4f642df9312e6cc6b25cf75a545119d45fda9450))
+* fold webfloo.pages.* flags into settings page access ([add8f2d](https://github.com/Bitfloo/webfloo/commit/add8f2df191e8eca1a7acaf5d53a57d24384c3f6))
+* gate lead and newsletter PII exports behind Export permissions ([541136e](https://github.com/Bitfloo/webfloo/commit/541136e730fd588ac0538064b87f2024ac62d8d2))
+* harden frontend output and install prompts (phase gate findings) ([2b153e1](https://github.com/Bitfloo/webfloo/commit/2b153e13e60a164fe474f09c1a2ce452888e05bb))
+* harden redirects module per phase-gate review ([ac04bfa](https://github.com/Bitfloo/webfloo/commit/ac04bfa06ab2b7b37b23249433eec6096a6c6c29))
+* parse DateTimePicker string before Lead::scheduleReminder ([9c69d4e](https://github.com/Bitfloo/webfloo/commit/9c69d4e552fde2efbda21b7b3428a0b392588b40))
+* skip first-admin prompts when install runs non-interactively ([bb567aa](https://github.com/Bitfloo/webfloo/commit/bb567aaf1e8f415ccf65715717c0057e4a50b682))
+* source CRM currency from config instead of hardcoded PLN ([f695d98](https://github.com/Bitfloo/webfloo/commit/f695d98c0b0a756770230870820e11a33b92bbac))
+* stop sanitization from stripping rich-text markup (webfloo purifier profile) ([873173d](https://github.com/Bitfloo/webfloo/commit/873173db1f0004605f9509df5f1e9dac6ac04eab))
+* translate frontend-facing strings and pin newsletter registration gating ([3d45030](https://github.com/Bitfloo/webfloo/commit/3d4503029a67c4ba308535f25737c69336595e3f))
+
 ## [0.2.0](https://github.com/Bitfloo/webfloo/compare/v0.0.1...v0.2.0) (2026-06-12)
 
 
