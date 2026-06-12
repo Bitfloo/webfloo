@@ -71,11 +71,13 @@ class MenuItem extends Model
         ];
     }
 
+    public const LOCATION_HEADER = 'header';
+
     /**
      * Available menu locations.
      */
     public const LOCATIONS = [
-        'header' => 'Menu glowne (Header)',
+        self::LOCATION_HEADER => 'Menu glowne (Header)',
         'footer_company' => 'Footer - Firma',
         'footer_services' => 'Footer - Uslugi',
         'footer_legal' => 'Footer - Prawne',

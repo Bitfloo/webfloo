@@ -81,6 +81,9 @@ class WebflooServiceProvider extends ServiceProvider
             Components\Organisms\Header::class,
             Components\Organisms\Footer::class,
 
+            // Layouts
+            'layout' => Components\Layouts\Frontend::class,
+
             // Sections
             Components\Sections\Hero::class,
             Components\Sections\Services::class,
