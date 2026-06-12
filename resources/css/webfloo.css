@@ -1,0 +1,29 @@
+/*
+ * Source for the precompiled frontend stylesheet (dist/webfloo.css).
+ * Build: npm install && npm run build
+ *
+ * Scans the package's Blade views and PHP components for Tailwind +
+ * FlyonUI classes. Runtime theme colors are injected by ThemeService
+ * as --color-* CSS variables, overriding the base theme.
+ */
+@import "tailwindcss";
+
+@source "../views";
+@source "../../src";
+
+@plugin "flyonui" {
+    themes: light --default, dark --prefersdark, corporate, luxury, soft, gourmet;
+}
+
+@plugin "@iconify/tailwind4";
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

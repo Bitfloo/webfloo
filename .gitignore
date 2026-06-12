@@ -31,7 +31,7 @@ Thumbs.db
 .phpstan-cache/
 
 
-# npm / yarn (for completeness, pakiet nie ma JS build)
+# npm / yarn (dist/ is committed; node_modules only needed to rebuild it)
 npm-debug.log
 yarn-error.log
 

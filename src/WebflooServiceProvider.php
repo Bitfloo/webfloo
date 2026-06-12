@@ -62,6 +62,10 @@ class WebflooServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../resources/views/errors' => resource_path('views/errors'),
             ], 'webfloo-error-pages');
+
+            $this->publishes([
+                __DIR__.'/../dist' => public_path('vendor/webfloo'),
+            ], 'webfloo-assets');
         }
     }
 

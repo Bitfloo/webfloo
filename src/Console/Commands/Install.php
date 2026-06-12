@@ -38,6 +38,10 @@ class Install extends Command
         }
 
         $this->info('webfloo installed.');
+        $this->line(
+            'Public frontend (optional): set webfloo.features.frontend = true, then run '
+            .'php artisan vendor:publish --tag=webfloo-assets --tag=webfloo-error-pages'
+        );
 
         return self::SUCCESS;
     }
