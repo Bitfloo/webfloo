@@ -26,12 +26,13 @@ class CookieConsentTest extends TestCase
 
     public function test_component_renders_message_buttons_and_storage_key(): void
     {
+        // Test locale is en — the lang/en.json translations must apply.
         $html = $this->blade('<x-webfloo-cookie-consent />')->__toString();
 
         $this->assertStringContainsString('webfloo-cookie-consent', $html);
         $this->assertStringContainsString('localStorage', $html);
-        $this->assertStringContainsString('Akceptuj', $html);
-        $this->assertStringContainsString('Odrzuć', $html);
+        $this->assertStringContainsString('Accept', $html);
+        $this->assertStringContainsString('Decline', $html);
     }
 
     public function test_component_uses_settings_for_message_and_privacy_url(): void

@@ -112,6 +112,17 @@ class ShieldRolesContractTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_seeded_editor_can_manage_redirects_and_viewer_cannot_create(): void
+    {
+        $editor = $this->seededUserWithRole('editor');
+        $this->assertTrue($editor->can(webfloo_permission('view_any', 'redirect')));
+        $this->assertTrue($editor->can(webfloo_permission('create', 'redirect')));
+
+        $viewer = $this->seededUserWithRole('viewer');
+        $this->assertTrue($viewer->can(webfloo_permission('view_any', 'redirect')));
+        $this->assertFalse($viewer->can(webfloo_permission('create', 'redirect')));
+    }
+
     public function test_seeded_editor_cannot_export_pii(): void
     {
         $user = $this->seededUserWithRole('editor');
