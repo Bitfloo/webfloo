@@ -122,11 +122,18 @@ class ShieldRolesSeeder extends Seeder
             ['name' => 'viewer', 'guard_name' => $guard]
         );
 
-        // 2. super_admin gets ALL permissions
+        // 2. Custom action permissions shield:generate cannot produce —
+        //    PII export gates (LeadResource, CrmDashboard, newsletter list).
+        //    Created before the super_admin sync so it picks them up;
+        //    deliberately NOT granted to editor/viewer.
+        Permission::findOrCreate(webfloo_permission('export', 'lead'), $guard);
+        Permission::findOrCreate(webfloo_permission('export', 'newsletter_subscriber'), $guard);
+
+        // 3. super_admin gets ALL permissions
         $allPermissions = Permission::where('guard_name', $guard)->pluck('name');
         $superAdmin->syncPermissions($allPermissions);
 
-        // 3. Build editor + viewer permission sets
+        // 4. Build editor + viewer permission sets
         $editorPermissions = $this->buildPermissions(
             $guard,
             self::EDITOR_RESOURCES,

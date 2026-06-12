@@ -17,7 +17,10 @@ class ListNewsletterSubscribers extends ListRecords
         return [
             ExportAction::make()
                 ->exporter(NewsletterSubscriberExporter::class)
-                ->label('Eksportuj CSV'),
+                ->label('Eksportuj CSV')
+                // PII export — requires the dedicated permission, which
+                // ShieldRolesSeeder grants only to super_admin.
+                ->visible(fn (): bool => auth()->user()?->can(webfloo_permission('export', 'newsletter_subscriber')) === true),
             CreateAction::make(),
         ];
     }

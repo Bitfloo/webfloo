@@ -112,6 +112,22 @@ class ShieldRolesContractTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_seeded_editor_cannot_export_pii(): void
+    {
+        $user = $this->seededUserWithRole('editor');
+
+        $this->assertFalse($user->can(webfloo_permission('export', 'lead')));
+        $this->assertFalse($user->can(webfloo_permission('export', 'newsletter_subscriber')));
+    }
+
+    public function test_seeded_super_admin_holds_export_permissions(): void
+    {
+        $user = $this->seededUserWithRole('super_admin');
+
+        $this->assertTrue($user->can(webfloo_permission('export', 'lead')));
+        $this->assertTrue($user->can(webfloo_permission('export', 'newsletter_subscriber')));
+    }
+
     public function test_crm_widgets_hidden_without_crm_dashboard_permission(): void
     {
         $this->seedShieldPermissions();

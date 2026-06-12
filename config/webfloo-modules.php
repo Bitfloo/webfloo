@@ -233,6 +233,7 @@ return [
         'permissions' => [
             'ViewAny:NewsletterSubscriber', 'View:NewsletterSubscriber',
             'Create:NewsletterSubscriber', 'Update:NewsletterSubscriber', 'Delete:NewsletterSubscriber',
+            'Export:NewsletterSubscriber',
         ],
         'depends_on' => [],
     ],
@@ -273,6 +274,7 @@ return [
         ],
         'permissions' => [
             'ViewAny:Lead', 'View:Lead', 'Create:Lead', 'Update:Lead', 'Delete:Lead',
+            'Export:Lead',
             'ViewAny:LeadTag', 'View:LeadTag', 'Create:LeadTag', 'Update:LeadTag', 'Delete:LeadTag',
             'View:CrmDashboard',
         ],

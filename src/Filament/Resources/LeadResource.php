@@ -453,7 +453,10 @@ class LeadResource extends Resource
             ->toolbarActions([
                 ExportAction::make()
                     ->label('Eksportuj')
-                    ->exporter(LeadExporter::class),
+                    ->exporter(LeadExporter::class)
+                    // PII export — requires the dedicated permission, which
+                    // ShieldRolesSeeder grants only to super_admin.
+                    ->visible(fn (): bool => auth()->user()?->can(webfloo_permission('export', 'lead')) === true),
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

@@ -121,6 +121,8 @@ class CrmDashboard extends Page implements HasActions, HasForms
                 ->label('Eksport')
                 ->icon(Heroicon::ArrowDownTray)
                 ->color('gray')
+                // Deep link into the PII export — same gate as the action itself.
+                ->visible(fn (): bool => auth()->user()?->can(webfloo_permission('export', 'lead')) === true)
                 ->url(LeadResource::getUrl('index', ['tableAction' => 'export'])),
 
             $this->createLeadAction(),
