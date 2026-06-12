@@ -8,7 +8,11 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\ReplicateAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\RestoreBulkAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -23,9 +27,11 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Webfloo\Filament\Resources\PageResource\Pages\CreatePage;
 use Webfloo\Filament\Resources\PageResource\Pages\EditPage;
@@ -284,6 +290,8 @@ class PageResource extends Resource
                     ->searchable()
                     ->preload()
                     ->placeholder(__('Wszystkie strony')),
+
+                TrashedFilter::make(),
             ])
             ->recordActions([
                 EditAction::make(),
@@ -295,10 +303,14 @@ class PageResource extends Resource
                         $replica->title = $replica->title.' (Copy)';
                     }),
                 DeleteAction::make(),
+                RestoreAction::make(),
+                ForceDeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
 
                     BulkAction::make('publish')
                         ->label(__('Publish'))
@@ -324,6 +336,12 @@ class PageResource extends Resource
                         ->deselectRecordsAfterCompletion(),
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Let TrashedFilter control soft-delete visibility.
+        return parent::getEloquentQuery()->withoutGlobalScopes([SoftDeletingScope::class]);
     }
 
     public static function getRelations(): array
