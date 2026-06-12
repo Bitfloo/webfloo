@@ -13,6 +13,18 @@ na podstawie [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.
 
 <!-- release-please inserts new entries here -->
 
+## [0.2.0](https://github.com/Bitfloo/webfloo/compare/v0.0.1...v0.2.0) (2026-06-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* minimum Laravel is now 13 (was 11/12) and minimum PHP is now 8.3 (was 8.2). Consumers on Laravel 11/12 or PHP 8.2 must upgrade.
+
+
+### Features
+
+* **deps:** upgrade to Laravel 13 — drop Laravel 11/12, raise PHP floor to 8.3, testbench ^11, phpunit ^12 ([#3](https://github.com/Bitfloo/webfloo/pull/3)) ([74799be](https://github.com/Bitfloo/webfloo/commit/74799be830c849d07b483141e38b61ea030cf1f2))
+
 ## 0.0.1 (2026-06-10)
 
 
