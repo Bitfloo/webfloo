@@ -1,4 +1,4 @@
-<x-webfloo-layout :seo="$seo" :canonical="url('/portfolio/'.$project->slug)">
+<x-webfloo-layout :seo="$seo" :canonical="route('webfloo.portfolio.show', $project->slug)">
     <article class="container mx-auto max-w-4xl px-4 py-16">
         <header>
             @if ($project->category)

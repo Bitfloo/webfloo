@@ -44,7 +44,8 @@ class PortfolioControllerTest extends TestCase
 
         $this->get('/portfolio/case-study-x')
             ->assertOk()
-            ->assertSee('Case study X');
+            ->assertSee('Case study X')
+            ->assertSee('<link rel="canonical" href="http://localhost/portfolio/case-study-x"', false);
     }
 
     public function test_portfolio_show_returns_404_for_inactive_project(): void
