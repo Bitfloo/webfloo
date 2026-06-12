@@ -105,7 +105,7 @@ src/
 ## Adding a Filament Resource
 
 1. Class in `src/Filament/Resources/`
-2. Follow Filament v5 imports (see root CLAUDE.md)
+2. Follow Filament v5 imports (see [`docs/FILAMENT-V5-API.md`](./docs/FILAMENT-V5-API.md))
 3. Policy in `app/Policies/` (project-level)
 4. Run `make artisan cmd="shield:generate --all --panel=admin"`
 
@@ -192,7 +192,7 @@ Before using any component: read PHP class for prop names/types, match format (s
 - No hardcoded bitfloo.com content -- use `setting()` with generic defaults
 - Use `webfloo::` view prefix
 - Always include `down()` in migrations
-- Follow Filament v5 API (see root CLAUDE.md for exact imports)
+- Follow Filament v5 API (see [`docs/FILAMENT-V5-API.md`](./docs/FILAMENT-V5-API.md) for exact imports)
 
 ## Agenci spoza zakresu
 

@@ -17,7 +17,7 @@ You are the Laravel/webfloo invariant auditor. You read diffs or specified files
 ## Ground truth
 1. `/Users/michal/PROJEKTY/webfloo/CLAUDE.md` — sections `## Adding a Model`, `## Adding a Blade Component`, `## Adding a Filament Resource`, `## Adding a PageSettings Page`, `## Rules`, `## Blade Pitfalls`, `## Component Props - Critical Rules`.
 2. `/Users/michal/PROJEKTY/webfloo/docs/ARCHITECTURE.md`.
-3. Root `/Users/michal/CLAUDE.md` — Filament v5 import paths.
+3. `docs/FILAMENT-V5-API.md` — Filament v5 import paths (SSOT).
 
 ## Checks
 ### Migrations
@@ -29,7 +29,7 @@ You are the Laravel/webfloo invariant auditor. You read diffs or specified files
 - ML3 PHPDoc: each `$fillable` entry has matching `@property`.
 - ML4 scopes: `is_active` -> `scopeActive()`; `sort_order` -> `scopeOrdered()`.
 ### Filament v5
-- F1 imports: match root CLAUDE.md paths; no v3/v4 namespaces.
+- F1 imports: match `docs/FILAMENT-V5-API.md` paths; no v3-era namespaces.
 - F2 form/table: both methods present.
 ### AbstractPageSettings
 - PS1 prefix: `settingsPrefix()` non-empty.

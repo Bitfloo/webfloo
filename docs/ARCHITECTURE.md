@@ -123,7 +123,7 @@ Obie strony trzymają się tego samego podziału, ale thezero rozdziela na **cor
 Przykłady:
 
 - Struktura Atomic Design → opisana **raz** tutaj, referencjonowana w webfloo CLAUDE.md i thezero CLAUDE.md
-- Filament v5 imports → źródło w webfloo root `CLAUDE.md`, referencjonowane w bitfloo-web
+- Filament v5 imports → źródło w `docs/FILAMENT-V5-API.md`, referencjonowane w CLAUDE.md i bitfloo-web
 - Architektura npm package thezero → `~/PROJEKTY/thezero/docs/ARCHITECTURE.md`, NIE duplikuj tu
 
 ## Gdy nie wiesz
@@ -151,4 +151,5 @@ Przykłady:
 
 - `thezero` architektura (publikacja, dev workflow, GitHub Packages): <https://github.com/Bitfloo/thezero/blob/main/docs/ARCHITECTURE.md>
 - `thezero` CONTRIBUTING: <https://github.com/Bitfloo/thezero/blob/main/docs/CONTRIBUTING.md>
-- `webfloo` root `CLAUDE.md` (konwencje Filament v5, Blade, Atomic Design): `/CLAUDE.md` w tym repo
+- `webfloo` root `CLAUDE.md` (konwencje Blade, Atomic Design): `/CLAUDE.md` w tym repo
+- Filament v5 API (importy, wzorce, pułapki v3): `docs/FILAMENT-V5-API.md`
