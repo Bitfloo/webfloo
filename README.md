@@ -8,7 +8,7 @@ Laravel 13 + Filament v5 package dostarczający gotowy backend: **14 modeli, 11 
 
 ---
 
-> **Status: Pre-1.0 (`0.0.x`).** API niestabilne — każdy release może wprowadzać breaking changes. Pinuj przez `0.0.*` lub exact version i czytaj CHANGELOG przy każdym `composer update`. Stabilizacja do `1.0` po zakończeniu roadmapy ekosystemu (`docs/plans/2026-04-17-ecosystem-phase-1.md`).
+> **Status: Pre-1.0 (`0.x`).** API niestabilne — release'y mogą wprowadzać breaking changes (sygnalizowane bumpem minor). Pinuj przez `0.2.*` lub exact version i czytaj CHANGELOG przy każdym `composer update`. Stabilizacja do `1.0` po zakończeniu roadmapy ekosystemu (`docs/plans/2026-04-17-ecosystem-phase-1.md`).
 
 ---
 
@@ -79,7 +79,7 @@ Webfloo to prywatne repo — Composer wymaga `type: vcs` + PAT auth (ADR-011).
     }
   ],
   "require": {
-    "bitfloo/webfloo": "0.0.*"
+    "bitfloo/webfloo": "0.2.*"
   }
 }
 ```
@@ -117,44 +117,12 @@ Po skonfigurowanym `type: vcs` + auth:
 #### 1. Composer require
 
 ```bash
-composer require bitfloo/webfloo:0.0.*
-```
-
-#### 2. Publish config
-
-```bash
-php artisan vendor:publish --tag=webfloo-config
-```
-
-Edytuj `config/webfloo.php`:
-
-```php
-return [
-    'user_model' => \App\Models\User::class,   // MANDATORY — helper throws jeśli null
-
-    'features' => [
-        'blog' => true,
-        'portfolio' => true,
-        'services' => true,
-        'testimonials' => true,
-        'faq' => true,
-        'newsletter' => true,
-        'crm' => true,
-        'custom_js' => false,  // stored-XSS surface, opt-in only
-    ],
-
-    // ... (patrz published config)
-];
-```
-
-#### 3. Shield authorization (required)
-
-```bash
+composer require bitfloo/webfloo:0.2.*
 composer require bezhansalleh/filament-shield
 php artisan shield:install admin
 ```
 
-#### 4. Register WebflooPanel plugin w host PanelProvider
+#### 2. Register WebflooPanel plugin w host PanelProvider
 
 ```php
 // app/Providers/Filament/AdminPanelProvider.php
@@ -172,37 +140,41 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-WebflooPanel auto-discovers wszystkie 11 Resources (`Post`, `Page`, `Lead`, itd.), 5 Pages (`SiteSettings`, `ThemeSettings`, `CrmDashboard`, `HomePageSettings`, `ContactPageSettings`) oraz 5 Widgets. Każdy surface ma własne `canAccess()` gate oparte na Shield permissions + `webfloo.features.*` flag.
+WebflooPanel auto-discovers wszystkie Resources (`Post`, `Page`, `Lead`, itd.), Pages (`SiteSettings`, `ThemeSettings`, `CrmDashboard`, `HomePageSettings`, `ContactPageSettings`) oraz Widgets. Każdy surface ma własne `canAccess()` gate oparte na Shield permissions + `webfloo.features.*` flag.
 
-#### 5. Migrate + seed
-
-```bash
-php artisan migrate
-php artisan shield:generate --all --panel=admin
-php artisan db:seed --class=Webfloo\\Database\\Seeders\\ShieldRolesSeeder
-```
-
-Seeder tworzy 3 role:
-- **super_admin** — wszystkie permissions (ops / compliance)
-- **editor** — CRUD content (Post, Page, Project, itd.), **nie widzi** newsletter PII
-- **viewer** — read-only dla content surfaces, bez PII
-
-Editor + viewer traktują Newsletter Subscribers jako admin-only (GDPR).
-
-#### 6. Optional publish
+#### 3. Install
 
 ```bash
-php artisan vendor:publish --tag=webfloo-views   # custom Blade overrides
-php artisan vendor:publish --tag=webfloo-lang    # translation overrides
-```
-
-#### 7. Storage link
-
-```bash
+php artisan webfloo:install --demo
 php artisan storage:link
 ```
 
-Pakiet używa dysku `public` (Post images, Page meta images, Project/Testimonial assets).
+`webfloo:install` w jednej komendzie: publikuje config, migruje, odpala `shield:generate`, seeduje role (**super_admin** — wszystko / **editor** — CRUD content bez newsletter PII / **viewer** — read-only) i interaktywnie tworzy pierwszego admina, gdy baza nie ma userów. `--demo` dosiewa generyczne strony, menu i przykładowe rekordy. Komenda jest idempotentna.
+
+`user_model` w `config/webfloo.php` domyślnie spada na model z `auth.providers.users.model` — nadpisz tylko, gdy Twój User żyje gdzie indziej. Pakiet używa dysku `public` (Post images, Page meta images, Project/Testimonial assets) — stąd `storage:link`.
+
+#### 4. Optional publish
+
+```bash
+php artisan vendor:publish --tag=webfloo-views        # custom Blade overrides
+php artisan vendor:publish --tag=webfloo-lang         # translation overrides
+php artisan vendor:publish --tag=webfloo-error-pages  # host-level errors/404+500
+```
+
+#### 5. Public frontend (optional, turnkey sites)
+
+Pakiet zawiera opcjonalny publiczny frontend Blade — strona klienta działa bez pisania kontrolerów:
+
+```php
+// config/webfloo.php
+'features' => ['frontend' => true],
+```
+
+```bash
+php artisan vendor:publish --tag=webfloo-assets   # dist/webfloo.css + Alpine
+```
+
+Po włączeniu flagi pakiet rejestruje routy: `/` (strona z template `home`), `/blog` + `/blog/{slug}`, `/portfolio` + `/portfolio/{slug}`, `/robots.txt` oraz zagnieżdżone strony CMS przez `Route::fallback` (routy hosta zawsze wygrywają). Layout `<x-webfloo-layout>` sam wstrzykuje SEO (`<x-webfloo-seo>`), zmienne theme z ThemeService, favicon i nawigację z `MenuItem`. Sekcja kontaktu osadza formularz Livewire (honeypot + rate limit + zgoda RODO → Lead + mail do admina). Konsumenci z własnym frontendem (Inertia/Vue) zostawiają flagę OFF — zero routów, zero zmian.
 
 ---
 
@@ -295,10 +267,10 @@ Najpierw skonfiguruj `type: vcs` + `auth.json` — patrz [Installation → Consu
 
 Typowy workflow:
 
-1. `composer require bitfloo/webfloo:0.0.*`
-2. Publish config → wire `user_model` (krytyczne)
-3. Shield sequence (install → migrate → shield:generate → seed roles)
-4. Zaimplementuj własny frontend (Vue/Inertia/Blade — wybór hosta)
+1. `composer require bitfloo/webfloo:0.2.*` + filament-shield
+2. Zarejestruj `WebflooPanel` w PanelProviderze
+3. `php artisan webfloo:install --demo` (config + migrate + shield + role + pierwszy admin)
+4. Frontend: włącz `webfloo.features.frontend` (turnkey Blade) ALBO zaimplementuj własny (Vue/Inertia)
 5. Filament admin panel ma wszystkie Resources gotowe pod `/admin`
 
 Landing + blog frontend = host's code. Core dostarcza **data layer + admin UI + API webhooks**.
@@ -338,7 +310,7 @@ composer update bitfloo/webfloo
 
 ### Pre-1.0 caveats
 
-W `0.0.x` każdy patch MOŻE wprowadzać breaking changes (pre-stable API). Pinuj `0.0.*` albo exact version, czytaj CHANGELOG przed każdym `composer update`. Od `0.1.0` zacznie działać normalny semver (minor = breaking, patch = safe).
+W `0.x` patch = bezpieczny, minor = możliwy breaking change (pre-stable API). Pinuj `0.2.*` albo exact version, czytaj CHANGELOG przed każdym `composer update`. Od `1.0` pełny semver.
 
 ---
 

@@ -78,14 +78,21 @@ Dlaczego `git checkout`, nie `composer config --unset`: konsumenci (bitfloo-web,
 
 ```
 src/
-  Components/     Blade (Atomic Design: Atoms, Molecules, Organisms, Sections)
+  Components/     Blade (Atomic Design: Atoms, Molecules, Organisms, Sections, Layouts)
   Filament/       Resources, Pages (SiteSettings, ThemeSettings, CrmDashboard, PageSettings)
   Models/         Setting, Lead, LeadActivity, LeadReminder, LeadTag, Page, Service, Project, Testimonial, Faq, Post, PostCategory, MenuItem, NewsletterSubscriber
   Traits/         HasActive, HasFeatured, HasSlug, HasSeo, Publishable, Sortable
   Services/       ThemeService (HEX to OKLCH, CSS variables)
-  Http/           LeadWebhookController (API only — public-facing blog frontend is app-level)
-  Support/        helpers.php (setting() function)
+  Http/           LeadWebhookController (API) + Controllers/Frontend (opt-in public frontend module)
+  Livewire/       ContactForm (frontend module)
+  Events/         LeadCreated; Listeners/ SendNewLeadNotification
+  Console/        webfloo:install, sitemap:generate, leads:send-reminders
+  Support/        helpers.php (setting(), webfloo_fallback_locale(), webfloo_user_model())
 ```
+
+## Frontend module (opt-in)
+
+`webfloo.features.frontend` (default **false**) włącza publiczny frontend Blade: routy (`routes/frontend.php` — home, blog, portfolio, robots.txt, nested pages przez `Route::fallback`), kontrolery w `src/Http/Controllers/Frontend/`, szablony `resources/views/frontend/`, layout `<x-webfloo-layout>`, formularz `@livewire('webfloo-contact-form')`. Skompilowane assety (`dist/webfloo.css` + Alpine) publikowane tagiem `webfloo-assets`; rebuild: `npm install && npm run build`. Konsumenci Inertia (bitfloo-web) trzymają flagę OFF.
 
 ## Adding a Model
 
@@ -96,7 +103,7 @@ src/
 
 ## Adding a Blade Component
 
-1. Determine level: Atom / Molecule / Organism / Section
+1. Determine level: Atom / Molecule / Organism / Section / Layout (layout views live in `views/components/layouts/`)
 2. PHP class in `src/Components/{Level}/` extending `Illuminate\View\Component`
 3. Blade view in `resources/views/components/{level}/`
 4. Auto-registers as `<x-webfloo-name />`

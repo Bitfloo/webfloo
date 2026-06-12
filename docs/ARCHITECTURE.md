@@ -113,6 +113,7 @@ Obie strony trzymają się tego samego podziału, ale thezero rozdziela na **cor
 | **Organism** | Większa sekcja funkcjonalna | Header, Footer | `packages/template/src/Organisms/` |
 | **Section** | Pełna sekcja strony | Hero, FAQ, Portfolio, Services, CTA | `packages/template/src/Sections/` |
 | **Form** | Kontaktowe/newsletter | ContactForm, NewsletterForm | `packages/template/src/Forms/` |
+| **Layout** | Pełny szkielet HTML (head/SEO/theme/nav) — tylko Blade | `x-webfloo-layout` (frontend module) | n/a — webfloo `src/Components/Layouts/` |
 
 **Zasada**: Atoms+ui = core (bo generic, brand-agnostic, updates propagate auto). Molecules i wyżej = template (bo kompozycje są brand-influenced, klient customizuje).
 
