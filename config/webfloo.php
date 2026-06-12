@@ -1,5 +1,9 @@
 <?php
 
+use Webfloo\Sitemap\PageSitemapSource;
+use Webfloo\Sitemap\PostSitemapSource;
+use Webfloo\Sitemap\ProjectSitemapSource;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -79,6 +83,31 @@ return [
     */
     'crm' => [
         'currency' => 'PLN',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sitemap
+    |--------------------------------------------------------------------------
+    |
+    | providers   — SitemapSource classes queried by sitemap:generate.
+    |               Hosts append their own sources or replace the defaults.
+    | static_urls — fixed entries (landing pages, custom routes).
+    | locales     — hreflang variants; first entry is the unprefixed default
+    |               (and x-default), the rest are served under /{locale}.
+    |               A single entry disables alternates entirely.
+    |
+    */
+    'sitemap' => [
+        'providers' => [
+            PageSitemapSource::class,
+            PostSitemapSource::class,
+            ProjectSitemapSource::class,
+        ],
+        'static_urls' => [
+            ['loc' => '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
+        ],
+        'locales' => ['pl', 'en'],
     ],
 
     /*

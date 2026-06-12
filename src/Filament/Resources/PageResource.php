@@ -19,6 +19,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Tabs;
@@ -160,6 +161,10 @@ class PageResource extends Resource
                                 ->imageResizeTargetHeight('630')
                                 ->maxSize(2048)
                                 ->helperText(__('Zalecany rozmiar: 1200x630 pikseli')),
+
+                            Toggle::make('no_index')
+                                ->label(__('Nie indeksuj (noindex)'))
+                                ->helperText(__('Ukryj stronę przed wyszukiwarkami i pomiń w sitemap')),
                         ]),
 
                     Tab::make(__('Ustawienia'))

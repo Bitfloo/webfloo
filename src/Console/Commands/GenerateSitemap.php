@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Webfloo\Console\Commands;
 
 use Illuminate\Console\Command;
-use Webfloo\Models\Page;
-use Webfloo\Models\Post;
-use Webfloo\Models\Project;
+use Webfloo\Sitemap\SitemapSource;
 
 class GenerateSitemap extends Command
 {
@@ -15,15 +13,17 @@ class GenerateSitemap extends Command
     protected $signature = 'sitemap:generate';
 
     /** @var string */
-    protected $description = 'Generate sitemap.xml with PL and EN URLs';
-
-    private const LOCALES_PER_URL = 2;
+    protected $description = 'Generate sitemap.xml from configured sources (webfloo.sitemap)';
 
     private string $baseUrl = '';
+
+    /** @var list<string> */
+    private array $locales = [];
 
     public function handle(): int
     {
         $this->baseUrl = is_string($url = config('app.url')) ? rtrim($url, '/') : 'http://localhost';
+        $this->locales = $this->configuredLocales();
 
         $path = public_path('sitemap.xml');
         $handle = fopen($path, 'w');
@@ -40,50 +40,15 @@ class GenerateSitemap extends Command
 
         $urlCount = 0;
 
-        $this->writeEntry($handle, '/', '1.0', 'weekly', null);
-        $this->writeEntry($handle, '/portfolio', '0.8', 'weekly', null);
-        $urlCount += self::LOCALES_PER_URL * 2;
-
-        foreach (Project::active()->ordered()->cursor() as $project) {
+        foreach ($this->entries() as $entry) {
             $this->writeEntry(
                 $handle,
-                '/portfolio/'.$project->slug,
-                '0.7',
-                'monthly',
-                $project->updated_at->toW3cString()
+                $entry['loc'],
+                $entry['priority'],
+                $entry['changefreq'],
+                $entry['lastmod'],
             );
-            $urlCount += self::LOCALES_PER_URL;
-        }
-
-        $postsQuery = Post::query()
-            ->published()
-            ->where('no_index', false)
-            ->orderByDesc('published_at');
-
-        foreach ($postsQuery->cursor() as $post) {
-            $this->writeEntry(
-                $handle,
-                '/blog/'.$post->slug,
-                '0.6',
-                'monthly',
-                $post->updated_at->toW3cString()
-            );
-            $urlCount += self::LOCALES_PER_URL;
-        }
-
-        $pagesQuery = Page::published()
-            ->withParentChain()
-            ->ordered();
-
-        foreach ($pagesQuery->cursor() as $page) {
-            $this->writeEntry(
-                $handle,
-                $page->url,
-                '0.5',
-                'monthly',
-                $page->updated_at->toW3cString()
-            );
-            $urlCount += self::LOCALES_PER_URL;
+            $urlCount += count($this->locales);
         }
 
         fwrite($handle, "</urlset>\n");
@@ -94,18 +59,79 @@ class GenerateSitemap extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * Static entries from config first, then every configured source.
+     *
+     * @return iterable<array{loc: string, priority: string, changefreq: string, lastmod: string|null}>
+     */
+    private function entries(): iterable
+    {
+        $statics = config('webfloo.sitemap.static_urls', []);
+
+        foreach (is_array($statics) ? $statics : [] as $static) {
+            if (! is_array($static) || ! is_string($static['loc'] ?? null)) {
+                continue;
+            }
+
+            yield [
+                'loc' => $static['loc'],
+                'priority' => is_string($static['priority'] ?? null) ? $static['priority'] : '0.5',
+                'changefreq' => is_string($static['changefreq'] ?? null) ? $static['changefreq'] : 'monthly',
+                'lastmod' => null,
+            ];
+        }
+
+        $providers = config('webfloo.sitemap.providers', []);
+
+        foreach (is_array($providers) ? $providers : [] as $class) {
+            if (! is_string($class) || ! class_exists($class)) {
+                continue;
+            }
+
+            $source = app($class);
+
+            if (! $source instanceof SitemapSource) {
+                continue;
+            }
+
+            yield from $source->urls();
+        }
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function configuredLocales(): array
+    {
+        $locales = config('webfloo.sitemap.locales', ['pl', 'en']);
+        $locales = is_array($locales) ? array_values(array_filter($locales, 'is_string')) : [];
+
+        return $locales === [] ? ['pl'] : $locales;
+    }
+
     /** @param  resource  $handle */
     private function writeEntry($handle, string $loc, string $priority, string $changefreq, ?string $lastmod): void
     {
-        $plUrl = $this->baseUrl.$loc;
-        $enUrl = $this->baseUrl.'/en'.$loc;
+        // First locale serves unprefixed (and as x-default), the rest under
+        // /{locale}. With a single locale no alternates are emitted at all.
+        $localeUrls = [];
+        foreach ($this->locales as $index => $locale) {
+            $localeUrls[$locale] = $index === 0 ? $this->baseUrl.$loc : $this->baseUrl.'/'.$locale.$loc;
+        }
 
-        foreach ([$plUrl, $enUrl] as $url) {
+        $alternates = '';
+        if (count($localeUrls) > 1) {
+            foreach ($localeUrls as $locale => $url) {
+                $alternates .= '    <xhtml:link rel="alternate" hreflang="'.$locale.'" href="'.$url.'" />'."\n";
+            }
+            $default = reset($localeUrls);
+            $alternates .= '    <xhtml:link rel="alternate" hreflang="x-default" href="'.$default.'" />'."\n";
+        }
+
+        foreach ($localeUrls as $url) {
             $xml = "  <url>\n";
             $xml .= "    <loc>{$url}</loc>\n";
-            $xml .= '    <xhtml:link rel="alternate" hreflang="pl" href="'.$plUrl.'" />'."\n";
-            $xml .= '    <xhtml:link rel="alternate" hreflang="en" href="'.$enUrl.'" />'."\n";
-            $xml .= '    <xhtml:link rel="alternate" hreflang="x-default" href="'.$plUrl.'" />'."\n";
+            $xml .= $alternates;
 
             if ($lastmod !== null) {
                 $xml .= "    <lastmod>{$lastmod}</lastmod>\n";

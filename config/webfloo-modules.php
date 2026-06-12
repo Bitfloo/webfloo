@@ -95,6 +95,7 @@ return [
             '*_create_pages_table',
             '*_add_published_at_index_to_pages_table',
             '*_change_pages_status_from_enum_to_string',
+            '*_add_no_index_to_pages_table',
         ],
         'permissions' => [
             'ViewAny:Page', 'View:Page', 'Create:Page', 'Update:Page', 'Delete:Page',
