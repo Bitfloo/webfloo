@@ -85,7 +85,7 @@ src/
   Services/       ThemeService (HEX to OKLCH, CSS variables)
   Http/           LeadWebhookController (API) + Controllers/Frontend (opt-in frontend module) + Middleware/HandleRedirects (404-only, redirects module)
   Observers/      SlugChangeObserver (auto-301 on slug rename; redirects module)
-  Livewire/       ContactForm (frontend module)
+  Livewire/       ContactForm, NewsletterForm (frontend module; newsletter form also needs the newsletter flag)
   Events/         LeadCreated; Listeners/ SendNewLeadNotification
   Console/        webfloo:install, sitemap:generate, leads:send-reminders
   Support/        helpers.php (setting(), webfloo_currency(), webfloo_fallback_locale(), webfloo_user_model())

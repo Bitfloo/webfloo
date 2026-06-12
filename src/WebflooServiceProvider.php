@@ -141,8 +141,14 @@ class WebflooServiceProvider extends ServiceProvider
 
     protected function registerLivewireComponents(): void
     {
-        if (ModuleRegistry::isEnabled('frontend')) {
-            \Livewire\Livewire::component('webfloo-contact-form', Livewire\ContactForm::class);
+        if (! ModuleRegistry::isEnabled('frontend')) {
+            return;
+        }
+
+        \Livewire\Livewire::component('webfloo-contact-form', Livewire\ContactForm::class);
+
+        if (ModuleRegistry::isEnabled('newsletter')) {
+            \Livewire\Livewire::component('webfloo-newsletter-form', Livewire\NewsletterForm::class);
         }
     }
 
