@@ -17,12 +17,12 @@ class LeadsBySourceChart extends ChartWidget
     {
         $sourceOptions = Lead::getSourceOptions();
         $sourceColors = [
-            'contact_form' => '#6366f1',
-            'newsletter' => '#10b981',
-            'calculator' => '#f59e0b',
-            'manual' => '#9ca3af',
-            'webhook' => '#3b82f6',
-            'import' => '#8b5cf6',
+            Lead::SOURCE_CONTACT_FORM => '#6366f1',
+            Lead::SOURCE_NEWSLETTER => '#10b981',
+            Lead::SOURCE_CALCULATOR => '#f59e0b',
+            Lead::SOURCE_MANUAL => '#9ca3af',
+            Lead::SOURCE_WEBHOOK => '#3b82f6',
+            Lead::SOURCE_IMPORT => '#8b5cf6',
         ];
 
         /** @var array<string, int> $counts */

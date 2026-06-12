@@ -90,7 +90,11 @@
                     <div class="card bg-base-100 shadow-sm h-full">
                         <div class="card-body">
                             <h3 class="card-title text-lg mb-4">{{ __('Wyślij wiadomość') }}</h3>
-                            {{-- Contact form provided via Inertia (Vue) --}}
+                            @if (\Webfloo\Support\ModuleRegistry::isEnabled('frontend'))
+                                @livewire('webfloo-contact-form')
+                            @else
+                                {{-- Contact form provided via Inertia (Vue) --}}
+                            @endif
                         </div>
                     </div>
                 </div>

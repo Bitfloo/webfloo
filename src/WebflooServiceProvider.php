@@ -30,6 +30,7 @@ class WebflooServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->registerBladeComponents();
+        $this->registerLivewireComponents();
         $this->registerRoutes();
         $this->registerEventListeners();
         $this->registerSchedule();
@@ -98,6 +99,13 @@ class WebflooServiceProvider extends ServiceProvider
             Components\Sections\FeaturesGrid::class,
             Components\Sections\BentoGrid::class,
         ]);
+    }
+
+    protected function registerLivewireComponents(): void
+    {
+        if (ModuleRegistry::isEnabled('frontend')) {
+            \Livewire\Livewire::component('webfloo-contact-form', Livewire\ContactForm::class);
+        }
     }
 
     protected function registerRoutes(): void
